@@ -288,6 +288,13 @@ const thebe_selector_output = ".output, .cell_output"
      Example 5.4
     </a>
    </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#extended-kalman-filter-ekf">
+   Extended Kalman Filter (EKF)
+  </a>
+  <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#example-5-5">
      Example 5.5
@@ -374,6 +381,13 @@ const thebe_selector_output = ".output, .cell_output"
      Example 5.4
     </a>
    </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#extended-kalman-filter-ekf">
+   Extended Kalman Filter (EKF)
+  </a>
+  <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#example-5-5">
      Example 5.5
@@ -1197,6 +1211,9 @@ u
 </div>
 <p>As seen above, the numerical solution from van Loan results in exactly the same transition matrix and process covariance matrix as the analytical solution that we obtained from e.g. <a class="reference internal" href="02-System%20Dynamics.html#sysdyn-example22"><span class="std std-ref">Example 2.2</span></a></p>
 </div>
+</div>
+<div class="section" id="extended-kalman-filter-ekf">
+<h2>Extended Kalman Filter (EKF)<a class="headerlink" href="#extended-kalman-filter-ekf" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="example-5-5">
 <h3>Example 5.5<a class="headerlink" href="#example-5-5" title="Permalink to this headline">¶</a></h3>
 <p>Now that we have the proper tool to provide numerical representations of the unknown tranistion matrix <span class="math notranslate nohighlight">\(\phi\)</span> and the corresponding process noise matrix <span class="math notranslate nohighlight">\(Q\)</span>, we might try a more challenging example in order to sum up what we have been through so far.</p>
@@ -1540,12 +1557,12 @@ z = Hx + v
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05-Kalman Filter_28_0.png" src="_images/05-Kalman Filter_28_0.png" />
-<img alt="_images/05-Kalman Filter_28_1.png" src="_images/05-Kalman Filter_28_1.png" />
-<img alt="_images/05-Kalman Filter_28_2.png" src="_images/05-Kalman Filter_28_2.png" />
-<img alt="_images/05-Kalman Filter_28_3.png" src="_images/05-Kalman Filter_28_3.png" />
-<img alt="_images/05-Kalman Filter_28_4.png" src="_images/05-Kalman Filter_28_4.png" />
-<img alt="_images/05-Kalman Filter_28_5.png" src="_images/05-Kalman Filter_28_5.png" />
+<img alt="_images/05-Kalman Filter_29_0.png" src="_images/05-Kalman Filter_29_0.png" />
+<img alt="_images/05-Kalman Filter_29_1.png" src="_images/05-Kalman Filter_29_1.png" />
+<img alt="_images/05-Kalman Filter_29_2.png" src="_images/05-Kalman Filter_29_2.png" />
+<img alt="_images/05-Kalman Filter_29_3.png" src="_images/05-Kalman Filter_29_3.png" />
+<img alt="_images/05-Kalman Filter_29_4.png" src="_images/05-Kalman Filter_29_4.png" />
+<img alt="_images/05-Kalman Filter_29_5.png" src="_images/05-Kalman Filter_29_5.png" />
 </div>
 </div>
 <p>Note the change in the estimated error around <span class="math notranslate nohighlight">\(t=20s\)</span>. The reason for this phenomenon is that the geometry of the measured range doesn’t provide any information for the position/velocity as the drone is almost directly above the ranging sensor at this point in time.</p>
