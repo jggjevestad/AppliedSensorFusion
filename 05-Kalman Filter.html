@@ -235,6 +235,11 @@ const thebe_selector_output = ".output, .cell_output"
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#intuitive-idea">
+   Intuitive idea
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#dynamic-equations">
    Dynamic equations
   </a>
@@ -316,6 +321,11 @@ const thebe_selector_output = ".output, .cell_output"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#intuitive-idea">
+   Intuitive idea
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#dynamic-equations">
    Dynamic equations
   </a>
@@ -394,6 +404,39 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>A Kalman Filter is an recursive algorithm that provides estimates of a state vector as a weighted sum of the forward propagation of the previous state vector, and the current measurements.</p>
+</div>
+<div class="section" id="intuitive-idea">
+<h2>Intuitive idea<a class="headerlink" href="#intuitive-idea" title="Permalink to this headline">¶</a></h2>
+<p>Let’s make a simple thought experiment. Assume two persons sitting in a boat that floats freely on the ocean. At one point in time both persons measures the boats position.</p>
+<p>Let’s assume the first person measure the position to be <span class="math notranslate nohighlight">\(z_1\)</span> with a corresponding variance <span class="math notranslate nohighlight">\(\sigma_{z_1}^2\)</span>. What is the best estimate of the boats position?</p>
+<p>If we only use this measurement, we get the following estimate of the boats position and variance.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+  \hat{x}_1 =&amp; z_1\\
+  \hat{\sigma}_{x_1}^2 =&amp; \sigma_{z_1}^2\\
+\end{align}
+\end{split}\]</div>
+<p>Then the second person measures the position to be <span class="math notranslate nohighlight">\(z_2\)</span> with a corresponding variance <span class="math notranslate nohighlight">\(\sigma_{z_2}^2\)</span>. What is the best estimate of the boats position now?</p>
+<p>If we chose to make use of both measurements, we can combine them in the following way:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+  \hat{x}_2 =&amp; \hat{x}_1 + K(z_2 - \hat{x}_1)\\
+  \hat{\sigma}_{x_2} =&amp; K \sigma_{z_2}^2\\
+\end{align}
+\end{split}\]</div>
+<p>, where <span class="math notranslate nohighlight">\(K = \frac{\hat{\sigma}_{x_1}^2}{\hat{\sigma}_{x_1}^2 + \sigma_{z_2}^2}\)</span>. This value is also called the <em>gain</em>, and it weights the contribution of the new measurement to the existing estimate of the position.</p>
+<p>Assume both persons measure the position with the same precision, i.e. <span class="math notranslate nohighlight">\(\sigma_{z_1}^2 = \sigma_{z_2}^2\)</span>. In this particular case we get <span class="math notranslate nohighlight">\(K = \frac{1}{2}\)</span>. We can then write:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+  \hat{x}_2 =&amp; \hat{x}_1 + \frac{1}{2}(z_2 - \hat{x}_1) = \frac{1}{2}(z_1 + z_2)\\
+  \hat{\sigma}_{x_2} =&amp; \frac{1}{2} \sigma_{z_2}^2 = \frac{\sigma_{z_2}^2}{2}\\
+\end{align}
+\end{split}\]</div>
+<p>This we immediately recognize as the <em>mean value</em> of both measurements - a result that intuitively sounds reasonable.</p>
+<p>However, the difference between the two persons measurements isn’t just due to measurement errors alone, but will also be due to the motion of the boat itself. So, a Kalman filter will in addition to this <em>measurement model</em> also include a <em>dynamic model</em> that describes the boats motions while floating (e.g. a small rubber boat will have a very different motion than a large ship).</p>
 </div>
 <div class="section" id="dynamic-equations">
 <h2>Dynamic equations<a class="headerlink" href="#dynamic-equations" title="Permalink to this headline">¶</a></h2>
@@ -643,7 +686,7 @@ u
 Estimated position : 51.34 49.76 49.51 49.88 50.15 50.24 50.06 49.98 50.21 50.24
 </pre></div>
 </div>
-<img alt="_images/05-Kalman Filter_6_1.png" src="_images/05-Kalman Filter_6_1.png" />
+<img alt="_images/05-Kalman Filter_7_1.png" src="_images/05-Kalman Filter_7_1.png" />
 </div>
 </div>
 <p>Note that the Kalman Filter in this simple example, were we are estimating a constant, actually reproduces our previous results from <a class="reference internal" href="00-Introduction.html#intro-mean-and-variance"><span class="std std-ref">Mean and Variance</span></a> where we computed the recursive mean value. This might build us some trust in that the Kalman Filter treats the information in the very same way, i.e. it is optimal in the sense of <em>minimum variance</em>.</p>
@@ -858,8 +901,8 @@ u
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05-Kalman Filter_10_0.png" src="_images/05-Kalman Filter_10_0.png" />
-<img alt="_images/05-Kalman Filter_10_1.png" src="_images/05-Kalman Filter_10_1.png" />
+<img alt="_images/05-Kalman Filter_11_0.png" src="_images/05-Kalman Filter_11_0.png" />
+<img alt="_images/05-Kalman Filter_11_1.png" src="_images/05-Kalman Filter_11_1.png" />
 </div>
 </div>
 <p>Note that the estimated error of the first position estimate is equal to the precision of the first distance measurement itself, while the estimated velocity error at this point is equal to the initial position error. This is due to the need of two distance measurements to provide information about the velocity, thus in this very first epoch the velocity estimate will be solely based on the dynamic model.</p>
@@ -1033,8 +1076,8 @@ u
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05-Kalman Filter_14_0.png" src="_images/05-Kalman Filter_14_0.png" />
-<img alt="_images/05-Kalman Filter_14_1.png" src="_images/05-Kalman Filter_14_1.png" />
+<img alt="_images/05-Kalman Filter_15_0.png" src="_images/05-Kalman Filter_15_0.png" />
+<img alt="_images/05-Kalman Filter_15_1.png" src="_images/05-Kalman Filter_15_1.png" />
 </div>
 </div>
 <p>Note that the estimated error of the velocity decreases as more velocity measurements become available. However, the estimated position error starts with the initial position error and then increases slowly as a function of time. The reason for this is that we only have measurments of velocity, thus there is no new information available for the position and the filter is responding with a slowly increase of the estimated error due to the uncertainties on the dynamic model, i.e. the process noise.</p>
@@ -1497,12 +1540,12 @@ z = Hx + v
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05-Kalman Filter_27_0.png" src="_images/05-Kalman Filter_27_0.png" />
-<img alt="_images/05-Kalman Filter_27_1.png" src="_images/05-Kalman Filter_27_1.png" />
-<img alt="_images/05-Kalman Filter_27_2.png" src="_images/05-Kalman Filter_27_2.png" />
-<img alt="_images/05-Kalman Filter_27_3.png" src="_images/05-Kalman Filter_27_3.png" />
-<img alt="_images/05-Kalman Filter_27_4.png" src="_images/05-Kalman Filter_27_4.png" />
-<img alt="_images/05-Kalman Filter_27_5.png" src="_images/05-Kalman Filter_27_5.png" />
+<img alt="_images/05-Kalman Filter_28_0.png" src="_images/05-Kalman Filter_28_0.png" />
+<img alt="_images/05-Kalman Filter_28_1.png" src="_images/05-Kalman Filter_28_1.png" />
+<img alt="_images/05-Kalman Filter_28_2.png" src="_images/05-Kalman Filter_28_2.png" />
+<img alt="_images/05-Kalman Filter_28_3.png" src="_images/05-Kalman Filter_28_3.png" />
+<img alt="_images/05-Kalman Filter_28_4.png" src="_images/05-Kalman Filter_28_4.png" />
+<img alt="_images/05-Kalman Filter_28_5.png" src="_images/05-Kalman Filter_28_5.png" />
 </div>
 </div>
 <p>Note the change in the estimated error around <span class="math notranslate nohighlight">\(t=20s\)</span>. The reason for this phenomenon is that the geometry of the measured range doesn’t provide any information for the position/velocity as the drone is almost directly above the ranging sensor at this point in time.</p>
