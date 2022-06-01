@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Intuitive idea &#8212; Applied Sensor Fusion</title>
+    <title>Kalman Filter &#8212; Applied Sensor Fusion</title>
     
   <link href="_static/css/theme.css" rel="stylesheet">
   <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -128,7 +128,7 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Intuitive idea
+   Kalman Filter
   </a>
  </li>
  <li class="toctree-l1">
@@ -234,99 +234,80 @@ const thebe_selector_output = ".output, .cell_output"
             </div>
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#intuitive-idea">
    Intuitive idea
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#example-5-3">
-     Example 5.3
-    </a>
-   </li>
-  </ul>
  </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id1">
-   Intuitive idea
-  </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id2">
-     Example 5.3
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#dynamic-equations">
    Dynamic equations
   </a>
  </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#discrete-kalman-filter">
    Discrete Kalman Filter
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#example-5-1">
      Example 5.1
     </a>
    </li>
-   <li class="toc-h2 nav-item toc-entry">
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#example-5-2">
      Example 5.2
     </a>
    </li>
   </ul>
  </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#state-estimation">
    State Estimation
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id4">
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-5-3">
      Example 5.3
     </a>
    </li>
-   <li class="toc-h2 nav-item toc-entry">
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#example-5-4">
      Example 5.4
     </a>
    </li>
   </ul>
  </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#joseph-form">
    Joseph Form
   </a>
  </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#numerical-evaluation-van-loan">
    Numerical Evaluation (Van Loan)
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#example-5-5">
      Example 5.5
     </a>
    </li>
   </ul>
  </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#extended-kalman-filter-ekf">
    Extended Kalman Filter (EKF)
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#example-5-6">
      Example 5.6
     </a>
    </li>
   </ul>
  </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#summary">
    Summary
   </a>
@@ -341,7 +322,7 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Intuitive idea</h1>
+                <h1>Kalman Filter</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -351,99 +332,80 @@ const thebe_selector_output = ".output, .cell_output"
                         </div>
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#intuitive-idea">
    Intuitive idea
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#example-5-3">
-     Example 5.3
-    </a>
-   </li>
-  </ul>
  </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id1">
-   Intuitive idea
-  </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id2">
-     Example 5.3
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#dynamic-equations">
    Dynamic equations
   </a>
  </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#discrete-kalman-filter">
    Discrete Kalman Filter
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#example-5-1">
      Example 5.1
     </a>
    </li>
-   <li class="toc-h2 nav-item toc-entry">
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#example-5-2">
      Example 5.2
     </a>
    </li>
   </ul>
  </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#state-estimation">
    State Estimation
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id4">
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-5-3">
      Example 5.3
     </a>
    </li>
-   <li class="toc-h2 nav-item toc-entry">
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#example-5-4">
      Example 5.4
     </a>
    </li>
   </ul>
  </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#joseph-form">
    Joseph Form
   </a>
  </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#numerical-evaluation-van-loan">
    Numerical Evaluation (Van Loan)
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#example-5-5">
      Example 5.5
     </a>
    </li>
   </ul>
  </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#extended-kalman-filter-ekf">
    Extended Kalman Filter (EKF)
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#example-5-6">
      Example 5.6
     </a>
    </li>
   </ul>
  </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#summary">
    Summary
   </a>
@@ -457,8 +419,18 @@ const thebe_selector_output = ".output, .cell_output"
             
               <div>
                 
-  <div class="section" id="intuitive-idea">
-<h1>Intuitive idea<a class="headerlink" href="#intuitive-idea" title="Permalink to this headline">¶</a></h1>
+  <div class="tex2jax_ignore mathjax_ignore section" id="kalman-filter">
+<span id="kalman-kalman"></span><h1>Kalman Filter<a class="headerlink" href="#kalman-filter" title="Permalink to this headline">¶</a></h1>
+<p>The Kalman Filter origins from the work of Norbert Wiener’s in the 1940s <span id="id1">[<a class="reference internal" href="Bibliography.html#id9" title="Norbert Wiener. Extrapolation, Interpolation, and Smoothing of Stationary Time Series. Wiley, New York, NY, 1949.">Wie49</a>]</span>. The central problem to his works was the separation of the signal from the additive combination of signal and noise. One could say that Wiener’s main contribution was the formulation of the problem in terms of minimizing the mean square error in th time domain - as opposed to the frequency domain which was the dominating approach at the time.</p>
+<p>In the 1960 Rudolf Emil Kalman considerred the same problem as Wiener. In his famous paper <span id="id2">[<a class="reference internal" href="Bibliography.html#id3" title="Rudolph Emil Kalman. A new approach to linear filtering and prediction problems. Transactions of the ASME–Journal of Basic Engineering, 82(Series D):35–45, 1960.">Kal60</a>]</span> he introduced the discrete formulation together with the state-space notation in the time domain which gained imediate popularity empowered by the advances in computer technology at the time. The Kalman Filter was early adopted by the navigation community, and is today regarded as the main workhorse for the vast majority of navigation applications.</p>
+<p>So, what is a Kalman Filter?</p>
+<p><img alt="navigation" src="_images/navigation.jpg" /></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A Kalman Filter is an recursive algorithm that provides estimates of a state vector as a weighted sum of the forward propagation of the previous state vector, and the current measurements.</p>
+</div>
+<div class="section" id="intuitive-idea">
+<h2>Intuitive idea<a class="headerlink" href="#intuitive-idea" title="Permalink to this headline">¶</a></h2>
 <p>Let’s make a simple thought experiment. Assume two persons sitting in a boat that floats freely on the ocean. At one point in time both persons measures the boats position.</p>
 <p>Let’s assume the first person measure the position to be <span class="math notranslate nohighlight">\(z_1\)</span> with a corresponding variance <span class="math notranslate nohighlight">\(\sigma_{z_1}^2\)</span>. What is the best estimate of the boats position?</p>
 <p>If we only use this measurement, we get the following estimate of the boats position and variance.</p>
@@ -489,140 +461,9 @@ const thebe_selector_output = ".output, .cell_output"
 \end{split}\]</div>
 <p>This we immediately recognize as the <em>mean value</em> of both measurements - a result that intuitively sounds reasonable.</p>
 <p>However, the difference between the two persons measurements isn’t just due to measurement errors alone, but will also be due to the motion of the boat itself. So, a Kalman filter will in addition to this <em>measurement model</em> also include a <em>dynamic model</em> that describes the boats motions while floating (e.g. a small rubber boat will have a very different motion than a large ship).</p>
-<div class="section" id="example-5-3">
-<h2>Example 5.3<a class="headerlink" href="#example-5-3" title="Permalink to this headline">¶</a></h2>
-<p>But what happens if we do not have a laser scanner, but the only sensor is a speedometer? Can we still get estimates of both position and velocity? Let’s assume the same dynamic model as in the previous example, but this time with only a speedometer available.</p>
-<div class="figure align-default" id="speedometer">
-<img alt="_images/speed.png" src="_images/speed.png" />
-</div>
-<p>The dynamic model will is the same as before, but we write it again here for completness.</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{bmatrix}
-  \dot{x}\\
-  \ddot{x}\\
-\end{bmatrix}
-=
-\begin{bmatrix}
-  0 &amp;1\\
-  0 &amp;0\\
-\end{bmatrix}
-\begin{bmatrix}
-  x\\
-  \dot{x}\\
-\end{bmatrix}
-+
-\begin{bmatrix}
-  0\\
-  \sqrt{q_v}\\
-\end{bmatrix}
-u
-\end{split}\]</div>
-<p>Since the only measurements involved are the velocity measurements from the speedometer, the measurement model can be written like this.</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{bmatrix}
-  z
-\end{bmatrix}
-=
-\begin{bmatrix}
-  0 &amp;1\\
-\end{bmatrix}
-\begin{bmatrix}
-  x\\
-  \dot{x}\\
-\end{bmatrix}
-+
-\begin{bmatrix}
-  v
-\end{bmatrix}
-\end{split}\]</div>
-</div>
-</div>
-<div class="section" id="id1">
-<h1>Intuitive idea<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p>Let’s make a simple thought experiment. Assume two persons sitting in a boat that floats freely on the ocean. At one point in time both persons measures the boats position.</p>
-<p>Let’s assume the first person measure the position to be <span class="math notranslate nohighlight">\(z_1\)</span> with a corresponding variance <span class="math notranslate nohighlight">\(\sigma_{z_1}^2\)</span>. What is the best estimate of the boats position?</p>
-<p>If we only use this measurement, we get the following estimate of the boats position and variance.</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{align}
-  \hat{x}_1 =&amp; z_1\\
-  \hat{\sigma}_{x_1}^2 =&amp; \sigma_{z_1}^2\\
-\end{align}
-\end{split}\]</div>
-<p>Then the second person measures the position to be <span class="math notranslate nohighlight">\(z_2\)</span> with a corresponding variance <span class="math notranslate nohighlight">\(\sigma_{z_2}^2\)</span>. What is the best estimate of the boats position now?</p>
-<p>If we chose to make use of both measurements, we can combine them in the following way:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{align}
-  \hat{x}_2 =&amp; \hat{x}_1 + K(z_2 - \hat{x}_1)\\
-  \hat{\sigma}_{x_2} =&amp; K \sigma_{z_2}^2\\
-\end{align}
-\end{split}\]</div>
-<p>, where <span class="math notranslate nohighlight">\(K = \frac{\hat{\sigma}_{x_1}^2}{\hat{\sigma}_{x_1}^2 + \sigma_{z_2}^2}\)</span>. This value is also called <em>gain</em>, and it weights the contribution of the new measurement to the existing estimate of the position.</p>
-<p>Assume both persons measure the position with the same precision, i.e. <span class="math notranslate nohighlight">\(\sigma_{z_1}^2 = \sigma_{z_2}^2\)</span>. In this particular case we get <span class="math notranslate nohighlight">\(K = \frac{1}{2}\)</span>. We can then write:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{align}
-  \hat{x}_2 =&amp; \hat{x}_1 + \frac{1}{2}(z_2 - \hat{x}_1) = \frac{1}{2}(z_1 + z_2)\\
-  \hat{\sigma}_{x_2} =&amp; \frac{1}{2} \sigma_{z_2}^2 = \frac{\sigma_{z_2}^2}{2}\\
-\end{align}
-\end{split}\]</div>
-<p>This we immediately recognize as the <em>mean value</em> of both measurements - a result that intuitively sounds reasonable.</p>
-<p>However, the difference between the two persons measurements isn’t just due to measurement errors alone, but will also be due to the motion of the boat itself. So, a Kalman filter will in addition to this <em>measurement model</em> also include a <em>dynamic model</em> that describes the boats motions while floating (e.g. a small rubber boat will have a very different motion than a large ship).</p>
-<div class="section" id="id2">
-<h2>Example 5.3<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>But what happens if we do not have a laser scanner, but the only sensor is a speedometer? Can we still get estimates of both position and velocity? Let’s assume the same dynamic model as in the previous example, but this time with only a speedometer available.</p>
-<div class="figure align-default" id="id3">
-<img alt="_images/speed.png" src="_images/speed.png" />
-</div>
-<p>The dynamic model will is the same as before, but we write it again here for completness.</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{bmatrix}
-  \dot{x}\\
-  \ddot{x}\\
-\end{bmatrix}
-=
-\begin{bmatrix}
-  0 &amp;1\\
-  0 &amp;0\\
-\end{bmatrix}
-\begin{bmatrix}
-  x\\
-  \dot{x}\\
-\end{bmatrix}
-+
-\begin{bmatrix}
-  0\\
-  \sqrt{q_v}\\
-\end{bmatrix}
-u
-\end{split}\]</div>
-<p>Since the only measurements involved are the velocity measurements from the speedometer, the measurement model can be written like this.</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{bmatrix}
-  z
-\end{bmatrix}
-=
-\begin{bmatrix}
-  0 &amp;1\\
-\end{bmatrix}
-\begin{bmatrix}
-  x\\
-  \dot{x}\\
-\end{bmatrix}
-+
-\begin{bmatrix}
-  v
-\end{bmatrix}
-\end{split}\]</div>
-</div>
 </div>
 <div class="section" id="dynamic-equations">
-<h1>Dynamic equations<a class="headerlink" href="#dynamic-equations" title="Permalink to this headline">¶</a></h1>
+<h2>Dynamic equations<a class="headerlink" href="#dynamic-equations" title="Permalink to this headline">¶</a></h2>
 <p>As we saw in <a class="reference internal" href="02-System%20Dynamics.html#system-system"><span class="std std-ref">System Dynamics</span></a>, we typically use a set of ordinary differential equations (ODEs) to model the physical behaviour of the system. They can be expressed through linear dynamic equations as follows:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -638,7 +479,7 @@ u
 \end{split}\]</div>
 </div>
 <div class="section" id="discrete-kalman-filter">
-<h1>Discrete Kalman Filter<a class="headerlink" href="#discrete-kalman-filter" title="Permalink to this headline">¶</a></h1>
+<h2>Discrete Kalman Filter<a class="headerlink" href="#discrete-kalman-filter" title="Permalink to this headline">¶</a></h2>
 <p>So, the two main components of a Kalman Filter are the <em>dynamic model</em> and the <em>measurement model</em>. The first one models the dynamic behaviour of the platform through a set of differential equations, while the latter provides the connection between the available measurements and the elements of the state vector.</p>
 <p>Note that if either the dynamic equations or the measurement equations are non-linear, they have to be linearized first in order to fit the general linear Kalman Filter equations. This linearization step introduces the need to establish <em>preliminary values</em> to the unknowns.</p>
 <p>Since the Kalman Filter are derived from the <a class="reference internal" href="04-Bayes%20Filter.html#bayes-bayes"><span class="std std-ref">Bayes Filter</span></a> it also will consist of a <em>correction step</em> and a <em>prediction step</em>. These two components forms what is known as the <em>discrete Kalman Filter loop</em>.</p>
@@ -664,7 +505,7 @@ u
 \end{align}
 \end{split}\]</div>
 <div class="section" id="example-5-1">
-<h2>Example 5.1<a class="headerlink" href="#example-5-1" title="Permalink to this headline">¶</a></h2>
+<h3>Example 5.1<a class="headerlink" href="#example-5-1" title="Permalink to this headline">¶</a></h3>
 <p>Let’s revisit our well known Trolley on rails and use this as our very first example of a simple Kalman Filter implementation. As before, the Trolley is equipped with a laser scanner that continously measures the distance to a wall.</p>
 <div class="figure align-default" id="laserscan2">
 <img alt="_images/laserscan.png" src="_images/laserscan.png" />
@@ -861,13 +702,13 @@ u
 Estimated position : 51.34 49.76 49.51 49.88 50.15 50.24 50.06 49.98 50.21 50.24
 </pre></div>
 </div>
-<img alt="_images/05-Kalman Filter_8_1.png" src="_images/05-Kalman Filter_8_1.png" />
+<img alt="_images/05-Kalman Filter_6_1.png" src="_images/05-Kalman Filter_6_1.png" />
 </div>
 </div>
 <p>Note that the Kalman Filter in this simple example, were we are estimating a constant, actually reproduces our previous results from <a class="reference internal" href="00-Introduction.html#intro-mean-and-variance"><span class="std std-ref">Mean and Variance</span></a> where we computed the recursive mean value. This might build us some trust in that the Kalman Filter treats the information in the very same way, i.e. it is optimal in the sense of <em>minimum variance</em>.</p>
 </div>
 <div class="section" id="example-5-2">
-<h2>Example 5.2<a class="headerlink" href="#example-5-2" title="Permalink to this headline">¶</a></h2>
+<h3>Example 5.2<a class="headerlink" href="#example-5-2" title="Permalink to this headline">¶</a></h3>
 <p>To make the Kalman Filter really come into play, we need to allow for some movement of the Trolley. Assume we give the Trolley a slight push so that it starts rolling on the rails. To allow for this in the Kalman Filter, we must modify the dynamic model to take not only the position into account, but also the velocity.</p>
 <div class="figure align-default" id="laserscan3">
 <img alt="_images/laserscan.png" src="_images/laserscan.png" />
@@ -1079,8 +920,8 @@ u
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05-Kalman Filter_12_0.png" src="_images/05-Kalman Filter_12_0.png" />
-<img alt="_images/05-Kalman Filter_12_1.png" src="_images/05-Kalman Filter_12_1.png" />
+<img alt="_images/05-Kalman Filter_10_0.png" src="_images/05-Kalman Filter_10_0.png" />
+<img alt="_images/05-Kalman Filter_10_1.png" src="_images/05-Kalman Filter_10_1.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Error statistics:
 Position standard deviation: 0.163 m
 Velocity standard deviation: 0.132 m/s
@@ -1092,13 +933,13 @@ Velocity standard deviation: 0.132 m/s
 </div>
 </div>
 <div class="section" id="state-estimation">
-<h1>State Estimation<a class="headerlink" href="#state-estimation" title="Permalink to this headline">¶</a></h1>
+<h2>State Estimation<a class="headerlink" href="#state-estimation" title="Permalink to this headline">¶</a></h2>
 <p>As we have seen, the Kalman Filter provides estimates of the current state vector as a weighted balance between the dynamic model and the measurement model. One of the main properties of the filter is that it is capable of providing estimates of the complete state vector even if there is not measurements available for all the individual elements.</p>
 <p>This is a very important property of the Kalman Filter and we will illustrate this through a simple example. In the example above, we measured distances with a laser scanner and obtained fairly good estimates of both position and velocity eventhough we have no sensor that measures velocity. The velocity estimate is obtained thanks to the dynamic model that links the two quantities through the system of ODEs.</p>
-<div class="section" id="id4">
-<h2>Example 5.3<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="example-5-3">
+<h3>Example 5.3<a class="headerlink" href="#example-5-3" title="Permalink to this headline">¶</a></h3>
 <p>But what happens if we do not have a laser scanner, but the only sensor is a speedometer? Can we still get estimates of both position and velocity? Let’s assume the same dynamic model as in the previous example, but this time with only a speedometer available.</p>
-<div class="figure align-default" id="id5">
+<div class="figure align-default" id="speedometer">
 <img alt="_images/speed.png" src="_images/speed.png" />
 </div>
 <p>The dynamic model will is the same as before, but we write it again here for completness.</p>
@@ -1268,8 +1109,8 @@ u
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05-Kalman Filter_16_0.png" src="_images/05-Kalman Filter_16_0.png" />
-<img alt="_images/05-Kalman Filter_16_1.png" src="_images/05-Kalman Filter_16_1.png" />
+<img alt="_images/05-Kalman Filter_14_0.png" src="_images/05-Kalman Filter_14_0.png" />
+<img alt="_images/05-Kalman Filter_14_1.png" src="_images/05-Kalman Filter_14_1.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Error statistics:
 Position standard deviation: 10.005 m
 Velocity standard deviation: 0.095 m/s
@@ -1280,9 +1121,9 @@ Velocity standard deviation: 0.095 m/s
 <p>Note that the estimated error of the velocity decreases as more velocity measurements become available. However, the estimated position error starts with the initial position error and then remains constant as a function of time. The reason for this is that we only have measurements of the velocity, thus there is no new information available for the position and the filter is then responding with a constant error that is equal to the initial position error.</p>
 </div>
 <div class="section" id="example-5-4">
-<h2>Example 5.4<a class="headerlink" href="#example-5-4" title="Permalink to this headline">¶</a></h2>
+<h3>Example 5.4<a class="headerlink" href="#example-5-4" title="Permalink to this headline">¶</a></h3>
 <p>So, how do we then make use of both sensors, i.e. laser scanner and speedometer? Let’s assume the same dynamic model as in both the previous examples, but this time with both laser scanner and speedometer available.</p>
-<div class="figure align-default" id="id6">
+<div class="figure align-default" id="id3">
 <img alt="_images/speed.png" src="_images/speed.png" />
 </div>
 <p>Again the dynamic model is the same as before, but we write it again here for completness.</p>
@@ -1459,8 +1300,8 @@ u
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05-Kalman Filter_19_0.png" src="_images/05-Kalman Filter_19_0.png" />
-<img alt="_images/05-Kalman Filter_19_1.png" src="_images/05-Kalman Filter_19_1.png" />
+<img alt="_images/05-Kalman Filter_17_0.png" src="_images/05-Kalman Filter_17_0.png" />
+<img alt="_images/05-Kalman Filter_17_1.png" src="_images/05-Kalman Filter_17_1.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Error statistics:
 Position standard deviation: 0.116 m
 Velocity standard deviation: 0.091 m/s
@@ -1472,7 +1313,7 @@ Velocity standard deviation: 0.091 m/s
 </div>
 </div>
 <div class="section" id="joseph-form">
-<h1>Joseph Form<a class="headerlink" href="#joseph-form" title="Permalink to this headline">¶</a></h1>
+<h2>Joseph Form<a class="headerlink" href="#joseph-form" title="Permalink to this headline">¶</a></h2>
 <p>In order to keep the numerical stability of the measurement update of the estimated covariance matrix <span class="math notranslate nohighlight">\(\hat P_{k}\)</span>, we normally use the so called Joseph form of the matrix equation. This form has natural symmetry and is valid for any gain, wether optimal or suboptimal. The Joseph form can be written like this.</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1481,8 +1322,8 @@ Velocity standard deviation: 0.091 m/s
 <p>For this reason we will therefore use the Joseph form in the measurement update step from here on.</p>
 </div>
 <div class="section" id="numerical-evaluation-van-loan">
-<h1>Numerical Evaluation (Van Loan)<a class="headerlink" href="#numerical-evaluation-van-loan" title="Permalink to this headline">¶</a></h1>
-<p>The previous analytical methods for computing the transition matrix <span class="math notranslate nohighlight">\(\phi_{k}\)</span> and the process covariance matrix <span class="math notranslate nohighlight">\(Q_{k}\)</span> will in practice work well only for small systems with constant parameters. However, it can be quite tricky to compute these values as the systems becomes larger. Therefore a numerical method for computing these two matrices was published by C. F. van Loan <span id="id7">[<a class="reference internal" href="Bibliography.html#id11" title="Charles Fredric van Loan. Computing integrals involving the matrix exponential. IEEE Transactions on Automatic Control, AC-23:395-404, 1978.">vL78</a>]</span> and this method serves as the standard approach to obtain the numerical solution.</p>
+<h2>Numerical Evaluation (Van Loan)<a class="headerlink" href="#numerical-evaluation-van-loan" title="Permalink to this headline">¶</a></h2>
+<p>The previous analytical methods for computing the transition matrix <span class="math notranslate nohighlight">\(\phi_{k}\)</span> and the process covariance matrix <span class="math notranslate nohighlight">\(Q_{k}\)</span> will in practice work well only for small systems with constant parameters. However, it can be quite tricky to compute these values as the systems becomes larger. Therefore a numerical method for computing these two matrices was published by C. F. van Loan <span id="id4">[<a class="reference internal" href="Bibliography.html#id11" title="Charles Fredric van Loan. Computing integrals involving the matrix exponential. IEEE Transactions on Automatic Control, AC-23:395-404, 1978.">vL78</a>]</span> and this method serves as the standard approach to obtain the numerical solution.</p>
 <p>The van Loan method comes in these basic steps:</p>
 <div class="figure align-default" id="vanloan">
 <img alt="_images/vanloan.png" src="_images/vanloan.png" />
@@ -1517,7 +1358,7 @@ Velocity standard deviation: 0.091 m/s
 </div>
 </div>
 <div class="section" id="example-5-5">
-<h2>Example 5.5<a class="headerlink" href="#example-5-5" title="Permalink to this headline">¶</a></h2>
+<h3>Example 5.5<a class="headerlink" href="#example-5-5" title="Permalink to this headline">¶</a></h3>
 <p>In order to test the numerical evaluation of the transistion matrix <span class="math notranslate nohighlight">\(\phi_{k}\)</span> and the process covariance matrix <span class="math notranslate nohighlight">\(Q_{k}\)</span> we use the same basic dynamic model as in the previous example, however with slightly different system values to avoid too small numbers in the result. The comparison is still valid.</p>
 <p>For completeness we compute the two matrices through both the analytical and the numerical approach.</p>
 <div class="cell docutils container">
@@ -1587,9 +1428,9 @@ Velocity standard deviation: 0.091 m/s
 </div>
 </div>
 <div class="section" id="extended-kalman-filter-ekf">
-<h1>Extended Kalman Filter (EKF)<a class="headerlink" href="#extended-kalman-filter-ekf" title="Permalink to this headline">¶</a></h1>
+<h2>Extended Kalman Filter (EKF)<a class="headerlink" href="#extended-kalman-filter-ekf" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="example-5-6">
-<h2>Example 5.6<a class="headerlink" href="#example-5-6" title="Permalink to this headline">¶</a></h2>
+<h3>Example 5.6<a class="headerlink" href="#example-5-6" title="Permalink to this headline">¶</a></h3>
 <p>Now that we have the proper tool to provide numerical representations of the unknown tranistion matrix <span class="math notranslate nohighlight">\(\phi\)</span> and the corresponding process noise matrix <span class="math notranslate nohighlight">\(Q\)</span>, we might try a more challenging example in order to sum up what we have been through so far.</p>
 <p>These are the elements to be determined:</p>
 <ol class="simple">
@@ -1743,9 +1584,9 @@ z = Hx + v
 <span class="n">dt</span> <span class="o">=</span> <span class="mf">0.05</span>       <span class="c1"># [second]</span>
 <span class="n">samples</span> <span class="o">=</span> <span class="mi">800</span>   <span class="c1"># number of samples</span>
 <span class="n">num</span> <span class="o">=</span> <span class="mi">3</span>         <span class="c1"># number of iterations (design matrix)</span>
-<span class="n">r</span> <span class="o">=</span> <span class="mi">1</span>           <span class="c1"># [meter^2]</span>
-<span class="n">qv</span> <span class="o">=</span> <span class="mf">0.01</span>       <span class="c1"># [meter^2/second^3]</span>
-<span class="n">qh</span> <span class="o">=</span> <span class="mf">0.01</span>       <span class="c1"># [meter^2/second]</span>
+<span class="n">r</span> <span class="o">=</span> <span class="mi">1</span><span class="o">**</span><span class="mi">2</span>        <span class="c1"># measurement noise [meter^2]</span>
+<span class="n">qv</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">**</span><span class="mi">2</span>     <span class="c1"># process noise velocity [meter^2/second^3]</span>
+<span class="n">qh</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">**</span><span class="mi">2</span>     <span class="c1"># process noise height [meter^2/second]</span>
 
 <span class="c1"># Dynamics matrix</span>
 <span class="n">F</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
@@ -1767,7 +1608,7 @@ z = Hx + v
 <span class="n">xt</span> <span class="o">=</span> <span class="n">x</span>
 
 <span class="c1"># Inital state covariance matrix</span>
-<span class="n">P</span> <span class="o">=</span> <span class="n">diag</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">diag</span><span class="p">([</span><span class="mi">10</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="o">**</span><span class="mi">2</span><span class="p">])</span>
 
 <span class="c1"># Numerical evaluation (van Loan)</span>
 <span class="p">[</span><span class="n">phi</span><span class="p">,</span> <span class="n">Q</span><span class="p">]</span> <span class="o">=</span> <span class="n">numeval</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
@@ -1804,8 +1645,8 @@ z = Hx + v
     
     <span class="c1"># Process noise vector</span>
     <span class="n">w</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],</span>
-               <span class="p">[</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span>
-               <span class="p">[</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]])</span>
+               <span class="p">[</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">qv</span><span class="p">))],</span>
+               <span class="p">[</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">qh</span><span class="p">))]])</span>
     
     <span class="c1"># Compute true trajectory</span>
     <span class="n">xt</span> <span class="o">=</span> <span class="n">phi</span><span class="nd">@xt</span> <span class="o">+</span> <span class="n">C</span><span class="nd">@w</span>
@@ -1898,7 +1739,7 @@ z = Hx + v
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">hgt_true</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;True altitude&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;System State&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time (second)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Altitude (meter)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Height (meter)&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">98</span><span class="p">,</span> <span class="mi">102</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
@@ -1922,7 +1763,7 @@ z = Hx + v
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">hgt_std</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Standard Deviation&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Error analysis&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time (second)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Altitude (meter)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Height (meter)&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
@@ -1931,19 +1772,19 @@ z = Hx + v
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05-Kalman Filter_33_0.png" src="_images/05-Kalman Filter_33_0.png" />
-<img alt="_images/05-Kalman Filter_33_1.png" src="_images/05-Kalman Filter_33_1.png" />
-<img alt="_images/05-Kalman Filter_33_2.png" src="_images/05-Kalman Filter_33_2.png" />
-<img alt="_images/05-Kalman Filter_33_3.png" src="_images/05-Kalman Filter_33_3.png" />
-<img alt="_images/05-Kalman Filter_33_4.png" src="_images/05-Kalman Filter_33_4.png" />
-<img alt="_images/05-Kalman Filter_33_5.png" src="_images/05-Kalman Filter_33_5.png" />
+<img alt="_images/05-Kalman Filter_31_0.png" src="_images/05-Kalman Filter_31_0.png" />
+<img alt="_images/05-Kalman Filter_31_1.png" src="_images/05-Kalman Filter_31_1.png" />
+<img alt="_images/05-Kalman Filter_31_2.png" src="_images/05-Kalman Filter_31_2.png" />
+<img alt="_images/05-Kalman Filter_31_3.png" src="_images/05-Kalman Filter_31_3.png" />
+<img alt="_images/05-Kalman Filter_31_4.png" src="_images/05-Kalman Filter_31_4.png" />
+<img alt="_images/05-Kalman Filter_31_5.png" src="_images/05-Kalman Filter_31_5.png" />
 </div>
 </div>
 <p>Note the change in the estimated error around <span class="math notranslate nohighlight">\(t=20s\)</span>. The reason for this phenomenon is that the geometry of the measured range doesn’t provide any information for the position/velocity as the drone is almost directly above the ranging sensor at this point in time.</p>
 </div>
 </div>
 <div class="section" id="summary">
-<h1>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h1>
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
 <p><em>Prediction:</em></p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -1961,6 +1802,7 @@ z = Hx + v
   \hat P_{k}=&amp;(I-K_{k}H_{k})\tilde P_{k}(I-K_{k}H_{k})^T+K_{k}R_{k}K_{k}^T\\
 \end{align}
 \end{split}\]</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">

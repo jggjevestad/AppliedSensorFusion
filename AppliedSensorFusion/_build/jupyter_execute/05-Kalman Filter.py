@@ -1,97 +1,19 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# ## Intuitive idea
-# Let's make a simple thought experiment. Assume two persons sitting in a boat that floats freely on the ocean. At one point in time both persons measures the boats position.
+# (Kalman:kalman)=
+# # Kalman Filter
+# The Kalman Filter origins from the work of Norbert Wiener's in the 1940s {cite}`wiener1949`. The central problem to his works was the separation of the signal from the additive combination of signal and noise. One could say that Wiener's main contribution was the formulation of the problem in terms of minimizing the mean square error in th time domain - as opposed to the frequency domain which was the dominating approach at the time.
 # 
-# Let's assume the first person measure the position to be $z_1$ with a corresponding variance $\sigma_{z_1}^2$. What is the best estimate of the boats position?
+# In the 1960 Rudolf Emil Kalman considerred the same problem as Wiener. In his famous paper {cite}`kalman1960` he introduced the discrete formulation together with the state-space notation in the time domain which gained imediate popularity empowered by the advances in computer technology at the time. The Kalman Filter was early adopted by the navigation community, and is today regarded as the main workhorse for the vast majority of navigation applications.
 # 
-# If we only use this measurement, we get the following estimate of the boats position and variance.
+# So, what is a Kalman Filter?
 # 
-# $$
-# \begin{align}
-#   \hat{x}_1 =& z_1\\
-#   \hat{\sigma}_{x_1}^2 =& \sigma_{z_1}^2\\
-# \end{align}
-# $$
+# ![navigation](fig/navigation.jpg)
 # 
-# Then the second person measures the position to be $z_2$ with a corresponding variance $\sigma_{z_2}^2$. What is the best estimate of the boats position now?
-# 
-# If we chose to make use of both measurements, we can combine them in the following way:
-# 
-# $$
-# \begin{align}
-#   \hat{x}_2 =& \hat{x}_1 + K(z_2 - \hat{x}_1)\\
-#   \hat{\sigma}_{x_2} =& K \sigma_{z_2}^2\\
-# \end{align}
-# $$
-# 
-# , where $K = \frac{\hat{\sigma}_{x_1}^2}{\hat{\sigma}_{x_1}^2 + \sigma_{z_2}^2}$. This value is also called *gain*, and it weights the contribution of the new measurement to the existing estimate of the position.
-# 
-# Assume both persons measure the position with the same precision, i.e. $\sigma_{z_1}^2 = \sigma_{z_2}^2$. In this particular case we get $K = \frac{1}{2}$. We can then write:
-# 
-# $$
-# \begin{align}
-#   \hat{x}_2 =& \hat{x}_1 + \frac{1}{2}(z_2 - \hat{x}_1) = \frac{1}{2}(z_1 + z_2)\\
-#   \hat{\sigma}_{x_2} =& \frac{1}{2} \sigma_{z_2}^2 = \frac{\sigma_{z_2}^2}{2}\\
-# \end{align}
-# $$
-# 
-# This we immediately recognize as the *mean value* of both measurements - a result that intuitively sounds reasonable.
-# 
-# However, the difference between the two persons measurements isn't just due to measurement errors alone, but will also be due to the motion of the boat itself. So, a Kalman filter will in addition to this *measurement model* also include a *dynamic model* that describes the boats motions while floating (e.g. a small rubber boat will have a very different motion than a large ship).
-
-# ### Example 5.3
-# But what happens if we do not have a laser scanner, but the only sensor is a speedometer? Can we still get estimates of both position and velocity? Let's assume the same dynamic model as in the previous example, but this time with only a speedometer available.
-# 
-# ```{figure} fig/speed.png
-# :name: speedometer
-# 
+# ```{note}
+# A Kalman Filter is an recursive algorithm that provides estimates of a state vector as a weighted sum of the forward propagation of the previous state vector, and the current measurements.
 # ```
-# 
-# The dynamic model will is the same as before, but we write it again here for completness.
-# 
-# $$
-# \begin{bmatrix}
-#   \dot{x}\\
-#   \ddot{x}\\
-# \end{bmatrix}
-# =
-# \begin{bmatrix}
-#   0 &1\\
-#   0 &0\\
-# \end{bmatrix}
-# \begin{bmatrix}
-#   x\\
-#   \dot{x}\\
-# \end{bmatrix}
-# +
-# \begin{bmatrix}
-#   0\\
-#   \sqrt{q_v}\\
-# \end{bmatrix}
-# u
-# $$
-# 
-# Since the only measurements involved are the velocity measurements from the speedometer, the measurement model can be written like this.
-# 
-# $$
-# \begin{bmatrix}
-#   z
-# \end{bmatrix}
-# =
-# \begin{bmatrix}
-#   0 &1\\
-# \end{bmatrix}
-# \begin{bmatrix}
-#   x\\
-#   \dot{x}\\
-# \end{bmatrix}
-# +
-# \begin{bmatrix}
-#   v
-# \end{bmatrix}
-# $$
 
 # ## Intuitive idea
 # Let's make a simple thought experiment. Assume two persons sitting in a boat that floats freely on the ocean. At one point in time both persons measures the boats position.
@@ -132,58 +54,6 @@
 # This we immediately recognize as the *mean value* of both measurements - a result that intuitively sounds reasonable.
 # 
 # However, the difference between the two persons measurements isn't just due to measurement errors alone, but will also be due to the motion of the boat itself. So, a Kalman filter will in addition to this *measurement model* also include a *dynamic model* that describes the boats motions while floating (e.g. a small rubber boat will have a very different motion than a large ship).
-
-# ### Example 5.3
-# But what happens if we do not have a laser scanner, but the only sensor is a speedometer? Can we still get estimates of both position and velocity? Let's assume the same dynamic model as in the previous example, but this time with only a speedometer available.
-# 
-# ```{figure} fig/speed.png
-# :name: speedometer
-# 
-# ```
-# 
-# The dynamic model will is the same as before, but we write it again here for completness.
-# 
-# $$
-# \begin{bmatrix}
-#   \dot{x}\\
-#   \ddot{x}\\
-# \end{bmatrix}
-# =
-# \begin{bmatrix}
-#   0 &1\\
-#   0 &0\\
-# \end{bmatrix}
-# \begin{bmatrix}
-#   x\\
-#   \dot{x}\\
-# \end{bmatrix}
-# +
-# \begin{bmatrix}
-#   0\\
-#   \sqrt{q_v}\\
-# \end{bmatrix}
-# u
-# $$
-# 
-# Since the only measurements involved are the velocity measurements from the speedometer, the measurement model can be written like this.
-# 
-# $$
-# \begin{bmatrix}
-#   z
-# \end{bmatrix}
-# =
-# \begin{bmatrix}
-#   0 &1\\
-# \end{bmatrix}
-# \begin{bmatrix}
-#   x\\
-#   \dot{x}\\
-# \end{bmatrix}
-# +
-# \begin{bmatrix}
-#   v
-# \end{bmatrix}
-# $$
 
 # ## Dynamic equations
 # As we saw in {ref}`System:system`, we typically use a set of ordinary differential equations (ODEs) to model the physical behaviour of the system. They can be expressed through linear dynamic equations as follows:
@@ -1279,9 +1149,9 @@ from vanloan.vanloan import numeval
 dt = 0.05       # [second]
 samples = 800   # number of samples
 num = 3         # number of iterations (design matrix)
-r = 1           # [meter^2]
-qv = 0.01       # [meter^2/second^3]
-qh = 0.01       # [meter^2/second]
+r = 1**2        # measurement noise [meter^2]
+qv = 0.1**2     # process noise velocity [meter^2/second^3]
+qh = 0.1**2     # process noise height [meter^2/second]
 
 # Dynamics matrix
 F = array([[0, 1, 0],
@@ -1303,7 +1173,7 @@ x = array([[-200],  # position [meter]
 xt = x
 
 # Inital state covariance matrix
-P = diag([10, 5, 5])
+P = diag([10**2, 5**2, 5**2])
 
 # Numerical evaluation (van Loan)
 [phi, Q] = numeval(F, G, dt)
@@ -1340,8 +1210,8 @@ for k in range(0, samples):
     
     # Process noise vector
     w = array([[0],
-               [normal(0, 1)],
-               [normal(0, 1)]])
+               [normal(0, sqrt(qv))],
+               [normal(0, sqrt(qh))]])
     
     # Compute true trajectory
     xt = phi@xt + C@w
@@ -1434,7 +1304,7 @@ plt.plot(time, hgt_est, 'g.', label='Estimated altitude')
 plt.plot(time, hgt_true, 'b', label='True altitude')
 plt.title('System State')
 plt.xlabel('Time (second)')
-plt.ylabel('Altitude (meter)')
+plt.ylabel('Height (meter)')
 plt.ylim(98, 102)
 plt.legend(loc='lower right')
 plt.grid(True, which='both')
@@ -1458,7 +1328,7 @@ plt.plot(time, hgt_err, 'b', label='True error')
 plt.plot(time, hgt_std, 'g', label='Standard Deviation')
 plt.title('Error analysis')
 plt.xlabel('Time (second)')
-plt.ylabel('Altitude (meter)')
+plt.ylabel('Height (meter)')
 plt.ylim(0, 5)
 plt.legend(loc='upper right')
 plt.grid(True, which='both')
