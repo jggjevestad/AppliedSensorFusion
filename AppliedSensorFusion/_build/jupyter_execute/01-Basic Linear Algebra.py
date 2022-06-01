@@ -117,8 +117,6 @@
 # z = Hx \rightarrow x = H^{+}z
 # $$
 
-# 
-
 # ## Error Analysis
 # Computing the *standard error* in matrix notation is also straight forward. The starting point is the measurement equation that gives the functional relationship between the measurements $z$ and the unknowns $x$.
 # 
@@ -151,11 +149,18 @@
 # 
 # Let us now rewrite the previous algorithm in terms of the new matrix notation. Let us from here on denote the measurement $z$ as a column vector.
 
+# ```{note}
+# Eventhough it has work out well using *lists* in the previous 1D examples, from here on we need to introduce the conecpt of *arrays* in order to fully comply with the defined matrix operators and functions that are related to linear algebra.
+# ```
+
 # In[1]:
 
 
+# Compute sample mean, standard deviation and standard error (LSQ)
+
 # Import
-from numpy import array
+from numpy import array, ones, eye, sqrt
+from numpy.linalg import inv
 
 # Measurements
 z = array([[51.34],
@@ -168,20 +173,6 @@ z = array([[51.34],
            [49.45],
            [52.07],
            [50.52]])
-
-
-# ```{note}
-# Eventhough it has work out well using *lists* in the previous 1D examples, from here on we need to introduce the conecpt of *arrays* in order to fully comply with the defined matrix operators and functions that are related to linear algebra.
-# ```
-
-# In[2]:
-
-
-# Compute sample mean, standard deviation and standard error (LSQ)
-
-# Import
-from numpy import ones, eye, sqrt
-from numpy.linalg import inv
 
 # number of measurements
 N = len(z)
@@ -303,15 +294,27 @@ print(f"Standard error:     {se:.2f} m")
 # 
 # Let's now test the sequential version of the algorithm assuming that all the measurements have the same variance.
 
-# In[3]:
+# In[2]:
 
 
 # Compute recursive sample mean (SLSQ)
 
 # Import
-from numpy import arange, negative, var
+from numpy import array, arange, negative, var
 from numpy.linalg import inv
 import matplotlib.pyplot as plt
+
+# Measurements
+z = array([[51.34],
+           [48.17],
+           [49.02],
+           [50.97],
+           [51.23],
+           [50.72],
+           [48.95],
+           [49.45],
+           [52.07],
+           [50.52]])
 
 # number of measurements
 N = len(z)
@@ -320,7 +323,7 @@ N = len(z)
 sigmaz2 = var(z, ddof=1) 
 
 # Initial state vector
-x = z[0]
+x = array([z[0]])
 
 # Initial cofactor matrix
 Q = array([[1]])
@@ -352,9 +355,9 @@ for k in range(0, N):
     z_all.append(z[k])
     x_all.append(x)
     Q_all.append(Q)
-        
+
 # Extract plot lists
-pos = [x[0] for x in x_all]
+pos = [x[0, 0] for x in x_all]
 meas = [z[0] for z in z_all]
 sd = [sqrt(sigmaz2*Q[0, 0]) for Q in Q_all]
 

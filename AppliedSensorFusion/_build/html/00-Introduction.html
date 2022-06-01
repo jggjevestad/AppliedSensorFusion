@@ -128,7 +128,7 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="05-Kalman%20Filter.html">
-   Kalman Filter
+   Intuitive idea
   </a>
  </li>
  <li class="toctree-l1">
@@ -364,14 +364,6 @@ const thebe_selector_output = ".output, .cell_output"
 \bar x = \frac{1}{n} \sum_{i=1}^n x_i
 \]</div>
 <p>To perform an implementation in Python, let us just make a list of 10 random numbers and set them to be our measurements from the laser scanner.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Measurements</span>
-<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mf">51.34</span><span class="p">,</span> <span class="mf">48.17</span><span class="p">,</span> <span class="mf">49.02</span><span class="p">,</span> <span class="mf">50.97</span><span class="p">,</span> <span class="mf">51.23</span><span class="p">,</span> <span class="mf">50.72</span><span class="p">,</span> <span class="mf">48.95</span><span class="p">,</span> <span class="mf">49.45</span><span class="p">,</span> <span class="mf">52.07</span><span class="p">,</span> <span class="mf">50.52</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The sample mean, standard deviation and standard error can easily be computed based on the functions <em>mean</em> and <em>std</em> from Python’s numpy library.</p>
@@ -382,6 +374,9 @@ const thebe_selector_output = ".output, .cell_output"
 
 <span class="c1"># Import</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="n">sqrt</span>
+
+<span class="c1"># Measurements</span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mf">51.34</span><span class="p">,</span> <span class="mf">48.17</span><span class="p">,</span> <span class="mf">49.02</span><span class="p">,</span> <span class="mf">50.97</span><span class="p">,</span> <span class="mf">51.23</span><span class="p">,</span> <span class="mf">50.72</span><span class="p">,</span> <span class="mf">48.95</span><span class="p">,</span> <span class="mf">49.45</span><span class="p">,</span> <span class="mf">52.07</span><span class="p">,</span> <span class="mf">50.52</span><span class="p">]</span>
 
 <span class="c1"># Number of measurements</span>
 <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -429,6 +424,9 @@ Standard error:     0.40 m
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute recursive mean</span>
+
+<span class="c1"># Measurements</span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mf">51.34</span><span class="p">,</span> <span class="mf">48.17</span><span class="p">,</span> <span class="mf">49.02</span><span class="p">,</span> <span class="mf">50.97</span><span class="p">,</span> <span class="mf">51.23</span><span class="p">,</span> <span class="mf">50.72</span><span class="p">,</span> <span class="mf">48.95</span><span class="p">,</span> <span class="mf">49.45</span><span class="p">,</span> <span class="mf">52.07</span><span class="p">,</span> <span class="mf">50.52</span><span class="p">]</span>
 
 <span class="c1"># Inital estimate</span>
 <span class="n">x_bar</span> <span class="o">=</span> <span class="mi">0</span>
@@ -498,7 +496,7 @@ Estimated position : 51.34 49.76 49.51 49.88 50.15 50.24 50.06 49.98 50.21 50.24
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/00-Introduction_11_0.png" src="_images/00-Introduction_11_0.png" />
+<img alt="_images/00-Introduction_10_0.png" src="_images/00-Introduction_10_0.png" />
 </div>
 </div>
 </div>
@@ -532,6 +530,9 @@ s_n^2 = \frac{1}{n - 1} \sum_{i=1}^n (x_i - \bar{x}_n)^2
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">arange</span><span class="p">,</span> <span class="n">sqrt</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Measurements</span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mf">51.34</span><span class="p">,</span> <span class="mf">48.17</span><span class="p">,</span> <span class="mf">49.02</span><span class="p">,</span> <span class="mf">50.97</span><span class="p">,</span> <span class="mf">51.23</span><span class="p">,</span> <span class="mf">50.72</span><span class="p">,</span> <span class="mf">48.95</span><span class="p">,</span> <span class="mf">49.45</span><span class="p">,</span> <span class="mf">52.07</span><span class="p">,</span> <span class="mf">50.52</span><span class="p">]</span>
 
 <span class="c1"># Inital estimate</span>
 <span class="n">x_bar</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">s2</span> <span class="o">=</span> <span class="mi">0</span>
@@ -576,7 +577,7 @@ s_n^2 = \frac{1}{n - 1} \sum_{i=1}^n (x_i - \bar{x}_n)^2
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/00-Introduction_13_0.png" src="_images/00-Introduction_13_0.png" />
+<img alt="_images/00-Introduction_12_0.png" src="_images/00-Introduction_12_0.png" />
 </div>
 </div>
 <p>Note how the estimated error converge towards the standard error as more measurements contributes to compute the sample mean. In order to illustrate both the estimated values together with their corresponding errors, it is sometimes convenient to plot all the information together in the same plot. It may look something like this.</p>
@@ -610,7 +611,7 @@ s_n^2 = \frac{1}{n - 1} \sum_{i=1}^n (x_i - \bar{x}_n)^2
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/00-Introduction_15_0.png" src="_images/00-Introduction_15_0.png" />
+<img alt="_images/00-Introduction_14_0.png" src="_images/00-Introduction_14_0.png" />
 </div>
 </div>
 <p>So, this is it? No, there is a lot more to filtering than this, but still this very simple example of calculating the recursive mean and standard error actually captures the idea of sequential algorithms and the ideas behind it. Please make sure you fully understand this simple example before you proceed to the next chapter.</p>

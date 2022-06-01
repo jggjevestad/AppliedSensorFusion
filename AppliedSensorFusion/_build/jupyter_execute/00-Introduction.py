@@ -37,24 +37,20 @@
 # 
 # To perform an implementation in Python, let us just make a list of 10 random numbers and set them to be our measurements from the laser scanner.
 
-# In[1]:
-
-
-# Measurements
-x = [51.34, 48.17, 49.02, 50.97, 51.23, 50.72, 48.95, 49.45, 52.07, 50.52]
-
-
 # ```{note}
 # The sample mean, standard deviation and standard error can easily be computed based on the functions *mean* and *std* from Python's numpy library.
 # ```
 
-# In[2]:
+# In[1]:
 
 
 # Compute sample mean, standard deviation and standard error
 
 # Import
 from numpy import mean, std, sqrt
+
+# Measurements
+x = [51.34, 48.17, 49.02, 50.97, 51.23, 50.72, 48.95, 49.45, 52.07, 50.52]
 
 # Number of measurements
 N = len(x)
@@ -92,10 +88,13 @@ print(f"Standard error:     {se:.2f} m")
 # 
 # Let us first try our new algorithm with the measurements from the laser scanner.
 
-# In[3]:
+# In[2]:
 
 
 # Compute recursive mean
+
+# Measurements
+x = [51.34, 48.17, 49.02, 50.97, 51.23, 50.72, 48.95, 49.45, 52.07, 50.52]
 
 # Inital estimate
 x_bar = 0
@@ -134,7 +133,7 @@ print("Estimated position : " + ' '.join(f'{pos:.2f}' for pos in pos))
 # 
 # So, lets briefly show how to plot the main results from this simple example.
 
-# In[4]:
+# In[3]:
 
 
 # Plotting the results
@@ -187,12 +186,15 @@ plt.show()
 # 
 # Now let us plot the standard deviation together with the standard error for the estimated position.
 
-# In[5]:
+# In[4]:
 
 
 # Import
 from numpy import arange, sqrt
 import matplotlib.pyplot as plt
+
+# Measurements
+x = [51.34, 48.17, 49.02, 50.97, 51.23, 50.72, 48.95, 49.45, 52.07, 50.52]
 
 # Inital estimate
 x_bar = 0; s2 = 0
@@ -241,7 +243,7 @@ plt.show()
 # When Working with Python lists or arrays, we may use the function *negative* to change sign for all elements in the list.
 # ```
 
-# In[6]:
+# In[5]:
 
 
 # Import

@@ -54,7 +54,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Sensor Fusion" href="07-Sensor%20Fusion.html" />
-    <link rel="prev" title="Kalman Filter" href="05-Kalman%20Filter.html" />
+    <link rel="prev" title="Intuitive idea" href="05-Kalman%20Filter.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -126,7 +126,7 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="05-Kalman%20Filter.html">
-   Kalman Filter
+   Intuitive idea
   </a>
  </li>
  <li class="toctree-l1 current active">
@@ -227,6 +227,19 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#unscented-kalman-filter-ukf">
+   Unscented Kalman Filter (UKF)
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -239,6 +252,19 @@ const thebe_selector_output = ".output, .cell_output"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#unscented-kalman-filter-ukf">
+   Unscented Kalman Filter (UKF)
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -247,7 +273,17 @@ const thebe_selector_output = ".output, .cell_output"
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="particle-filter">
 <h1>Particle Filter<a class="headerlink" href="#particle-filter" title="Permalink to this headline">¶</a></h1>
+<p>Even though the Kalman filter has many advantages and is the main choice for most applications, it also suffers from some limitations. There are two main limitations when it comes to the generic Kalman filter: the dynamic model and the measurement model must be linear and the noise must be Gaussian.</p>
+<p>These limitations doesn’t normally pose problems in most applications. They can be overcomed through linearization, either in the form of a <em>Linearized Kalman filter</em> that are linearized around a nominal trajectory or a <em>Extended Kalman filter</em> that are linearized around the predicted state. And in many cases it is fairly reasonable assume Gaussion noise components.</p>
+<p>However, if this is not the case the Kalman filter may provide very poor estimates, or it may even diverge due to severe non-linearities. One solution to this problem is to introduce what is called a Particle filter.</p>
 <p><img alt="particles" src="_images/particles.jpg" /></p>
+<p>The main idea with the Particle filter is to overcome the two main limitations of the generic Kalman filter by tracking a large set of particles. Each particle represents a possible state vector and is propagated through the dynamic equations to produce an equal number of possible predicted states. These predicted states are then compared with the measurements and are then given a weight according to how well they fit the predicted states.</p>
+<p>Thus, the set of state vectors that fits well with the measurements are updated and propagated further, while the set that doesn’t fit will die out. Further, the covariance matrix is then reconstructed based on the current distribution of the propagated state vectors. So, what do we achieve by doing this?</p>
+<p>The Particle filter has in principle no limitiations concerning linearities nor the distribution of the noise components. It can handle any type of dynamic equation (as long as it is possible to compute it deterministically) and any type of distribution of the noise compnents. So, why do we still use the Kalman filter?</p>
+<p>The main problem with the Particle filter is that it quickly becomes computational unmanageable when the number of particles becomes large. In applications with severe non-linarities and complex distribution of noise components, one will in practice need a very large number of particles to represent these complexities and the Particle filter becomes untracktable. However, with e.g. indoor navigation applications in robotics, the Particle filter will be the workhorse to deal with the severe non-linearities that arises in this case.</p>
+<div class="section" id="unscented-kalman-filter-ukf">
+<h2>Unscented Kalman Filter (UKF)<a class="headerlink" href="#unscented-kalman-filter-ukf" title="Permalink to this headline">¶</a></h2>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
@@ -279,7 +315,7 @@ const thebe_selector_output = ".output, .cell_output"
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Kalman Filter</p>
+            <p class="prev-next-title">Intuitive idea</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="07-Sensor%20Fusion.html" title="next page">

@@ -1,19 +1,189 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# (Kalman:kalman)=
-# # Kalman Filter
-# The Kalman Filter origins from the work of Norbert Wiener's in the 1940s {cite}`wiener1949`. The central problem to his works was the separation of the signal from the additive combination of signal and noise. One could say that Wiener's main contribution was the formulation of the problem in terms of minimizing the mean square error in th time domain - as opposed to the frequency domain which was the dominating approach at the time.
+# ## Intuitive idea
+# Let's make a simple thought experiment. Assume two persons sitting in a boat that floats freely on the ocean. At one point in time both persons measures the boats position.
 # 
-# In the 1960 Rudolf Emil Kalman considerred the same problem as Wiener. In his famous paper {cite}`kalman1960` he introduced the discrete formulation together with the state-space notation in the time domain which gained imediate popularity empowered by the advances in computer technology at the time. The Kalman Filter was early adopted by the navigation community, and is today regarded as the main workhorse for the vast majority of navigation applications.
+# Let's assume the first person measure the position to be $z_1$ with a corresponding variance $\sigma_{z_1}^2$. What is the best estimate of the boats position?
 # 
-# So, what is a Kalman Filter?
+# If we only use this measurement, we get the following estimate of the boats position and variance.
 # 
-# ![navigation](fig/navigation.jpg)
+# $$
+# \begin{align}
+#   \hat{x}_1 =& z_1\\
+#   \hat{\sigma}_{x_1}^2 =& \sigma_{z_1}^2\\
+# \end{align}
+# $$
 # 
-# ```{note}
-# A Kalman Filter is an recursive algorithm that provides estimates of a state vector as a weighted sum of the forward propagation of the previous state vector, and the current measurements.
+# Then the second person measures the position to be $z_2$ with a corresponding variance $\sigma_{z_2}^2$. What is the best estimate of the boats position now?
+# 
+# If we chose to make use of both measurements, we can combine them in the following way:
+# 
+# $$
+# \begin{align}
+#   \hat{x}_2 =& \hat{x}_1 + K(z_2 - \hat{x}_1)\\
+#   \hat{\sigma}_{x_2} =& K \sigma_{z_2}^2\\
+# \end{align}
+# $$
+# 
+# , where $K = \frac{\hat{\sigma}_{x_1}^2}{\hat{\sigma}_{x_1}^2 + \sigma_{z_2}^2}$. This value is also called *gain*, and it weights the contribution of the new measurement to the existing estimate of the position.
+# 
+# Assume both persons measure the position with the same precision, i.e. $\sigma_{z_1}^2 = \sigma_{z_2}^2$. In this particular case we get $K = \frac{1}{2}$. We can then write:
+# 
+# $$
+# \begin{align}
+#   \hat{x}_2 =& \hat{x}_1 + \frac{1}{2}(z_2 - \hat{x}_1) = \frac{1}{2}(z_1 + z_2)\\
+#   \hat{\sigma}_{x_2} =& \frac{1}{2} \sigma_{z_2}^2 = \frac{\sigma_{z_2}^2}{2}\\
+# \end{align}
+# $$
+# 
+# This we immediately recognize as the *mean value* of both measurements - a result that intuitively sounds reasonable.
+# 
+# However, the difference between the two persons measurements isn't just due to measurement errors alone, but will also be due to the motion of the boat itself. So, a Kalman filter will in addition to this *measurement model* also include a *dynamic model* that describes the boats motions while floating (e.g. a small rubber boat will have a very different motion than a large ship).
+
+# ### Example 5.3
+# But what happens if we do not have a laser scanner, but the only sensor is a speedometer? Can we still get estimates of both position and velocity? Let's assume the same dynamic model as in the previous example, but this time with only a speedometer available.
+# 
+# ```{figure} fig/speed.png
+# :name: speedometer
+# 
 # ```
+# 
+# The dynamic model will is the same as before, but we write it again here for completness.
+# 
+# $$
+# \begin{bmatrix}
+#   \dot{x}\\
+#   \ddot{x}\\
+# \end{bmatrix}
+# =
+# \begin{bmatrix}
+#   0 &1\\
+#   0 &0\\
+# \end{bmatrix}
+# \begin{bmatrix}
+#   x\\
+#   \dot{x}\\
+# \end{bmatrix}
+# +
+# \begin{bmatrix}
+#   0\\
+#   \sqrt{q_v}\\
+# \end{bmatrix}
+# u
+# $$
+# 
+# Since the only measurements involved are the velocity measurements from the speedometer, the measurement model can be written like this.
+# 
+# $$
+# \begin{bmatrix}
+#   z
+# \end{bmatrix}
+# =
+# \begin{bmatrix}
+#   0 &1\\
+# \end{bmatrix}
+# \begin{bmatrix}
+#   x\\
+#   \dot{x}\\
+# \end{bmatrix}
+# +
+# \begin{bmatrix}
+#   v
+# \end{bmatrix}
+# $$
+
+# ## Intuitive idea
+# Let's make a simple thought experiment. Assume two persons sitting in a boat that floats freely on the ocean. At one point in time both persons measures the boats position.
+# 
+# Let's assume the first person measure the position to be $z_1$ with a corresponding variance $\sigma_{z_1}^2$. What is the best estimate of the boats position?
+# 
+# If we only use this measurement, we get the following estimate of the boats position and variance.
+# 
+# $$
+# \begin{align}
+#   \hat{x}_1 =& z_1\\
+#   \hat{\sigma}_{x_1}^2 =& \sigma_{z_1}^2\\
+# \end{align}
+# $$
+# 
+# Then the second person measures the position to be $z_2$ with a corresponding variance $\sigma_{z_2}^2$. What is the best estimate of the boats position now?
+# 
+# If we chose to make use of both measurements, we can combine them in the following way:
+# 
+# $$
+# \begin{align}
+#   \hat{x}_2 =& \hat{x}_1 + K(z_2 - \hat{x}_1)\\
+#   \hat{\sigma}_{x_2} =& K \sigma_{z_2}^2\\
+# \end{align}
+# $$
+# 
+# , where $K = \frac{\hat{\sigma}_{x_1}^2}{\hat{\sigma}_{x_1}^2 + \sigma_{z_2}^2}$. This value is also called *gain*, and it weights the contribution of the new measurement to the existing estimate of the position.
+# 
+# Assume both persons measure the position with the same precision, i.e. $\sigma_{z_1}^2 = \sigma_{z_2}^2$. In this particular case we get $K = \frac{1}{2}$. We can then write:
+# 
+# $$
+# \begin{align}
+#   \hat{x}_2 =& \hat{x}_1 + \frac{1}{2}(z_2 - \hat{x}_1) = \frac{1}{2}(z_1 + z_2)\\
+#   \hat{\sigma}_{x_2} =& \frac{1}{2} \sigma_{z_2}^2 = \frac{\sigma_{z_2}^2}{2}\\
+# \end{align}
+# $$
+# 
+# This we immediately recognize as the *mean value* of both measurements - a result that intuitively sounds reasonable.
+# 
+# However, the difference between the two persons measurements isn't just due to measurement errors alone, but will also be due to the motion of the boat itself. So, a Kalman filter will in addition to this *measurement model* also include a *dynamic model* that describes the boats motions while floating (e.g. a small rubber boat will have a very different motion than a large ship).
+
+# ### Example 5.3
+# But what happens if we do not have a laser scanner, but the only sensor is a speedometer? Can we still get estimates of both position and velocity? Let's assume the same dynamic model as in the previous example, but this time with only a speedometer available.
+# 
+# ```{figure} fig/speed.png
+# :name: speedometer
+# 
+# ```
+# 
+# The dynamic model will is the same as before, but we write it again here for completness.
+# 
+# $$
+# \begin{bmatrix}
+#   \dot{x}\\
+#   \ddot{x}\\
+# \end{bmatrix}
+# =
+# \begin{bmatrix}
+#   0 &1\\
+#   0 &0\\
+# \end{bmatrix}
+# \begin{bmatrix}
+#   x\\
+#   \dot{x}\\
+# \end{bmatrix}
+# +
+# \begin{bmatrix}
+#   0\\
+#   \sqrt{q_v}\\
+# \end{bmatrix}
+# u
+# $$
+# 
+# Since the only measurements involved are the velocity measurements from the speedometer, the measurement model can be written like this.
+# 
+# $$
+# \begin{bmatrix}
+#   z
+# \end{bmatrix}
+# =
+# \begin{bmatrix}
+#   0 &1\\
+# \end{bmatrix}
+# \begin{bmatrix}
+#   x\\
+#   \dot{x}\\
+# \end{bmatrix}
+# +
+# \begin{bmatrix}
+#   v
+# \end{bmatrix}
+# $$
 
 # ## Dynamic equations
 # As we saw in {ref}`System:system`, we typically use a set of ordinary differential equations (ODEs) to model the physical behaviour of the system. They can be expressed through linear dynamic equations as follows:
@@ -136,7 +306,7 @@ from sympy import Symbol, Matrix, sqrt, eye, integrate
 
 # Define symbols
 dt = Symbol('\Delta t')
-qv = Symbol('q_v')
+qp = Symbol('q_p')
 
 # Dynamic matrix
 F = Matrix([[0]])
@@ -146,7 +316,7 @@ phi = eye(1) + F*dt
 display(phi)
 
 # White noise coefficients
-G = Matrix([[sqrt(qv)]])
+G = Matrix([[sqrt(qp)]])
 
 # Process noise matrix
 Q = integrate(phi@G@G.T@phi.T,  (dt, 0, dt))
@@ -156,8 +326,14 @@ display(Q)
 # In[2]:
 
 
+# Simple Kalman Filter (P-model)
+# Measurement:
+# Distance [meter]
+
 # Import
-from numpy import array
+from numpy import array, mean, var, arange, sqrt, eye, negative
+from numpy.linalg import inv
+import matplotlib.pyplot as plt
 
 # Measurements
 z = array([[51.34],
@@ -171,19 +347,6 @@ z = array([[51.34],
            [52.07],
            [50.52]])
 
-
-# In[3]:
-
-
-# Simple Kalman Filter (P-model)
-# Measurement:
-# Distance [meter]
-
-# Import
-from numpy import mean, var, arange, sqrt, eye, negative
-from numpy.linalg import inv
-import matplotlib.pyplot as plt
-
 # System values
 dt = 1                # interval [second]
 samples = len(z)      # number of samples
@@ -191,7 +354,7 @@ qp = 1e-8**2          # process noise [meter^2/second]
 rp = var(z, ddof=1)   # measurement noise [meter^2]
 
 # Initial state vector
-x0 = array([z[0]])             # position [meter]
+x0 = array([z[0]])  # position [meter]
 x = x0
 
 # Initial state covariance matrix
@@ -234,8 +397,8 @@ for k in range(0, samples):
 
 # Extract plot lists
 pos = [x[0, 0] for x in x_all]
-meas = [z[0] for z in z_all]
 sd = [sqrt(P[0, 0]) for P in P_all]
+meas = [z[0] for z in z_all]
 
 mu = x[0]
 se = sqrt(P[0, 0])
@@ -323,7 +486,7 @@ plt.show()
 # 
 # To implement our modified Kalman Filter model we need to generate a set of synthetic measurements to simulate the output from the laser scanner as the Trolley rolls on the rails.
 
-# In[4]:
+# In[3]:
 
 
 # Compute transistion matrix and process noise matrix
@@ -352,12 +515,11 @@ Q = integrate(phi@G@G.T@phi.T,  (dt, 0, dt))
 display(Q)
 
 
-# In[5]:
+# In[4]:
 
 
 # Simple Kalman Filter (PV-model)
-# Measurement:
-# Distance [meter]
+# Measurement: Distance [meter]
 
 # Import
 from numpy import array, sqrt, eye, arange
@@ -411,7 +573,7 @@ for k in range(0, samples):
     # Compute true trajectory
     xt = phi@xt + C@w
     
-    # Generate noisy measurements (distance)
+    # Generate noisy measurements
     z = H@xt + normal(0, sqrt(rp))
     
     # Time update
@@ -473,6 +635,10 @@ ax2.legend(loc='best')
 ax2.grid(True, which='both')
 plt.show()
 
+print("Error statistics:")
+print(f"Position standard deviation: {pos_sd[-1]:.3f} m")
+print(f"Velocity standard deviation: {vel_sd[-1]:.3f} m/s")
+
 
 # Note that the estimated error of the first position estimate is equal to the precision of the first distance measurement itself, while the estimated velocity error at this point is equal to the initial position error. This is due to the need of two distance measurements to provide information about the velocity, thus in this very first epoch the velocity estimate will be solely based on the dynamic model.
 
@@ -533,18 +699,23 @@ plt.show()
 # \end{bmatrix}
 # $$
 
-# In[6]:
+# In[5]:
 
 
 # Simple Kalman Filter (PV_model)
-# Measurement:
-# Velocity [meter/second]
+# Measurement: Velocity [meter/second]
+
+# Import
+from numpy import array, sqrt, eye, arange
+from numpy.random import normal
+from numpy.linalg import inv, cholesky
+import matplotlib.pyplot as plt
 
 # System values
 dt = 0.1       # interval [second]
 samples = 100  # number of samples
 qv = 0.1**2    # process noise [(meter/second)^2/second]
-rv = 0.1**2    # measurement noise [(meter/second)^2]
+rv = 0.3**2    # measurement noise [(meter/second)^2]
 
 # Initial state vector
 x0 = array([[0],    # position [meter]
@@ -571,7 +742,7 @@ C = cholesky(Q)
 H = array([[0, 1]])
 
 # Measurement covariance matrix
-R = array([[rp]])
+R = array([[rv]])
 
 # Initialize plot lists
 x_all = []; P_all = []; z_all = []
@@ -586,7 +757,7 @@ for k in range(0, samples):
     # Compute true trajectory
     xt = phi@xt + C@w
     
-    # Generate noisy measurements (distance)
+    # Generate noisy measurements
     z = H@xt + normal(0, sqrt(rv))
     
     # Time update
@@ -610,7 +781,7 @@ pos = [x[0] for x in x_all]
 vel = [x[1] for x in x_all]
 pos_sd = [sqrt(P[0, 0]) for P in P_all]
 vel_sd = [sqrt(P[1, 1]) for P in P_all]
-meas = [z[0] for z in z_all]
+meas = [z[0, 0] for z in z_all]
 
 # Time
 time = arange(0, samples)*dt
@@ -647,8 +818,197 @@ ax2.legend(loc='best')
 ax2.grid(True, which='both')
 plt.show()
 
+print("Error statistics:")
+print(f"Position standard deviation: {pos_sd[-1]:.3f} m")
+print(f"Velocity standard deviation: {vel_sd[-1]:.3f} m/s")
 
-# Note that the estimated error of the velocity decreases as more velocity measurements become available. However, the estimated position error starts with the initial position error and then increases slowly as a function of time. The reason for this is that we only have measurments of velocity, thus there is no new information available for the position and the filter is responding with a slowly increase of the estimated error due to the uncertainties on the dynamic model, i.e. the process noise.
+
+# Note that the estimated error of the velocity decreases as more velocity measurements become available. However, the estimated position error starts with the initial position error and then remains constant as a function of time. The reason for this is that we only have measurements of the velocity, thus there is no new information available for the position and the filter is then responding with a constant error that is equal to the initial position error.
+
+# ### Example 5.4
+# So, how do we then make use of both sensors, i.e. laser scanner and speedometer? Let's assume the same dynamic model as in both the previous examples, but this time with both laser scanner and speedometer available.
+# 
+# ```{figure} fig/speed.png
+# :name: speedometer
+# 
+# ```
+# 
+# Again the dynamic model is the same as before, but we write it again here for completness.
+# 
+# $$
+# \begin{bmatrix}
+#   \dot{x}\\
+#   \ddot{x}\\
+# \end{bmatrix}
+# =
+# \begin{bmatrix}
+#   0 &1\\
+#   0 &0\\
+# \end{bmatrix}
+# \begin{bmatrix}
+#   x\\
+#   \dot{x}\\
+# \end{bmatrix}
+# +
+# \begin{bmatrix}
+#   0\\
+#   \sqrt{q_v}\\
+# \end{bmatrix}
+# u
+# $$
+# 
+# Since the measurements involved are both the distance measurements from the laser scanner and the velocity measurements from the speedometer, the measurement model can be written like this.
+# 
+# $$
+# \begin{bmatrix}
+#   z_1\\
+#   z_2\\
+# \end{bmatrix}
+# =
+# \begin{bmatrix}
+#   1 &0\\
+#   0 &1\\
+# \end{bmatrix}
+# \begin{bmatrix}
+#   x\\
+#   \dot{x}\\
+# \end{bmatrix}
+# +
+# \begin{bmatrix}
+#   v_1\\
+#   v_2\\
+# \end{bmatrix}
+# $$
+
+# In[6]:
+
+
+# Simple Kalman Filter (PV_model)
+# Measurement: Position [meter] and Velocity [meter/second]
+
+# Import
+from numpy import array, sqrt, eye, arange, diag
+from numpy.random import normal
+from numpy.linalg import inv, cholesky
+import matplotlib.pyplot as plt
+
+# System values
+dt = 0.1       # interval [second]
+samples = 100  # number of samples
+qv = 0.1**2    # process noise [(meter/second)^2/second]
+rp = 0.5**2    # position measurement noise [meter^2]
+rv = 0.3**2    # velocity measurement noise [(meter/second)^2]
+
+# Initial state vector
+x0 = array([[0],    # position [meter]
+            [1]])   # velocity [meter/second]
+xt = x0; x = x0
+
+# Initial covariance matrix
+P0 = array([[10**2, 0],   # position [meter^2]
+            [0, 1**2]])   # velocity [(meter/second)^2]
+P = P0
+
+# Transition matrix
+phi = array([[1, dt],
+             [0, 1]])
+
+# Process noise
+Q = array([[1/3*qv*dt**3, 1/2*qv*dt**2],
+           [1/2*qv*dt**2, qv*dt]])
+
+# Cholesky decomposition
+C = cholesky(Q)
+
+# Design matrix
+H = eye(2)
+
+# Measurement covariance matrix
+R = diag([rp, rv])
+
+# Initialize plot lists
+x_all = []; P_all = []; z_all = []
+
+# Main loop
+for k in range(0, samples):
+    
+    # Process noise vector
+    w = array([[0],
+               [normal(0, 1)]])
+    
+    # Compute true trajectory
+    xt = phi@xt + C@w
+    
+    # Generate noisy measurements
+    z = H@xt + array([[normal(0, sqrt(rp))],
+                      [normal(0, sqrt(rv))]])
+    
+    # Time update
+    xp = phi@x
+    Pp = phi@P@phi.T + Q
+    
+    # Kalman gain
+    K = Pp@H.T@inv(H@Pp@H.T + R)
+    
+    # Measurement update
+    x = xp + K@(z - H@xp)
+    P = (eye(2) - K@H)@Pp
+    
+    # Accumulate plot vectors
+    x_all.append(x)
+    P_all.append(P)
+    z_all.append(z)
+
+# Extract plot vectors
+pos = [x[0] for x in x_all]
+vel = [x[1] for x in x_all]
+pos_sd = [sqrt(P[0, 0]) for P in P_all]
+vel_sd = [sqrt(P[1, 1]) for P in P_all]
+meas_pos = [z[0, 0] for z in z_all]
+meas_vel = [z[1, 0] for z in z_all]
+
+# Time
+time = arange(0, samples)*dt
+
+# Plot results
+fig, (ax1, ax2) = plt.subplots(2)
+fig.suptitle('System State')
+ax1.plot(time, meas_pos, 'ro', label='Measured position')
+ax1.plot(time, pos, 'g', label = 'Estimated position')
+ax1.set_ylabel('Position (meter)')
+ax1.set_ylim(0, 10)
+ax1.legend(loc='lower right')
+ax1.grid(True, which='both')
+ax2.plot(time, meas_vel, 'ro', label='Measured velocity')
+ax2.plot(time, vel, 'b', label = 'Estimated velocity')
+ax2.set_xlabel('Time (second)')
+ax2.set_ylabel('Velocity (meter/second)')
+ax2.set_ylim(0, 2)
+ax2.legend(loc='best')
+ax2.grid(True, which='both')
+plt.show()
+
+fig, (ax1, ax2) = plt.subplots(2)
+fig.suptitle('Error Analysis')
+ax1.plot(time, pos_sd, 'g', label='Position error')
+ax1.set_ylabel('Position (meter)')
+ax1.set_ylim(0, 1)
+ax1.legend(loc='best')
+ax1.grid(True, which='both')
+ax2.plot(time, vel_sd, 'b', label='Velocity error')
+ax2.set_xlabel('# of measurements')
+ax2.set_ylabel('Velocity (meter/second)')
+ax2.set_ylim(0, 1)
+ax2.legend(loc='best')
+ax2.grid(True, which='both')
+plt.show()
+
+print("Error statistics:")
+print(f"Position standard deviation: {pos_sd[-1]:.3f} m")
+print(f"Velocity standard deviation: {vel_sd[-1]:.3f} m/s")
+
+
+# Thus, when combining both the laser scanner and the speedometer we actually obtain better estimates for both position and velocity compared to either sensor alone. This seems reasonable as we now use all the information available from both sensors.
 
 # ## Joseph Form
 # In order to keep the numerical stability of the measurement update of the estimated covariance matrix $\hat P_{k}$, we normally use the so called Joseph form of the matrix equation. This form has natural symmetry and is valid for any gain, wether optimal or suboptimal. The Joseph form can be written like this.
@@ -700,7 +1060,7 @@ def numeval(F, G, dt):
     return phi, Q
 
 
-# ### Example 5.4
+# ### Example 5.5
 # In order to test the numerical evaluation of the transistion matrix $\phi_{k}$ and the process covariance matrix $Q_{k}$ we use the same basic dynamic model as in the previous example, however with slightly different system values to avoid too small numbers in the result. The comparison is still valid.
 # 
 # For completeness we compute the two matrices through both the analytical and the numerical approach.
@@ -752,7 +1112,9 @@ print(Q)
 
 # As seen above, the numerical solution from van Loan results in exactly the same transition matrix and process covariance matrix as the analytical solution that we obtained from e.g. {ref}`sysdyn:example22`
 
-# ### Example 5.5
+# ## Extended Kalman Filter (EKF)
+
+# ### Example 5.6
 # Now that we have the proper tool to provide numerical representations of the unknown tranistion matrix $\phi$ and the corresponding process noise matrix $Q$, we might try a more challenging example in order to sum up what we have been through so far.
 # 
 # These are the elements to be determined:
