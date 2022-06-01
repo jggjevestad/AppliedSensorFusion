@@ -128,7 +128,7 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="05-Kalman%20Filter.html">
-   Kalman Filter
+   Intuitive idea
   </a>
  </li>
  <li class="toctree-l1">
@@ -453,10 +453,17 @@ x = H^{-1}z
 <p>In general the standard deviation of unit weigth <span class="math notranslate nohighlight">\(\sigma_0\)</span> is not known, and it must therefore in practice be estimated from the measurements. The estimated standard deviation of unit weigth is typically denoted <span class="math notranslate nohighlight">\(s_0\)</span>.</p>
 </div>
 <p>Let us now rewrite the previous algorithm in terms of the new matrix notation. Let us from here on denote the measurement <span class="math notranslate nohighlight">\(z\)</span> as a column vector.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Eventhough it has work out well using <em>lists</em> in the previous 1D examples, from here on we need to introduce the conecpt of <em>arrays</em> in order to fully comply with the defined matrix operators and functions that are related to linear algebra.</p>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute sample mean, standard deviation and standard error (LSQ)</span>
+
+<span class="c1"># Import</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">ones</span><span class="p">,</span> <span class="n">eye</span><span class="p">,</span> <span class="n">sqrt</span>
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">inv</span>
 
 <span class="c1"># Measurements</span>
 <span class="n">z</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mf">51.34</span><span class="p">],</span>
@@ -469,21 +476,6 @@ x = H^{-1}z
            <span class="p">[</span><span class="mf">49.45</span><span class="p">],</span>
            <span class="p">[</span><span class="mf">52.07</span><span class="p">],</span>
            <span class="p">[</span><span class="mf">50.52</span><span class="p">]])</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Eventhough it has work out well using <em>lists</em> in the previous 1D examples, from here on we need to introduce the conecpt of <em>arrays</em> in order to fully comply with the defined matrix operators and functions that are related to linear algebra.</p>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute sample mean, standard deviation and standard error (LSQ)</span>
-
-<span class="c1"># Import</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ones</span><span class="p">,</span> <span class="n">eye</span><span class="p">,</span> <span class="n">sqrt</span>
-<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">inv</span>
 
 <span class="c1"># number of measurements</span>
 <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
@@ -607,9 +599,21 @@ Q_{x_2} = Q_{x_1} + \Delta Q_x
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute recursive sample mean (SLSQ)</span>
 
 <span class="c1"># Import</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">arange</span><span class="p">,</span> <span class="n">negative</span><span class="p">,</span> <span class="n">var</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">arange</span><span class="p">,</span> <span class="n">negative</span><span class="p">,</span> <span class="n">var</span>
 <span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">inv</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Measurements</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mf">51.34</span><span class="p">],</span>
+           <span class="p">[</span><span class="mf">48.17</span><span class="p">],</span>
+           <span class="p">[</span><span class="mf">49.02</span><span class="p">],</span>
+           <span class="p">[</span><span class="mf">50.97</span><span class="p">],</span>
+           <span class="p">[</span><span class="mf">51.23</span><span class="p">],</span>
+           <span class="p">[</span><span class="mf">50.72</span><span class="p">],</span>
+           <span class="p">[</span><span class="mf">48.95</span><span class="p">],</span>
+           <span class="p">[</span><span class="mf">49.45</span><span class="p">],</span>
+           <span class="p">[</span><span class="mf">52.07</span><span class="p">],</span>
+           <span class="p">[</span><span class="mf">50.52</span><span class="p">]])</span>
 
 <span class="c1"># number of measurements</span>
 <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
@@ -618,7 +622,7 @@ Q_{x_2} = Q_{x_1} + \Delta Q_x
 <span class="n">sigmaz2</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
 
 <span class="c1"># Initial state vector</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
 
 <span class="c1"># Initial cofactor matrix</span>
 <span class="n">Q</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">]])</span>
@@ -650,9 +654,9 @@ Q_{x_2} = Q_{x_1} + \Delta Q_x
     <span class="n">z_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
     <span class="n">x_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="n">Q_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
-        
+
 <span class="c1"># Extract plot lists</span>
-<span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_all</span><span class="p">]</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_all</span><span class="p">]</span>
 <span class="n">meas</span> <span class="o">=</span> <span class="p">[</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">z_all</span><span class="p">]</span>
 <span class="n">sd</span> <span class="o">=</span> <span class="p">[</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sigmaz2</span><span class="o">*</span><span class="n">Q</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">Q</span> <span class="ow">in</span> <span class="n">Q_all</span><span class="p">]</span>
 
@@ -686,7 +690,7 @@ Q_{x_2} = Q_{x_1} + \Delta Q_x
 Estimated position : 51.34 49.76 49.51 49.88 50.15 50.24 50.06 49.98 50.21 50.24
 </pre></div>
 </div>
-<img alt="_images/01-Basic Linear Algebra_11_1.png" src="_images/01-Basic Linear Algebra_11_1.png" />
+<img alt="_images/01-Basic Linear Algebra_9_1.png" src="_images/01-Basic Linear Algebra_9_1.png" />
 </div>
 </div>
 </div>

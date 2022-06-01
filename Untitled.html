@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Particle Filter &#8212; Applied Sensor Fusion</title>
+    <title>Example 5.3 &#8212; Applied Sensor Fusion</title>
     
   <link href="_static/css/theme.css" rel="stylesheet">
   <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -51,10 +51,10 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Sensor Fusion" href="07-Sensor%20Fusion.html" />
-    <link rel="prev" title="Intuitive idea" href="05-Kalman%20Filter.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -98,7 +98,7 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
 </ul>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="00-Introduction.html">
    Introduction
@@ -129,8 +129,8 @@ const thebe_selector_output = ".output, .cell_output"
    Intuitive idea
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="06-Particle%20Filter.html">
    Particle Filter
   </a>
  </li>
@@ -185,7 +185,7 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/06-Particle Filter.ipynb"><button type="button"
+        <a class="dropdown-buttons" href="_sources/Untitled.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
@@ -210,7 +210,7 @@ const thebe_selector_output = ".output, .cell_output"
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/06-Particle Filter.ipynb"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/Untitled.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="_static/images/logo_binder.svg"
@@ -227,19 +227,6 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
-            </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#unscented-kalman-filter-ukf">
-   Unscented Kalman Filter (UKF)
-  </a>
- </li>
-</ul>
-
-            </nav>
         </div>
     </div>
 </div>
@@ -247,43 +234,65 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Particle Filter</h1>
+                <h1>Example 5.3</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#unscented-kalman-filter-ukf">
-   Unscented Kalman Filter (UKF)
-  </a>
- </li>
-</ul>
-
-                        </nav>
                     </div>
                 </div>
             </div>
             
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="particle-filter">
-<h1>Particle Filter<a class="headerlink" href="#particle-filter" title="Permalink to this headline">¶</a></h1>
-<p>Even though the Kalman filter has many advantages and is the main choice for most applications, it also suffers from some limitations. There are two main limitations when it comes to the generic Kalman filter: the dynamic model and the measurement model must be linear and the noise must be Gaussian.</p>
-<p>These limitations doesn’t normally pose problems in most applications. They can be overcomed through linearization, either in the form of a <em>Linearized Kalman filter</em> that are linearized around a nominal trajectory or a <em>Extended Kalman filter</em> that are linearized around the predicted state. And in many cases it is fairly reasonable assume Gaussion noise components.</p>
-<p>However, if this is not the case the Kalman filter may provide very poor estimates, or it may even diverge due to severe non-linearities. One solution to this problem is to introduce what is called a Particle filter.</p>
-<p><img alt="particles" src="_images/particles.jpg" /></p>
-<p>The main idea with the Particle filter is to overcome the two main limitations of the generic Kalman filter by tracking a large set of particles. Each particle represents a possible state vector and is propagated through the dynamic equations to produce an equal number of possible predicted states. These predicted states are then compared with the measurements and are then given a weight according to how well they fit the predicted states.</p>
-<p>Thus, the set of state vectors that fits well with the measurements are updated and propagated further, while the set that doesn’t fit will die out. Further, the covariance matrix is then reconstructed based on the current distribution of the propagated state vectors. So, what do we achieve by doing this?</p>
-<p>The Particle filter has in principle no limitiations concerning linearities nor the distribution of the noise components. It can handle any type of dynamic equation (as long as it is possible to compute it deterministically) and any type of distribution of the noise compnents. So, why do we still use the Kalman filter?</p>
-<p>The main problem with the Particle filter is that it quickly becomes computational unmanageable when the number of particles becomes large. In applications with severe non-linarities and complex distribution of noise components, one will in practice need a very large number of particles to represent these complexities and the Particle filter becomes untracktable. However, with e.g. indoor navigation applications in robotics, the Particle filter will be the workhorse to deal with the severe non-linearities that arises in this case.</p>
-<div class="section" id="unscented-kalman-filter-ukf">
-<h2>Unscented Kalman Filter (UKF)<a class="headerlink" href="#unscented-kalman-filter-ukf" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="example-5-3">
+<h1>Example 5.3<a class="headerlink" href="#example-5-3" title="Permalink to this headline">¶</a></h1>
+<p>But what happens if we do not have a laser scanner, but the only sensor is a speedometer? Can we still get estimates of both position and velocity? Let’s assume the same dynamic model as in the previous example, but this time with only a speedometer available.</p>
+<div class="figure align-default" id="speedometer">
+<img alt="_images/speed.png" src="_images/speed.png" />
 </div>
+<p>The dynamic model will is the same as before, but we write it again here for completness.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{bmatrix}
+  \dot{x}\\
+  \ddot{x}\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  0 &amp;1\\
+  0 &amp;0\\
+\end{bmatrix}
+\begin{bmatrix}
+  x\\
+  \dot{x}\\
+\end{bmatrix}
++
+\begin{bmatrix}
+  0\\
+  \sqrt{q_v}\\
+\end{bmatrix}
+u
+\end{split}\]</div>
+<p>Since the only measurements involved are the velocity measurements from the speedometer, the measurement model can be written like this.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{bmatrix}
+  z
+\end{bmatrix}
+=
+\begin{bmatrix}
+  0 &amp;1\\
+\end{bmatrix}
+\begin{bmatrix}
+  x\\
+  \dot{x}\\
+\end{bmatrix}
++
+\begin{bmatrix}
+  v
+\end{bmatrix}
+\end{split}\]</div>
 </div>
 
     <script type="text/x-thebe-config">
@@ -310,21 +319,7 @@ const thebe_selector_output = ".output, .cell_output"
               
             
                 <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="05-Kalman%20Filter.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Intuitive idea</p>
-        </div>
-    </a>
-    <a class='right-next' id="next-link" href="07-Sensor%20Fusion.html" title="next page">
-    <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Sensor Fusion</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
+<div class='prev-next-area'>
 </div>
             
         </div>
