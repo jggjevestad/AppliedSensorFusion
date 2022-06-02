@@ -1173,7 +1173,7 @@ x = array([[-200],  # position [meter]
 xt = x
 
 # Inital state covariance matrix
-P = diag([10**2, 5**2, 5**2])
+P = diag([5**2, 1**2, 1**2])
 
 # Numerical evaluation (van Loan)
 [phi, Q] = numeval(F, G, dt)
@@ -1304,7 +1304,7 @@ plt.plot(time, hgt_est, 'g.', label='Estimated altitude')
 plt.plot(time, hgt_true, 'b', label='True altitude')
 plt.title('System State')
 plt.xlabel('Time (second)')
-plt.ylabel('Height (meter)')
+plt.ylabel('Altitude (meter)')
 plt.ylim(98, 102)
 plt.legend(loc='lower right')
 plt.grid(True, which='both')
@@ -1328,7 +1328,7 @@ plt.plot(time, hgt_err, 'b', label='True error')
 plt.plot(time, hgt_std, 'g', label='Standard Deviation')
 plt.title('Error analysis')
 plt.xlabel('Time (second)')
-plt.ylabel('Height (meter)')
+plt.ylabel('Altitude (meter)')
 plt.ylim(0, 5)
 plt.legend(loc='upper right')
 plt.grid(True, which='both')
