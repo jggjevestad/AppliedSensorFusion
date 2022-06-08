@@ -521,8 +521,9 @@ print(f"Velocity standard deviation: {vel_sd[-1]:.3f} m/s")
 # But what happens if we do not have a laser scanner, but the only sensor is a speedometer? Can we still get estimates of both position and velocity? Let's assume the same dynamic model as in the previous example, but this time with only a speedometer available.
 # 
 # ```{figure} fig/speed.png
-# :name: speedometer
+# :name: speed
 # 
+# Speedometer
 # ```
 # 
 # The dynamic model will is the same as before, but we write it again here for completness.
@@ -693,14 +694,19 @@ print(f"Position standard deviation: {pos_sd[-1]:.3f} m")
 print(f"Velocity standard deviation: {vel_sd[-1]:.3f} m/s")
 
 
-# Note that the estimated error of the velocity decreases as more velocity measurements become available. However, the estimated position error starts with the initial position error and then remains constant as a function of time. The reason for this is that we only have measurements of the velocity, thus there is no new information available for the position and the filter is then responding with a constant error that is equal to the initial position error.
+# Note that the estimated error of the velocity decreases as more velocity measurements become available. However, the estimated position error starts with the initial position error and then remains constant as a function of time.
+# 
+# The reason for this is that we only have measurements of the velocity, thus there is no new information available for the initial position and the filter is then responding with a constant error that is equal to the initial position error.
+# 
+# Thus measuring only the velocity, the position becomes *unobservable*.
 
 # ### Example 5.4
 # So, how do we then make use of both sensors, i.e. laser scanner and speedometer? Let's assume the same dynamic model as in both the previous examples, but this time with both laser scanner and speedometer available.
 # 
-# ```{figure} fig/speed.png
-# :name: speedometer
+# ```{figure} fig/laserscan_speed.png
+# :name: laserscanspeed
 # 
+# Laser scanner and speedometer
 # ```
 # 
 # Again the dynamic model is the same as before, but we write it again here for completness.
@@ -1002,7 +1008,7 @@ print(Q)
 # ```{figure} fig/drone_2d.png
 # :name: drone
 # 
-# drone 2D
+# Drone 2D
 # ```
 # 
 # The state vector is given as:
@@ -1146,11 +1152,11 @@ import matplotlib.pyplot as plt
 from vanloan.vanloan import numeval
 
 # System values
-dt = 0.05       # [second]
+dt = 0.05       # interval [second]
 samples = 800   # number of samples
 num = 3         # number of iterations (design matrix)
 r = 1**2        # measurement noise [meter^2]
-qv = 0.1**2     # process noise velocity [meter^2/second^3]
+qv = 0.3**2     # process noise velocity [meter^2/second^3]
 qh = 0.1**2     # process noise height [meter^2/second]
 
 # Dynamics matrix

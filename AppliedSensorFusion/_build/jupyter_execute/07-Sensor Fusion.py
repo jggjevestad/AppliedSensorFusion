@@ -9,7 +9,7 @@
 # 
 # Let's start with a simple example with our Trolley on rails combining two sensors, i.e. laser scanner and odometry. Eventhough these two sensors are very different in their construction, both can provide information related to position and velocity.
 # 
-# ```{figure} fig/laser_speed.png
+# ```{figure} fig/laserscan_speed.png
 # :name: laser_speed
 # 
 # Laser Scanner and Speedometer
