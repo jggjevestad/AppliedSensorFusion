@@ -939,8 +939,9 @@ Velocity standard deviation: 0.132 m/s
 <div class="section" id="example-5-3">
 <h3>Example 5.3<a class="headerlink" href="#example-5-3" title="Permalink to this headline">¶</a></h3>
 <p>But what happens if we do not have a laser scanner, but the only sensor is a speedometer? Can we still get estimates of both position and velocity? Let’s assume the same dynamic model as in the previous example, but this time with only a speedometer available.</p>
-<div class="figure align-default" id="speedometer">
+<div class="figure align-default" id="speed">
 <img alt="_images/speed.png" src="_images/speed.png" />
+<p class="caption"><span class="caption-number">Fig. 13 </span><span class="caption-text">Speedometer</span><a class="headerlink" href="#speed" title="Permalink to this image">¶</a></p>
 </div>
 <p>The dynamic model will is the same as before, but we write it again here for completness.</p>
 <div class="math notranslate nohighlight">
@@ -1118,13 +1119,16 @@ Velocity standard deviation: 0.095 m/s
 </div>
 </div>
 </div>
-<p>Note that the estimated error of the velocity decreases as more velocity measurements become available. However, the estimated position error starts with the initial position error and then remains constant as a function of time. The reason for this is that we only have measurements of the velocity, thus there is no new information available for the position and the filter is then responding with a constant error that is equal to the initial position error.</p>
+<p>Note that the estimated error of the velocity decreases as more velocity measurements become available. However, the estimated position error starts with the initial position error and then remains constant as a function of time.</p>
+<p>The reason for this is that we only have measurements of the velocity, thus there is no new information available for the initial position and the filter is then responding with a constant error that is equal to the initial position error.</p>
+<p>Thus measuring only the velocity, the position becomes <em>unobservable</em>.</p>
 </div>
 <div class="section" id="example-5-4">
 <h3>Example 5.4<a class="headerlink" href="#example-5-4" title="Permalink to this headline">¶</a></h3>
 <p>So, how do we then make use of both sensors, i.e. laser scanner and speedometer? Let’s assume the same dynamic model as in both the previous examples, but this time with both laser scanner and speedometer available.</p>
-<div class="figure align-default" id="id3">
-<img alt="_images/speed.png" src="_images/speed.png" />
+<div class="figure align-default" id="laserscanspeed">
+<img alt="_images/laserscan_speed.png" src="_images/laserscan_speed.png" />
+<p class="caption"><span class="caption-number">Fig. 14 </span><span class="caption-text">Laser scanner and speedometer</span><a class="headerlink" href="#laserscanspeed" title="Permalink to this image">¶</a></p>
 </div>
 <p>Again the dynamic model is the same as before, but we write it again here for completness.</p>
 <div class="math notranslate nohighlight">
@@ -1323,11 +1327,11 @@ Velocity standard deviation: 0.091 m/s
 </div>
 <div class="section" id="numerical-evaluation-van-loan">
 <h2>Numerical Evaluation (Van Loan)<a class="headerlink" href="#numerical-evaluation-van-loan" title="Permalink to this headline">¶</a></h2>
-<p>The previous analytical methods for computing the transition matrix <span class="math notranslate nohighlight">\(\phi_{k}\)</span> and the process covariance matrix <span class="math notranslate nohighlight">\(Q_{k}\)</span> will in practice work well only for small systems with constant parameters. However, it can be quite tricky to compute these values as the systems becomes larger. Therefore a numerical method for computing these two matrices was published by C. F. van Loan <span id="id4">[<a class="reference internal" href="Bibliography.html#id11" title="Charles Fredric van Loan. Computing integrals involving the matrix exponential. IEEE Transactions on Automatic Control, AC-23:395-404, 1978.">vL78</a>]</span> and this method serves as the standard approach to obtain the numerical solution.</p>
+<p>The previous analytical methods for computing the transition matrix <span class="math notranslate nohighlight">\(\phi_{k}\)</span> and the process covariance matrix <span class="math notranslate nohighlight">\(Q_{k}\)</span> will in practice work well only for small systems with constant parameters. However, it can be quite tricky to compute these values as the systems becomes larger. Therefore a numerical method for computing these two matrices was published by C. F. van Loan <span id="id3">[<a class="reference internal" href="Bibliography.html#id11" title="Charles Fredric van Loan. Computing integrals involving the matrix exponential. IEEE Transactions on Automatic Control, AC-23:395-404, 1978.">vL78</a>]</span> and this method serves as the standard approach to obtain the numerical solution.</p>
 <p>The van Loan method comes in these basic steps:</p>
 <div class="figure align-default" id="vanloan">
 <img alt="_images/vanloan.png" src="_images/vanloan.png" />
-<p class="caption"><span class="caption-number">Fig. 13 </span><span class="caption-text">van Loan numerical evaluation</span><a class="headerlink" href="#vanloan" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 15 </span><span class="caption-text">van Loan numerical evaluation</span><a class="headerlink" href="#vanloan" title="Permalink to this image">¶</a></p>
 </div>
 <p>An implementation of the van Loan method in Python may look as follows.</p>
 <div class="cell docutils container">
@@ -1445,7 +1449,7 @@ Velocity standard deviation: 0.091 m/s
 <p>The problem at hand is a drone flying while trying to keep approximately constant speed and altitude in a 2D coordinate frame. The distance to the drone is being measured from a laser ranging sensor at a rate of 1Hz. The laser ranging sensor is located in the origin of the coordinate frame.</p>
 <div class="figure align-default" id="drone">
 <img alt="_images/drone_2d.png" src="_images/drone_2d.png" />
-<p class="caption"><span class="caption-number">Fig. 14 </span><span class="caption-text">drone 2D</span><a class="headerlink" href="#drone" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 16 </span><span class="caption-text">Drone 2D</span><a class="headerlink" href="#drone" title="Permalink to this image">¶</a></p>
 </div>
 <p>The state vector is given as:</p>
 <div class="math notranslate nohighlight">
@@ -1581,11 +1585,11 @@ z = Hx + v
 <span class="kn">from</span> <span class="nn">vanloan.vanloan</span> <span class="kn">import</span> <span class="n">numeval</span>
 
 <span class="c1"># System values</span>
-<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.05</span>       <span class="c1"># [second]</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.05</span>       <span class="c1"># interval [second]</span>
 <span class="n">samples</span> <span class="o">=</span> <span class="mi">800</span>   <span class="c1"># number of samples</span>
 <span class="n">num</span> <span class="o">=</span> <span class="mi">3</span>         <span class="c1"># number of iterations (design matrix)</span>
 <span class="n">r</span> <span class="o">=</span> <span class="mi">1</span><span class="o">**</span><span class="mi">2</span>        <span class="c1"># measurement noise [meter^2]</span>
-<span class="n">qv</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">**</span><span class="mi">2</span>     <span class="c1"># process noise velocity [meter^2/second^3]</span>
+<span class="n">qv</span> <span class="o">=</span> <span class="mf">0.3</span><span class="o">**</span><span class="mi">2</span>     <span class="c1"># process noise velocity [meter^2/second^3]</span>
 <span class="n">qh</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">**</span><span class="mi">2</span>     <span class="c1"># process noise height [meter^2/second]</span>
 
 <span class="c1"># Dynamics matrix</span>
