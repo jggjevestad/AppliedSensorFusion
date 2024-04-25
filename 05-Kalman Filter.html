@@ -1,436 +1,387 @@
 
+
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" data-content_root="" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
     <title>Kalman Filter &#8212; Applied Sensor Fusion</title>
-    
-  <link href="_static/css/theme.css" rel="stylesheet">
-  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
-    
-  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="_static/togglebutton.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '05-Kalman Filter';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Particle Filter" href="06-Particle%20Filter.html" />
     <link rel="prev" title="Bayes Filter" href="04-Bayes%20Filter.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
 
-    <div class="container-xl">
-      <div class="row">
-          
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="index.html">
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
         
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="Intro.html">
+  
+  
+  
+  
+  
+    
+    
       
-      
-      <img src="_static/logo.png" class="logo" alt="logo">
-      
-      
-      <h1 class="site-logo" id="site-title">Applied Sensor Fusion</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="Intro.html">
-   Scope of This Book
-  </a>
- </li>
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Applied Sensor Fusion - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Applied Sensor Fusion - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="Intro.html">
+                    Scope of This Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00-Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-Basic%20Linear%20Algebra.html">Basic Linear Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-System%20Dynamics.html">System Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-Measurements.html">Measurements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-Bayes%20Filter.html">Bayes Filter</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Kalman Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-Particle%20Filter.html">Particle Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-Sensor%20Fusion.html">Sensor Fusion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Bibliography.html">Bibliography</a></li>
 </ul>
-<ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="00-Introduction.html">
-   Introduction
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="01-Basic%20Linear%20Algebra.html">
-   Basic Linear Algebra
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="02-System%20Dynamics.html">
-   System Dynamics
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="03-Measurements.html">
-   Measurements
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="04-Bayes%20Filter.html">
-   Bayes Filter
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Kalman Filter
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="06-Particle%20Filter.html">
-   Particle Filter
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="07-Sensor%20Fusion.html">
-   Sensor Fusion
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Bibliography.html">
-   Bibliography
-  </a>
- </li>
-</ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/05-Kalman Filter.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+</nav></div>
     </div>
-</div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
 
-            <!-- Source interaction buttons -->
 
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/05-Kalman Filter.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
+      </div>
+      
+      <main id="main-content" class="bd-main">
         
         
-        
-        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
     </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/05-Kalman Filter.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
 </div>
 
-        </div>
 
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Kalman Filter</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
             
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div>
+                <h2> Contents </h2>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
+            <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#intuitive-idea">
-   Intuitive idea
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#dynamic-equations">
-   Dynamic equations
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#discrete-kalman-filter">
-   Discrete Kalman Filter
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#example-5-1">
-     Example 5.1
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#example-5-2">
-     Example 5.2
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#state-estimation">
-   State Estimation
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#example-5-3">
-     Example 5.3
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#example-5-4">
-     Example 5.4
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#joseph-form">
-   Joseph Form
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#numerical-evaluation-van-loan">
-   Numerical Evaluation (Van Loan)
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#example-5-5">
-     Example 5.5
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#extended-kalman-filter-ekf">
-   Extended Kalman Filter (EKF)
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#example-5-6">
-     Example 5.6
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#summary">
-   Summary
-  </a>
- </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intuitive-idea">Intuitive idea</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-equations">Dynamic equations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete-kalman-filter">Discrete Kalman Filter</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-5-1">Example 5.1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-5-2">Example 5.2</a></li>
 </ul>
-
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#state-estimation">State Estimation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-5-3">Example 5.3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-5-4">Example 5.4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#joseph-form">Joseph Form</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-evaluation-van-loan">Numerical Evaluation (Van Loan)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-5-5">Example 5.5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extended-kalman-filter-ekf">Extended Kalman Filter (EKF)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-5-6">Example 5.6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
             </nav>
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Kalman Filter</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#intuitive-idea">
-   Intuitive idea
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#dynamic-equations">
-   Dynamic equations
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#discrete-kalman-filter">
-   Discrete Kalman Filter
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#example-5-1">
-     Example 5.1
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#example-5-2">
-     Example 5.2
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#state-estimation">
-   State Estimation
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#example-5-3">
-     Example 5.3
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#example-5-4">
-     Example 5.4
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#joseph-form">
-   Joseph Form
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#numerical-evaluation-van-loan">
-   Numerical Evaluation (Van Loan)
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#example-5-5">
-     Example 5.5
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#extended-kalman-filter-ekf">
-   Extended Kalman Filter (EKF)
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#example-5-6">
-     Example 5.6
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#summary">
-   Summary
-  </a>
- </li>
-</ul>
 
-                        </nav>
-                    </div>
-                </div>
-            </div>
-            
-              <div>
+              
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="kalman-filter">
-<span id="kalman-kalman"></span><h1>Kalman Filter<a class="headerlink" href="#kalman-filter" title="Permalink to this headline">¶</a></h1>
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="kalman-filter">
+<span id="kalman-kalman"></span><h1>Kalman Filter<a class="headerlink" href="#kalman-filter" title="Permalink to this heading">#</a></h1>
 <p>The Kalman Filter origins from the work of Norbert Wiener’s in the 1940s <span id="id1">[<a class="reference internal" href="Bibliography.html#id9" title="Norbert Wiener. Extrapolation, Interpolation, and Smoothing of Stationary Time Series. Wiley, New York, NY, 1949.">Wie49</a>]</span>. The central problem to his works was the separation of the signal from the additive combination of signal and noise. One could say that Wiener’s main contribution was the formulation of the problem in terms of minimizing the mean square error in th time domain - as opposed to the frequency domain which was the dominating approach at the time.</p>
 <p>In the 1960 Rudolf Emil Kalman considerred the same problem as Wiener. In his famous paper <span id="id2">[<a class="reference internal" href="Bibliography.html#id3" title="Rudolph Emil Kalman. A new approach to linear filtering and prediction problems. Transactions of the ASME–Journal of Basic Engineering, 82(Series D):35–45, 1960.">Kal60</a>]</span> he introduced the discrete formulation together with the state-space notation in the time domain which gained imediate popularity empowered by the advances in computer technology at the time. The Kalman Filter was early adopted by the navigation community, and is today regarded as the main workhorse for the vast majority of navigation applications.</p>
 <p>So, what is a Kalman Filter?</p>
-<p><img alt="navigation" src="_images/navigation.jpg" /></p>
+<p><img alt="navigation" src="fig/navigation.jpg" /></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>A Kalman Filter is an recursive algorithm that provides estimates of a state vector as a weighted sum of the forward propagation of the previous state vector, and the current measurements.</p>
 </div>
-<div class="section" id="intuitive-idea">
-<h2>Intuitive idea<a class="headerlink" href="#intuitive-idea" title="Permalink to this headline">¶</a></h2>
+<section id="intuitive-idea">
+<h2>Intuitive idea<a class="headerlink" href="#intuitive-idea" title="Permalink to this heading">#</a></h2>
 <p>Let’s make a simple thought experiment. Assume two persons sitting in a boat that floats freely on the ocean. At one point in time both persons measures the boats position.</p>
 <p>Let’s assume the first person measure the position to be <span class="math notranslate nohighlight">\(z_1\)</span> with a corresponding variance <span class="math notranslate nohighlight">\(\sigma_{z_1}^2\)</span>. What is the best estimate of the boats position?</p>
 <p>If we only use this measurement, we get the following estimate of the boats position and variance.</p>
@@ -461,9 +412,9 @@ const thebe_selector_output = ".output, .cell_output"
 \end{split}\]</div>
 <p>This we immediately recognize as the <em>mean value</em> of both measurements - a result that intuitively sounds reasonable.</p>
 <p>However, the difference between the two persons measurements isn’t just due to measurement errors alone, but will also be due to the motion of the boat itself. So, a Kalman filter will in addition to this <em>measurement model</em> also include a <em>dynamic model</em> that describes the boats motions while floating (e.g. a small rubber boat will have a very different motion than a large ship).</p>
-</div>
-<div class="section" id="dynamic-equations">
-<h2>Dynamic equations<a class="headerlink" href="#dynamic-equations" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="dynamic-equations">
+<h2>Dynamic equations<a class="headerlink" href="#dynamic-equations" title="Permalink to this heading">#</a></h2>
 <p>As we saw in <a class="reference internal" href="02-System%20Dynamics.html#system-system"><span class="std std-ref">System Dynamics</span></a>, we typically use a set of ordinary differential equations (ODEs) to model the physical behaviour of the system. They can be expressed through linear dynamic equations as follows:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -477,16 +428,18 @@ const thebe_selector_output = ".output, .cell_output"
   Q_k =&amp; \int_{t_k}^{t_{k+1}} \phi(t_{k+1}, \epsilon) G(\epsilon) G^T(\epsilon) \phi^T(t_{k+1}, \epsilon) d\epsilon\\
 \end{align}
 \end{split}\]</div>
-</div>
-<div class="section" id="discrete-kalman-filter">
-<h2>Discrete Kalman Filter<a class="headerlink" href="#discrete-kalman-filter" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="discrete-kalman-filter">
+<h2>Discrete Kalman Filter<a class="headerlink" href="#discrete-kalman-filter" title="Permalink to this heading">#</a></h2>
 <p>So, the two main components of a Kalman Filter are the <em>dynamic model</em> and the <em>measurement model</em>. The first one models the dynamic behaviour of the platform through a set of differential equations, while the latter provides the connection between the available measurements and the elements of the state vector.</p>
 <p>Note that if either the dynamic equations or the measurement equations are non-linear, they have to be linearized first in order to fit the general linear Kalman Filter equations. This linearization step introduces the need to establish <em>preliminary values</em> to the unknowns.</p>
 <p>Since the Kalman Filter are derived from the <a class="reference internal" href="04-Bayes%20Filter.html#bayes-bayes"><span class="std std-ref">Bayes Filter</span></a> it also will consist of a <em>correction step</em> and a <em>prediction step</em>. These two components forms what is known as the <em>discrete Kalman Filter loop</em>.</p>
-<div class="figure align-default" id="kf-loop">
+<figure class="align-default" id="kf-loop">
 <img alt="_images/kf_loop.png" src="_images/kf_loop.png" />
-<p class="caption"><span class="caption-number">Fig. 10 </span><span class="caption-text">Kalman Filter loop</span><a class="headerlink" href="#kf-loop" title="Permalink to this image">¶</a></p>
-</div>
+<figcaption>
+<p><span class="caption-number">Fig. 10 </span><span class="caption-text">Kalman Filter loop</span><a class="headerlink" href="#kf-loop" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p><em>Predict:</em></p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -504,13 +457,15 @@ const thebe_selector_output = ".output, .cell_output"
   \hat P_{k}=&amp;(I-K_{k}H_{k}) \tilde P_{k}\\
 \end{align}
 \end{split}\]</div>
-<div class="section" id="example-5-1">
-<h3>Example 5.1<a class="headerlink" href="#example-5-1" title="Permalink to this headline">¶</a></h3>
+<section id="example-5-1">
+<h3>Example 5.1<a class="headerlink" href="#example-5-1" title="Permalink to this heading">#</a></h3>
 <p>Let’s revisit our well known Trolley on rails and use this as our very first example of a simple Kalman Filter implementation. As before, the Trolley is equipped with a laser scanner that continously measures the distance to a wall.</p>
-<div class="figure align-default" id="laserscan2">
+<figure class="align-default" id="laserscan2">
 <img alt="_images/laserscan.png" src="_images/laserscan.png" />
-<p class="caption"><span class="caption-number">Fig. 11 </span><span class="caption-text">Laser scanner</span><a class="headerlink" href="#laserscan2" title="Permalink to this image">¶</a></p>
-</div>
+<figcaption>
+<p><span class="caption-number">Fig. 11 </span><span class="caption-text">Laser scanner</span><a class="headerlink" href="#laserscan2" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p>Assume that the trolley is at rest and not moving. This is not very exiting example for the Kalman filter, however it might be a useful start to see how it deals with measurements from a stationary platform. In this particular example we use the first measurement as our initial value. Thus, the initial state vector becomes:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -702,18 +657,20 @@ u
 Estimated position : 51.34 49.76 49.51 49.88 50.15 50.24 50.06 49.98 50.21 50.24
 </pre></div>
 </div>
-<img alt="_images/05-Kalman Filter_6_1.png" src="_images/05-Kalman Filter_6_1.png" />
+<img alt="_images/04a43fe5bd4724cfd803f249b6849fdce517a390e9401318a03cad7d95320a35.png" src="_images/04a43fe5bd4724cfd803f249b6849fdce517a390e9401318a03cad7d95320a35.png" />
 </div>
 </div>
 <p>Note that the Kalman Filter in this simple example, were we are estimating a constant, actually reproduces our previous results from <a class="reference internal" href="00-Introduction.html#intro-mean-and-variance"><span class="std std-ref">Mean and Variance</span></a> where we computed the recursive mean value. This might build us some trust in that the Kalman Filter treats the information in the very same way, i.e. it is optimal in the sense of <em>minimum variance</em>.</p>
-</div>
-<div class="section" id="example-5-2">
-<h3>Example 5.2<a class="headerlink" href="#example-5-2" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="example-5-2">
+<h3>Example 5.2<a class="headerlink" href="#example-5-2" title="Permalink to this heading">#</a></h3>
 <p>To make the Kalman Filter really come into play, we need to allow for some movement of the Trolley. Assume we give the Trolley a slight push so that it starts rolling on the rails. To allow for this in the Kalman Filter, we must modify the dynamic model to take not only the position into account, but also the velocity.</p>
-<div class="figure align-default" id="laserscan3">
+<figure class="align-default" id="laserscan3">
 <img alt="_images/laserscan.png" src="_images/laserscan.png" />
-<p class="caption"><span class="caption-number">Fig. 12 </span><span class="caption-text">Laser scanner</span><a class="headerlink" href="#laserscan3" title="Permalink to this image">¶</a></p>
-</div>
+<figcaption>
+<p><span class="caption-number">Fig. 12 </span><span class="caption-text">Laser scanner</span><a class="headerlink" href="#laserscan3" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p>The dynamic model will then look like this.</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -920,8 +877,8 @@ u
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05-Kalman Filter_10_0.png" src="_images/05-Kalman Filter_10_0.png" />
-<img alt="_images/05-Kalman Filter_10_1.png" src="_images/05-Kalman Filter_10_1.png" />
+<img alt="_images/a1ac0ff63fdd25865d93638800f675bbd98c5bdfadd342b3b4e70323ac4d2ade.png" src="_images/a1ac0ff63fdd25865d93638800f675bbd98c5bdfadd342b3b4e70323ac4d2ade.png" />
+<img alt="_images/b4b1bb1f1bf6a842faaa8e4445835127fd0b0a9ef8ff56943d90dc2133ef9bb1.png" src="_images/b4b1bb1f1bf6a842faaa8e4445835127fd0b0a9ef8ff56943d90dc2133ef9bb1.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Error statistics:
 Position standard deviation: 0.163 m
 Velocity standard deviation: 0.132 m/s
@@ -930,19 +887,21 @@ Velocity standard deviation: 0.132 m/s
 </div>
 </div>
 <p>Note that the estimated error of the first position estimate is equal to the precision of the first distance measurement itself, while the estimated velocity error at this point is equal to the initial position error. This is due to the need of two distance measurements to provide information about the velocity, thus in this very first epoch the velocity estimate will be solely based on the dynamic model.</p>
-</div>
-</div>
-<div class="section" id="state-estimation">
-<h2>State Estimation<a class="headerlink" href="#state-estimation" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="state-estimation">
+<h2>State Estimation<a class="headerlink" href="#state-estimation" title="Permalink to this heading">#</a></h2>
 <p>As we have seen, the Kalman Filter provides estimates of the current state vector as a weighted balance between the dynamic model and the measurement model. One of the main properties of the filter is that it is capable of providing estimates of the complete state vector even if there is not measurements available for all the individual elements.</p>
 <p>This is a very important property of the Kalman Filter and we will illustrate this through a simple example. In the example above, we measured distances with a laser scanner and obtained fairly good estimates of both position and velocity eventhough we have no sensor that measures velocity. The velocity estimate is obtained thanks to the dynamic model that links the two quantities through the system of ODEs.</p>
-<div class="section" id="example-5-3">
-<h3>Example 5.3<a class="headerlink" href="#example-5-3" title="Permalink to this headline">¶</a></h3>
+<section id="example-5-3">
+<h3>Example 5.3<a class="headerlink" href="#example-5-3" title="Permalink to this heading">#</a></h3>
 <p>But what happens if we do not have a laser scanner, but the only sensor is a speedometer? Can we still get estimates of both position and velocity? Let’s assume the same dynamic model as in the previous example, but this time with only a speedometer available.</p>
-<div class="figure align-default" id="speed">
+<figure class="align-default" id="speed">
 <img alt="_images/speed.png" src="_images/speed.png" />
-<p class="caption"><span class="caption-number">Fig. 13 </span><span class="caption-text">Speedometer</span><a class="headerlink" href="#speed" title="Permalink to this image">¶</a></p>
-</div>
+<figcaption>
+<p><span class="caption-number">Fig. 13 </span><span class="caption-text">Speedometer</span><a class="headerlink" href="#speed" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p>The dynamic model will is the same as before, but we write it again here for completness.</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -1110,8 +1069,8 @@ u
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05-Kalman Filter_14_0.png" src="_images/05-Kalman Filter_14_0.png" />
-<img alt="_images/05-Kalman Filter_14_1.png" src="_images/05-Kalman Filter_14_1.png" />
+<img alt="_images/9572758c7ef08800694daaf996c390bd7d174ab66a0219ba82892dde9e35efef.png" src="_images/9572758c7ef08800694daaf996c390bd7d174ab66a0219ba82892dde9e35efef.png" />
+<img alt="_images/30285f89f754fea5903eee3d6cf77838d9469abefe9f968f393d913a5854e99c.png" src="_images/30285f89f754fea5903eee3d6cf77838d9469abefe9f968f393d913a5854e99c.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Error statistics:
 Position standard deviation: 10.005 m
 Velocity standard deviation: 0.095 m/s
@@ -1122,14 +1081,16 @@ Velocity standard deviation: 0.095 m/s
 <p>Note that the estimated error of the velocity decreases as more velocity measurements become available. However, the estimated position error starts with the initial position error and then remains constant as a function of time.</p>
 <p>The reason for this is that we only have measurements of the velocity, thus there is no new information available for the initial position and the filter is then responding with a constant error that is equal to the initial position error.</p>
 <p>Thus measuring only the velocity, the position becomes <em>unobservable</em>.</p>
-</div>
-<div class="section" id="example-5-4">
-<h3>Example 5.4<a class="headerlink" href="#example-5-4" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="example-5-4">
+<h3>Example 5.4<a class="headerlink" href="#example-5-4" title="Permalink to this heading">#</a></h3>
 <p>So, how do we then make use of both sensors, i.e. laser scanner and speedometer? Let’s assume the same dynamic model as in both the previous examples, but this time with both laser scanner and speedometer available.</p>
-<div class="figure align-default" id="laserscanspeed">
+<figure class="align-default" id="laserscanspeed">
 <img alt="_images/laserscan_speed.png" src="_images/laserscan_speed.png" />
-<p class="caption"><span class="caption-number">Fig. 14 </span><span class="caption-text">Laser scanner and speedometer</span><a class="headerlink" href="#laserscanspeed" title="Permalink to this image">¶</a></p>
-</div>
+<figcaption>
+<p><span class="caption-number">Fig. 14 </span><span class="caption-text">Laser scanner and speedometer</span><a class="headerlink" href="#laserscanspeed" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p>Again the dynamic model is the same as before, but we write it again here for completness.</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -1304,8 +1265,8 @@ u
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05-Kalman Filter_17_0.png" src="_images/05-Kalman Filter_17_0.png" />
-<img alt="_images/05-Kalman Filter_17_1.png" src="_images/05-Kalman Filter_17_1.png" />
+<img alt="_images/c93ec67fc99acd9a3555f9e2362888705e389b34f74685f9535151696947fc03.png" src="_images/c93ec67fc99acd9a3555f9e2362888705e389b34f74685f9535151696947fc03.png" />
+<img alt="_images/dd2ad59ad076df10f506ac733eacf1dc93edac6496431c23114ee074e766f793.png" src="_images/dd2ad59ad076df10f506ac733eacf1dc93edac6496431c23114ee074e766f793.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Error statistics:
 Position standard deviation: 0.116 m
 Velocity standard deviation: 0.091 m/s
@@ -1314,25 +1275,27 @@ Velocity standard deviation: 0.091 m/s
 </div>
 </div>
 <p>Thus, when combining both the laser scanner and the speedometer we actually obtain better estimates for both position and velocity compared to either sensor alone. This seems reasonable as we now use all the information available from both sensors.</p>
-</div>
-</div>
-<div class="section" id="joseph-form">
-<h2>Joseph Form<a class="headerlink" href="#joseph-form" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="joseph-form">
+<h2>Joseph Form<a class="headerlink" href="#joseph-form" title="Permalink to this heading">#</a></h2>
 <p>In order to keep the numerical stability of the measurement update of the estimated covariance matrix <span class="math notranslate nohighlight">\(\hat P_{k}\)</span>, we normally use the so called Joseph form of the matrix equation. This form has natural symmetry and is valid for any gain, wether optimal or suboptimal. The Joseph form can be written like this.</p>
 <div class="math notranslate nohighlight">
 \[
 \hat P_{k}=(I-K_{k}H_{k})\tilde P_{k}(I-K_{k}H_{k})^T+K_{k}R_{k}K_{k}^T
 \]</div>
 <p>For this reason we will therefore use the Joseph form in the measurement update step from here on.</p>
-</div>
-<div class="section" id="numerical-evaluation-van-loan">
-<h2>Numerical Evaluation (Van Loan)<a class="headerlink" href="#numerical-evaluation-van-loan" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="numerical-evaluation-van-loan">
+<h2>Numerical Evaluation (Van Loan)<a class="headerlink" href="#numerical-evaluation-van-loan" title="Permalink to this heading">#</a></h2>
 <p>The previous analytical methods for computing the transition matrix <span class="math notranslate nohighlight">\(\phi_{k}\)</span> and the process covariance matrix <span class="math notranslate nohighlight">\(Q_{k}\)</span> will in practice work well only for small systems with constant parameters. However, it can be quite tricky to compute these values as the systems becomes larger. Therefore a numerical method for computing these two matrices was published by C. F. van Loan <span id="id3">[<a class="reference internal" href="Bibliography.html#id11" title="Charles Fredric van Loan. Computing integrals involving the matrix exponential. IEEE Transactions on Automatic Control, AC-23:395-404, 1978.">vL78</a>]</span> and this method serves as the standard approach to obtain the numerical solution.</p>
 <p>The van Loan method comes in these basic steps:</p>
-<div class="figure align-default" id="vanloan">
+<figure class="align-default" id="vanloan">
 <img alt="_images/vanloan.png" src="_images/vanloan.png" />
-<p class="caption"><span class="caption-number">Fig. 15 </span><span class="caption-text">van Loan numerical evaluation</span><a class="headerlink" href="#vanloan" title="Permalink to this image">¶</a></p>
-</div>
+<figcaption>
+<p><span class="caption-number">Fig. 15 </span><span class="caption-text">van Loan numerical evaluation</span><a class="headerlink" href="#vanloan" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p>An implementation of the van Loan method in Python may look as follows.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1361,8 +1324,8 @@ Velocity standard deviation: 0.091 m/s
 </div>
 </div>
 </div>
-<div class="section" id="example-5-5">
-<h3>Example 5.5<a class="headerlink" href="#example-5-5" title="Permalink to this headline">¶</a></h3>
+<section id="example-5-5">
+<h3>Example 5.5<a class="headerlink" href="#example-5-5" title="Permalink to this heading">#</a></h3>
 <p>In order to test the numerical evaluation of the transistion matrix <span class="math notranslate nohighlight">\(\phi_{k}\)</span> and the process covariance matrix <span class="math notranslate nohighlight">\(Q_{k}\)</span> we use the same basic dynamic model as in the previous example, however with slightly different system values to avoid too small numbers in the result. The comparison is still valid.</p>
 <p>For completeness we compute the two matrices through both the analytical and the numerical approach.</p>
 <div class="cell docutils container">
@@ -1429,15 +1392,15 @@ Velocity standard deviation: 0.091 m/s
 </div>
 </div>
 <p>As seen above, the numerical solution from van Loan results in exactly the same transition matrix and process covariance matrix as the analytical solution that we obtained from e.g. <a class="reference internal" href="02-System%20Dynamics.html#sysdyn-example22"><span class="std std-ref">Example 2.2</span></a></p>
-</div>
-</div>
-<div class="section" id="extended-kalman-filter-ekf">
-<h2>Extended Kalman Filter (EKF)<a class="headerlink" href="#extended-kalman-filter-ekf" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="example-5-6">
-<h3>Example 5.6<a class="headerlink" href="#example-5-6" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="extended-kalman-filter-ekf">
+<h2>Extended Kalman Filter (EKF)<a class="headerlink" href="#extended-kalman-filter-ekf" title="Permalink to this heading">#</a></h2>
+<section id="example-5-6">
+<h3>Example 5.6<a class="headerlink" href="#example-5-6" title="Permalink to this heading">#</a></h3>
 <p>Now that we have the proper tool to provide numerical representations of the unknown tranistion matrix <span class="math notranslate nohighlight">\(\phi\)</span> and the corresponding process noise matrix <span class="math notranslate nohighlight">\(Q\)</span>, we might try a more challenging example in order to sum up what we have been through so far.</p>
 <p>These are the elements to be determined:</p>
-<ol class="simple">
+<ol class="arabic simple">
 <li><p>State vector</p></li>
 <li><p>Dynamic model</p></li>
 <li><p>Transition matrix</p></li>
@@ -1447,10 +1410,12 @@ Velocity standard deviation: 0.091 m/s
 <li><p>Inital values</p></li>
 </ol>
 <p>The problem at hand is a drone flying while trying to keep approximately constant speed and altitude in a 2D coordinate frame. The distance to the drone is being measured from a laser ranging sensor at a rate of 1Hz. The laser ranging sensor is located in the origin of the coordinate frame.</p>
-<div class="figure align-default" id="drone">
+<figure class="align-default" id="drone">
 <img alt="_images/drone_2d.png" src="_images/drone_2d.png" />
-<p class="caption"><span class="caption-number">Fig. 16 </span><span class="caption-text">Drone 2D</span><a class="headerlink" href="#drone" title="Permalink to this image">¶</a></p>
-</div>
+<figcaption>
+<p><span class="caption-number">Fig. 16 </span><span class="caption-text">Drone 2D</span><a class="headerlink" href="#drone" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p>The state vector is given as:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -1776,19 +1741,25 @@ z = Hx + v
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/05-Kalman Filter_31_0.png" src="_images/05-Kalman Filter_31_0.png" />
-<img alt="_images/05-Kalman Filter_31_1.png" src="_images/05-Kalman Filter_31_1.png" />
-<img alt="_images/05-Kalman Filter_31_2.png" src="_images/05-Kalman Filter_31_2.png" />
-<img alt="_images/05-Kalman Filter_31_3.png" src="_images/05-Kalman Filter_31_3.png" />
-<img alt="_images/05-Kalman Filter_31_4.png" src="_images/05-Kalman Filter_31_4.png" />
-<img alt="_images/05-Kalman Filter_31_5.png" src="_images/05-Kalman Filter_31_5.png" />
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span> <span class="n">line</span> <span class="mi">10</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">inv</span><span class="p">,</span> <span class="n">norm</span><span class="p">,</span> <span class="n">cholesky</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="ne">---&gt; </span><span class="mi">10</span> <span class="kn">from</span> <span class="nn">vanloan.vanloan</span> <span class="kn">import</span> <span class="n">numeval</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="c1"># System values</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="n">dt</span> <span class="o">=</span> <span class="mf">0.05</span>       <span class="c1"># interval [second]</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;vanloan&#39;
+</pre></div>
+</div>
 </div>
 </div>
 <p>Note the change in the estimated error around <span class="math notranslate nohighlight">\(t=20s\)</span>. The reason for this phenomenon is that the geometry of the measured range doesn’t provide any information for the position/velocity as the drone is almost directly above the ranging sensor at this point in time.</p>
-</div>
-</div>
-<div class="section" id="summary">
-<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h2>
 <p><em>Prediction:</em></p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -1806,8 +1777,8 @@ z = Hx + v
   \hat P_{k}=&amp;(I-K_{k}H_{k})\tilde P_{k}(I-K_{k}H_{k})^T+K_{k}R_{k}K_{k}^T\\
 \end{align}
 \end{split}\]</div>
-</div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1821,7 +1792,7 @@ z = Hx + v
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./."
         },
         predefinedOutput: true
@@ -1829,44 +1800,124 @@ z = Hx + v
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
+                </article>
               
-            
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="04-Bayes%20Filter.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Bayes Filter</p>
-        </div>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="04-Bayes%20Filter.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Bayes Filter</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="06-Particle%20Filter.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="06-Particle%20Filter.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title">Particle Filter</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
+                </footer>
+              
+            </div>
             
-        </div>
-    </div>
-    <footer class="footer">
-  <p>
-    
-      By Jon Glenn Gjevestad<br/>
-    
-        &copy; Copyright 2021.<br/>
-  </p>
-</footer>
-</main>
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
-      </div>
-    </div>
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intuitive-idea">Intuitive idea</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-equations">Dynamic equations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete-kalman-filter">Discrete Kalman Filter</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-5-1">Example 5.1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-5-2">Example 5.2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#state-estimation">State Estimation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-5-3">Example 5.3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-5-4">Example 5.4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#joseph-form">Joseph Form</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-evaluation-van-loan">Numerical Evaluation (Van Loan)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-5-5">Example 5.5</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extended-kalman-filter-ekf">Extended Kalman Filter (EKF)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-5-6">Example 5.6</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
   
-  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+  <div class="footer-item">
+    
+<p class="component-author">
+By Jon Glenn Gjevestad
+</p>
 
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2021.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>
