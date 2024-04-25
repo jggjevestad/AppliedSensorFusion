@@ -1,0 +1,755 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Measurements &#8212; Applied Sensor Fusion</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Bayes Filter" href="04-Bayes%20Filter.html" />
+    <link rel="prev" title="System Dynamics" href="02-System%20Dynamics.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Applied Sensor Fusion</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="Intro.html">
+   Scope of This Book
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="00-Introduction.html">
+   Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="01-Basic%20Linear%20Algebra.html">
+   Basic Linear Algebra
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02-System%20Dynamics.html">
+   System Dynamics
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Measurements
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04-Bayes%20Filter.html">
+   Bayes Filter
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="05-Kalman%20Filter.html">
+   Kalman Filter
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="06-Particle%20Filter.html">
+   Particle Filter
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="07-Sensor%20Fusion.html">
+   Sensor Fusion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Bibliography.html">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/03-Measurements.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/03-Measurements.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#measurement-equation">
+   Measurement Equation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#simulating-measurements">
+     Simulating Measurements
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-3-1">
+     Example 3.1
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#non-linear-measurements">
+   Non-Linear Measurements
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#preliminary-values">
+     Preliminary values
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-3-2">
+     Example 3.2
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summary">
+   Summary
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Measurements</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#measurement-equation">
+   Measurement Equation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#simulating-measurements">
+     Simulating Measurements
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-3-1">
+     Example 3.1
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#non-linear-measurements">
+   Non-Linear Measurements
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#preliminary-values">
+     Preliminary values
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-3-2">
+     Example 3.2
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summary">
+   Summary
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="measurements">
+<span id="meas-measurements"></span><h1>Measurements<a class="headerlink" href="#measurements" title="Permalink to this headline">¶</a></h1>
+<p>Measurements, or the more formal word “observations”, are in many ways our direct contact with the real world as they contribute with information on how our platform relates to the surroundings.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Eventhough <em>measurements</em> and <em>observations</em> can be considerred as synomyms in this context, one may find it more natural to use the word <em>measurement</em> in this context.</p>
+<p>Sensors measure - humans observe…</p>
+</div>
+<p>If we for example measure the distance from our trolley to a fixed point, we get information on the position. And if we count the revolutions of one of the wheels, we get information on the velocity.</p>
+<p><img alt="measure" src="_images/measure.jpg" /></p>
+<p>But it gets even more complicated than this as time goes by. If you measure position over time you will also indirectly get some information about the velocity. And the other way round, by measuring the velocity over time you will also indirectly get some information about the position. This is due to the fact that both position and velocity are naturally related to one another through the time derivative.</p>
+<div class="math notranslate nohighlight">
+\[
+\dot{x} = \frac{dx}{dt}
+\]</div>
+<p>In addition there may also likely be other connections beween the elements of the state vector in the dynamic model that also contribute with subtile connections within the system. We will get back to this later, but for now we continue with our trolley on rails.</p>
+<div class="section" id="measurement-equation">
+<h2>Measurement Equation<a class="headerlink" href="#measurement-equation" title="Permalink to this headline">¶</a></h2>
+<p>The measurement equation basically connects the measurements with one or more elements in the state vector. It can be stated as follows.</p>
+<div class="math notranslate nohighlight">
+\[
+z=Hx + v
+\]</div>
+<p>where the vector <span class="math notranslate nohighlight">\(z\)</span> is the measurement vector, the matrix <span class="math notranslate nohighlight">\(H\)</span> is called <em>design matrix</em>, the vector <span class="math notranslate nohighlight">\(x\)</span> is the state vector and the vector <span class="math notranslate nohighlight">\(v\)</span> is the measurement noise. Since we are directly measuring the position which is an element of the state vector, the measurement equation becomes as follows.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{bmatrix}
+  z
+\end{bmatrix}
+=
+\begin{bmatrix}
+  1 &amp;0\\
+\end{bmatrix}
+\begin{bmatrix}
+  x\\
+  \dot{x}\\
+\end{bmatrix}
++
+\begin{bmatrix}
+  v
+\end{bmatrix}
+\end{split}\]</div>
+<p>Assume that we have a laser scanner on our trolley that measure the distance to a fixed point as in <a class="reference internal" href="00-Introduction.html#intro-mean-and-variance"><span class="std std-ref">Mean and Variance</span></a>. The laserscanner measures the distance every second as the trolley rolls ahead for 10 seconds.</p>
+<div class="figure align-default" id="laserscan-meas">
+<img alt="_images/laserscan.png" src="_images/laserscan.png" />
+<p class="caption"><span class="caption-number">Fig. 6 </span><span class="caption-text">Laser Scanner</span><a class="headerlink" href="#laserscan-meas" title="Permalink to this image">¶</a></p>
+</div>
+<div class="section" id="simulating-measurements">
+<h3>Simulating Measurements<a class="headerlink" href="#simulating-measurements" title="Permalink to this headline">¶</a></h3>
+<p>When working with these initial examples, one problem is that we typically do not have any real measurements available to test the algorithms. So, in this situation it is sometimes useful to use the true process and generate a set of synthetic measurements with some specified measurement noise characteristics. This way we do not have to rely on any real measurements while prototyping, but we can instead simulate the performance of our algorithm with these syntetic measurements.</p>
+<p>So, the generation of simulated distance measurements from a sensor sampling at 10Hz on our trolley rolling down the rails may look something like this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">random</span><span class="p">,</span> <span class="n">arange</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># System values</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.1</span>       <span class="c1"># interval [seconds] / (i.e. 10Hz)</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># number of samples</span>
+<span class="n">qv</span> <span class="o">=</span> <span class="mf">0.01</span>      <span class="c1"># process noise [(meter/second)^2/second]</span>
+<span class="n">r</span> <span class="o">=</span> <span class="mf">0.1</span>        <span class="c1"># measurement noise [meter^2]</span>
+
+<span class="c1"># Inital state vector</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],</span>      <span class="c1"># position [meter]</span>
+            <span class="p">[</span><span class="mf">0.3</span><span class="p">]])</span>   <span class="c1"># velocity [meter/second]</span>
+<span class="n">xt</span> <span class="o">=</span> <span class="n">x0</span>
+
+<span class="c1"># Transition matrix</span>
+<span class="n">phi</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="n">dt</span><span class="p">],</span>
+             <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+
+<span class="c1"># Design matrix</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+
+<span class="c1"># Initialize plot vectors</span>
+<span class="n">xt_all</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">z_all</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Main loop</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">samples</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+    
+    <span class="c1"># Compute true trajectory</span>
+    <span class="n">xt</span> <span class="o">=</span> <span class="n">phi</span><span class="nd">@xt</span> <span class="o">+</span> <span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],</span>
+                         <span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">qv</span><span class="p">)]])</span>
+    
+    <span class="c1"># Generate noisy measurements</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">H</span><span class="nd">@xt</span> <span class="o">+</span> <span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">r</span><span class="p">))</span>
+    
+    <span class="c1"># Accumulate plot vectors</span>
+    <span class="n">xt_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xt</span><span class="p">)</span>
+    <span class="n">z_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+<span class="c1"># Extract plot information</span>
+<span class="n">pos_true</span> <span class="o">=</span> <span class="p">[</span><span class="n">xt</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">xt</span> <span class="ow">in</span> <span class="n">xt_all</span><span class="p">]</span>
+<span class="n">z_sim</span> <span class="o">=</span> <span class="p">[</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">z_all</span><span class="p">]</span>
+
+<span class="c1"># Time</span>
+<span class="n">time</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">samples</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">dt</span>
+
+<span class="c1"># Plot results</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Simulated Distance Measurements&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">pos_true</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;True position&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">z_sim</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Simulated measurements&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time (second)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Position (meter)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">();</span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/03-Measurements_3_0.png" src="_images/03-Measurements_3_0.png" />
+</div>
+</div>
+<p>Note that real measurements are in general much more complex than these idealized simulated measurements as real measurements contain all sorts of sensor dependent effects such as: biases, scale factors and various sensor errors. In addition they are typically prone to outliers due to e.g. sensor malfunction that we need to adress before we can use them.</p>
+<p>We will get back to real measurements later, so we stick to the simulated measurements for now.</p>
+</div>
+<div class="section" id="example-3-1">
+<h3>Example 3.1<a class="headerlink" href="#example-3-1" title="Permalink to this headline">¶</a></h3>
+<p>What if the trolley contains a speedometer? Let’s say that the sensor counts the number of wheel rotations as a function of time.</p>
+<div class="figure align-default" id="id1">
+<img alt="_images/speed.png" src="_images/speed.png" />
+<p class="caption"><span class="caption-number">Fig. 7 </span><span class="caption-text">Wheel Sensor</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<p>The first thing we need to to is to establish the connection between our velocity measurement and the elements of the state vector through the measurement equation.</p>
+<div class="math notranslate nohighlight">
+\[
+z = Hx + v
+\]</div>
+<p>Let’s say we want to estimate velocity with this new sensor. A simple velocity sensor can be expressed as follows.</p>
+<div class="math notranslate nohighlight">
+\[
+v = \frac{2 \pi r}{\Delta t}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(v\)</span> is the velocity, <span class="math notranslate nohighlight">\(r\)</span> is the wheel radius and <span class="math notranslate nohighlight">\(\Delta t\)</span> is the measured time interval between the pulses coming from the sensor. Thus the measurement equation can be written as follows.</p>
+<div class="math notranslate nohighlight">
+\[
+z = \frac{1}{2 \pi r}\dot{x}
+\]</div>
+<p>In matrix form it will look something like this.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{bmatrix}
+  z\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  0 &amp;\frac{1}{2 \pi r}\\
+\end{bmatrix}
+\begin{bmatrix}
+  x\\
+  \dot{x}\\
+\end{bmatrix}
++
+\begin{bmatrix}
+  v\\
+\end{bmatrix}
+\end{split}\]</div>
+<p>Note that if we estimate the velocity this way, we will get all our measurements with varying frequency depending on the velocity. Thus we get more measurements when the velocity is high, and fewer measurements when the velocity is low. This behaviour doesn’t fit well in a digital filter design, so in practice we will need to resample these measurements at constant intervals before they enter the filter. This resampling is typically done at the sensor side in order for the sensor to provide measurements at constant time intervals.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note that most digital sensors that we use for navigation will typically provide their measurements at constant time intervals.</p>
+</div>
+<p>Then how do we deal with measurements having different sampling rates and also out of synchronization? We get back to this later on. For now we assume that the measurements are provided by the sensor at constant time intervals.</p>
+</div>
+</div>
+<div class="section" id="non-linear-measurements">
+<span id="meas-nonlinear"></span><h2>Non-Linear Measurements<a class="headerlink" href="#non-linear-measurements" title="Permalink to this headline">¶</a></h2>
+<p>So, until now we have been looking at measurement equations that have a linear relationship between the measurements and the elements of the state vector, e.g. the distance and velocity measurements in the previous examples.</p>
+<p>But what happens when the relationship is non-linear? One simple example of getting a non-linear relationship between the measurements and the elements of the state vector is by mounting our laser scanner a little bit higher, thus measuring the slope distance.</p>
+<div class="figure align-default" id="laserscan-nl">
+<img alt="_images/laserscan_nl.png" src="_images/laserscan_nl.png" />
+<p class="caption"><span class="caption-number">Fig. 8 </span><span class="caption-text">Laser Scanner (high mount)</span><a class="headerlink" href="#laserscan-nl" title="Permalink to this image">¶</a></p>
+</div>
+<p>Again the first thing we need to do is to establish the connection between our measured slope distance and the elements of the state vector through the measurement equation.</p>
+<div class="math notranslate nohighlight">
+\[
+z = Hx + v
+\]</div>
+<p>The relationship between the measured slope distance and the elements of the state vector can easilly be derived from the figure. It will look something like this.</p>
+<div class="math notranslate nohighlight">
+\[
+z = f(x, h) = \sqrt{x^2 + h^2}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(z\)</span> is the slope distance, <span class="math notranslate nohighlight">\(x\)</span> is the position and <span class="math notranslate nohighlight">\(h\)</span> is the mounting height. The mounting height is here assumed to be constant.</p>
+<p>This is obviously a non-linear equation that doesn’t fit our generic linear measurement equation. Therefore it must be linearized in order to be able to use our linear framwork. In practice the actual linearization is done through <em>Jacobian matrices</em> while introducing a set of preliminary values to represent geometry at every instant in time. The Jacobian matrix is a essentially a generalization of the gradient of a vector valued function of several variables.</p>
+<div class="section" id="preliminary-values">
+<h3>Preliminary values<a class="headerlink" href="#preliminary-values" title="Permalink to this headline">¶</a></h3>
+<p>In order to establish an approximation of the correct geometry, we need to introduce <em>preliminary values</em> to represent these quantities. In the following example we will need to introduce prelimary values for both the slope distance and the unknown position.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+  s =&amp; s_0 + ds\\
+  x =&amp; x_0 + dx\\
+\end{align}
+\end{split}\]</div>
+<p>First we will rename the slope distance from <span class="math notranslate nohighlight">\(z\)</span> to <span class="math notranslate nohighlight">\(s\)</span> to avoid confusion with our previous notation. Then we can approximate the slope distance as follows.</p>
+<div class="math notranslate nohighlight">
+\[
+s \approx s_0 + \frac{\partial f(x)}{\partial x} dx
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(s\)</span> is the slope distance and <span class="math notranslate nohighlight">\(s_0\)</span> is the preliminary slope distance. Rearranging the equation slightly and introducing the preliminary values for the unknowns, we can now write like this.</p>
+<div class="math notranslate nohighlight">
+\[
+s - s_0 = \frac{x_0}{\sqrt{x_0^2 + h^2}} dx
+\]</div>
+<p>For completness, we also write the linear matrix form of the measurement equation. It becomes like this.</p>
+<div class="math notranslate nohighlight">
+\[
+z = Hx + v
+\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{bmatrix}
+  s - s_0\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  \frac{x_0}{\sqrt{x_0^2 + h^2}}\\
+\end{bmatrix}
+\begin{bmatrix}
+  dx\\
+\end{bmatrix}
++
+\begin{bmatrix}
+  v\\
+\end{bmatrix}
+\end{split}\]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note that that by the use of <em>sympy’s</em> internal Jacobian function we can effectively derive the design matrix representing our linearized slope distance.</p>
+</div>
+<p>This is the same as the one we derived above as we expected.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">symbols</span><span class="p">,</span> <span class="n">sqrt</span>
+
+<span class="n">x0</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;x0 h&#39;</span><span class="p">)</span>
+
+<span class="c1"># Measurement equation</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">([</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x0</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">h</span><span class="o">**</span><span class="mi">2</span><span class="p">)])</span>
+
+<span class="c1"># Vector of variables</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">([</span><span class="n">x0</span><span class="p">])</span>
+
+<span class="c1"># Design matrix</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle \left[\begin{matrix}\frac{x_{0}}{\sqrt{h^{2} + x_{0}^{2}}}\end{matrix}\right]\]</div>
+</div>
+</div>
+<p>From now on we will use this approach whenever we need to establish linearized versions of any non-linear equations. This goes both for the dynamic equations and for the measurement equations as they both may be non-linear by nature.</p>
+</div>
+<div class="section" id="example-3-2">
+<h3>Example 3.2<a class="headerlink" href="#example-3-2" title="Permalink to this headline">¶</a></h3>
+<p>To verify the validity of our linearization, we introduce a numerical example based on a our measured slope distance with the laser scanner. Note that the number of significant digits in the results below are intentionally chosen to be somewhat large, i.e. five digits. However, the reason for this is to visualise the level of significant digits in which the iteration converges.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">sqrt</span>
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">inv</span>
+
+<span class="c1"># Initial values</span>
+<span class="n">h</span> <span class="o">=</span> <span class="mi">1</span>       <span class="c1"># Mounting height [meter]</span>
+<span class="n">s</span> <span class="o">=</span> <span class="mf">3.47</span>    <span class="c1"># Measured slope distance [meter]</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="mf">2.0</span>    <span class="c1"># Preliminary position [meter]</span>
+
+
+<span class="c1"># 1. Estimated position from slope distance (non-linear)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">s</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">h</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Estimated position (non-linear): </span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">10.5f</span><span class="si">}</span><span class="s2"> m&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># 2. Estimated position from slope distance (linearized)</span>
+
+<span class="c1"># Preliminary slope distance</span>
+<span class="n">s0</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">x0</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">h</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Measurement vector</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">s</span> <span class="o">-</span> <span class="n">s0</span>
+
+<span class="c1"># Design matrix</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">x0</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x0</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">h</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Compute position</span>
+<span class="n">dx</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">H</span><span class="o">*</span><span class="n">z</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">+</span> <span class="n">dx</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Estimated position (linearized): </span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">10.5f</span><span class="si">}</span><span class="s2"> m&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Estimated position (non-linear):    3.32278 m
+Estimated position (linearized):    3.37958 m
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note the slight change in the value from the 2nd decimal onwards. The reason for this difference is the acurracy of the preliminary value <span class="math notranslate nohighlight">\(x_0\)</span>. Depending on the problem at hand, it is usually easy to provide reasonably good preliminary values for the geometry represented by the design matrix. Since the original measurement equation is linearized, it can only represent the linear trend in the original equaition. Thus for the approximation to reflect the true geometry, the preliminary value must be close enough to the unknown true value for the linear appriximation to reflect the real changes. Thus in practice we will have to iterate the solution until it converges to the true value.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Iterate to improve the preliminary value</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
+    
+    <span class="c1"># Preliminary slope distance</span>
+    <span class="n">s0</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">x0</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">h</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    
+    <span class="c1"># Measurement vector</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">s</span> <span class="o">-</span> <span class="n">s0</span><span class="p">)</span>
+    
+    <span class="c1"># Design matrix</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">x0</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x0</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">h</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    
+    <span class="c1"># Compute position</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">H</span><span class="o">*</span><span class="n">z</span>
+    <span class="n">x0</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">+</span> <span class="n">dx</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Iteration </span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2"> : </span><span class="si">{</span><span class="n">x0</span><span class="si">:</span><span class="s2">10.5f</span><span class="si">}</span><span class="s2"> m&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 0 :    3.37958 m
+Iteration 1 :    3.32282 m
+Iteration 2 :    3.32278 m
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>In this chapter we have breifly looked into the functional relationship between the measurements and the elements of the state vector. We will get back to this later on, but for now it will serve as an introduction to the concepts of a linear measurement equation. Further we looked into how we could simulate a set of measurements based on a computed trajectory from a dynamic model.</p>
+<p>At last we also touched the linearization of non-linear measurement equations and the introduction of preliminary values to establish a representative geometry for the problem at hand.</p>
+<p>The linearization of non-linear equations can be generalized as follows.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+  z =&amp; f(x, y, \dots)\\
+  z =&amp; f(x_0 + dx, y_0 + dy, \dots)\\
+  \vdots \\
+  z \approx&amp; f(x_0, y_0, \dots) + \frac{\partial f(x, y, \dots)}{\partial x}dx + \frac{\partial f(x, y, \dots)}{\partial y}dy + \dots\\
+\end{align}
+\end{split}\]</div>
+<p>So, now it’s about time to put it all togehter - we are ready for our very first generic approach to the filtering problem through what is also known as the Bayes filter…</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="02-System%20Dynamics.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">System Dynamics</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="04-Bayes%20Filter.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Bayes Filter</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Jon Glenn Gjevestad<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

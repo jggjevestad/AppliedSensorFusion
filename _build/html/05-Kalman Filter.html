@@ -1,0 +1,1872 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kalman Filter &#8212; Applied Sensor Fusion</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Particle Filter" href="06-Particle%20Filter.html" />
+    <link rel="prev" title="Bayes Filter" href="04-Bayes%20Filter.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Applied Sensor Fusion</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="Intro.html">
+   Scope of This Book
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="00-Introduction.html">
+   Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="01-Basic%20Linear%20Algebra.html">
+   Basic Linear Algebra
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02-System%20Dynamics.html">
+   System Dynamics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-Measurements.html">
+   Measurements
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04-Bayes%20Filter.html">
+   Bayes Filter
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Kalman Filter
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="06-Particle%20Filter.html">
+   Particle Filter
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="07-Sensor%20Fusion.html">
+   Sensor Fusion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Bibliography.html">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/05-Kalman Filter.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/05-Kalman Filter.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#intuitive-idea">
+   Intuitive idea
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dynamic-equations">
+   Dynamic equations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#discrete-kalman-filter">
+   Discrete Kalman Filter
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-5-1">
+     Example 5.1
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-5-2">
+     Example 5.2
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#state-estimation">
+   State Estimation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-5-3">
+     Example 5.3
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-5-4">
+     Example 5.4
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#joseph-form">
+   Joseph Form
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#numerical-evaluation-van-loan">
+   Numerical Evaluation (Van Loan)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-5-5">
+     Example 5.5
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#extended-kalman-filter-ekf">
+   Extended Kalman Filter (EKF)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-5-6">
+     Example 5.6
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summary">
+   Summary
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Kalman Filter</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#intuitive-idea">
+   Intuitive idea
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dynamic-equations">
+   Dynamic equations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#discrete-kalman-filter">
+   Discrete Kalman Filter
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-5-1">
+     Example 5.1
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-5-2">
+     Example 5.2
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#state-estimation">
+   State Estimation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-5-3">
+     Example 5.3
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-5-4">
+     Example 5.4
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#joseph-form">
+   Joseph Form
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#numerical-evaluation-van-loan">
+   Numerical Evaluation (Van Loan)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-5-5">
+     Example 5.5
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#extended-kalman-filter-ekf">
+   Extended Kalman Filter (EKF)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-5-6">
+     Example 5.6
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summary">
+   Summary
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="kalman-filter">
+<span id="kalman-kalman"></span><h1>Kalman Filter<a class="headerlink" href="#kalman-filter" title="Permalink to this headline">¶</a></h1>
+<p>The Kalman Filter origins from the work of Norbert Wiener’s in the 1940s <span id="id1">[<a class="reference internal" href="Bibliography.html#id9" title="Norbert Wiener. Extrapolation, Interpolation, and Smoothing of Stationary Time Series. Wiley, New York, NY, 1949.">Wie49</a>]</span>. The central problem to his works was the separation of the signal from the additive combination of signal and noise. One could say that Wiener’s main contribution was the formulation of the problem in terms of minimizing the mean square error in th time domain - as opposed to the frequency domain which was the dominating approach at the time.</p>
+<p>In the 1960 Rudolf Emil Kalman considerred the same problem as Wiener. In his famous paper <span id="id2">[<a class="reference internal" href="Bibliography.html#id3" title="Rudolph Emil Kalman. A new approach to linear filtering and prediction problems. Transactions of the ASME–Journal of Basic Engineering, 82(Series D):35–45, 1960.">Kal60</a>]</span> he introduced the discrete formulation together with the state-space notation in the time domain which gained imediate popularity empowered by the advances in computer technology at the time. The Kalman Filter was early adopted by the navigation community, and is today regarded as the main workhorse for the vast majority of navigation applications.</p>
+<p>So, what is a Kalman Filter?</p>
+<p><img alt="navigation" src="_images/navigation.jpg" /></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A Kalman Filter is an recursive algorithm that provides estimates of a state vector as a weighted sum of the forward propagation of the previous state vector, and the current measurements.</p>
+</div>
+<div class="section" id="intuitive-idea">
+<h2>Intuitive idea<a class="headerlink" href="#intuitive-idea" title="Permalink to this headline">¶</a></h2>
+<p>Let’s make a simple thought experiment. Assume two persons sitting in a boat that floats freely on the ocean. At one point in time both persons measures the boats position.</p>
+<p>Let’s assume the first person measure the position to be <span class="math notranslate nohighlight">\(z_1\)</span> with a corresponding variance <span class="math notranslate nohighlight">\(\sigma_{z_1}^2\)</span>. What is the best estimate of the boats position?</p>
+<p>If we only use this measurement, we get the following estimate of the boats position and variance.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+  \hat{x}_1 =&amp; z_1\\
+  \hat{\sigma}_{x_1}^2 =&amp; \sigma_{z_1}^2\\
+\end{align}
+\end{split}\]</div>
+<p>Then the second person measures the position to be <span class="math notranslate nohighlight">\(z_2\)</span> with a corresponding variance <span class="math notranslate nohighlight">\(\sigma_{z_2}^2\)</span>. What is the best estimate of the boats position now?</p>
+<p>If we chose to make use of both measurements, we can combine them in the following way:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+  \hat{x}_2 =&amp; \hat{x}_1 + K(z_2 - \hat{x}_1)\\
+  \hat{\sigma}_{x_2} =&amp; K \sigma_{z_2}^2\\
+\end{align}
+\end{split}\]</div>
+<p>, where <span class="math notranslate nohighlight">\(K = \frac{\hat{\sigma}_{x_1}^2}{\hat{\sigma}_{x_1}^2 + \sigma_{z_2}^2}\)</span>. This value is also called <em>gain</em>, and it weights the contribution of the new measurement to the existing estimate of the position.</p>
+<p>Assume both persons measure the position with the same precision, i.e. <span class="math notranslate nohighlight">\(\sigma_{z_1}^2 = \sigma_{z_2}^2\)</span>. In this particular case we get <span class="math notranslate nohighlight">\(K = \frac{1}{2}\)</span>. We can then write:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+  \hat{x}_2 =&amp; \hat{x}_1 + \frac{1}{2}(z_2 - \hat{x}_1) = \frac{1}{2}(z_1 + z_2)\\
+  \hat{\sigma}_{x_2} =&amp; \frac{1}{2} \sigma_{z_2}^2 = \frac{\sigma_{z_2}^2}{2}\\
+\end{align}
+\end{split}\]</div>
+<p>This we immediately recognize as the <em>mean value</em> of both measurements - a result that intuitively sounds reasonable.</p>
+<p>However, the difference between the two persons measurements isn’t just due to measurement errors alone, but will also be due to the motion of the boat itself. So, a Kalman filter will in addition to this <em>measurement model</em> also include a <em>dynamic model</em> that describes the boats motions while floating (e.g. a small rubber boat will have a very different motion than a large ship).</p>
+</div>
+<div class="section" id="dynamic-equations">
+<h2>Dynamic equations<a class="headerlink" href="#dynamic-equations" title="Permalink to this headline">¶</a></h2>
+<p>As we saw in <a class="reference internal" href="02-System%20Dynamics.html#system-system"><span class="std std-ref">System Dynamics</span></a>, we typically use a set of ordinary differential equations (ODEs) to model the physical behaviour of the system. They can be expressed through linear dynamic equations as follows:</p>
+<div class="math notranslate nohighlight">
+\[
+\dot{x}=Fx + Gu
+\]</div>
+<p>In order to solve these dynamic equations, we have several options depending on the properties of <span class="math notranslate nohighlight">\(F\)</span> and <span class="math notranslate nohighlight">\(G\)</span>. However, in this very first approach we will use the approximate solution as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+  \phi=&amp;I + F\Delta t + \frac{(F\Delta t)^2}{2!} + \dots\\
+  Q_k =&amp; \int_{t_k}^{t_{k+1}} \phi(t_{k+1}, \epsilon) G(\epsilon) G^T(\epsilon) \phi^T(t_{k+1}, \epsilon) d\epsilon\\
+\end{align}
+\end{split}\]</div>
+</div>
+<div class="section" id="discrete-kalman-filter">
+<h2>Discrete Kalman Filter<a class="headerlink" href="#discrete-kalman-filter" title="Permalink to this headline">¶</a></h2>
+<p>So, the two main components of a Kalman Filter are the <em>dynamic model</em> and the <em>measurement model</em>. The first one models the dynamic behaviour of the platform through a set of differential equations, while the latter provides the connection between the available measurements and the elements of the state vector.</p>
+<p>Note that if either the dynamic equations or the measurement equations are non-linear, they have to be linearized first in order to fit the general linear Kalman Filter equations. This linearization step introduces the need to establish <em>preliminary values</em> to the unknowns.</p>
+<p>Since the Kalman Filter are derived from the <a class="reference internal" href="04-Bayes%20Filter.html#bayes-bayes"><span class="std std-ref">Bayes Filter</span></a> it also will consist of a <em>correction step</em> and a <em>prediction step</em>. These two components forms what is known as the <em>discrete Kalman Filter loop</em>.</p>
+<div class="figure align-default" id="kf-loop">
+<img alt="_images/kf_loop.png" src="_images/kf_loop.png" />
+<p class="caption"><span class="caption-number">Fig. 10 </span><span class="caption-text">Kalman Filter loop</span><a class="headerlink" href="#kf-loop" title="Permalink to this image">¶</a></p>
+</div>
+<p><em>Predict:</em></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+  \tilde x_{k}=&amp;\phi_{k-1} \hat x_{k-1}\\
+  \tilde P_{k}=&amp;\phi_{k-1} P_{k-1} \phi^T_{k-1}+Q_{k-1}\\
+\end{align}
+\end{split}\]</div>
+<p><em>Correct:</em></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+  K_{k}=&amp;\tilde P_{k}H^{T}_{k}(H_{k} \tilde P_{k}H^{T}_{k}+R_{k})^{-1}\\
+  \hat x_{k}=&amp;\tilde x_{k}+K_{k}(z_{k}-H_{k} \tilde x_{k})\\
+  \hat P_{k}=&amp;(I-K_{k}H_{k}) \tilde P_{k}\\
+\end{align}
+\end{split}\]</div>
+<div class="section" id="example-5-1">
+<h3>Example 5.1<a class="headerlink" href="#example-5-1" title="Permalink to this headline">¶</a></h3>
+<p>Let’s revisit our well known Trolley on rails and use this as our very first example of a simple Kalman Filter implementation. As before, the Trolley is equipped with a laser scanner that continously measures the distance to a wall.</p>
+<div class="figure align-default" id="laserscan2">
+<img alt="_images/laserscan.png" src="_images/laserscan.png" />
+<p class="caption"><span class="caption-number">Fig. 11 </span><span class="caption-text">Laser scanner</span><a class="headerlink" href="#laserscan2" title="Permalink to this image">¶</a></p>
+</div>
+<p>Assume that the trolley is at rest and not moving. This is not very exiting example for the Kalman filter, however it might be a useful start to see how it deals with measurements from a stationary platform. In this particular example we use the first measurement as our initial value. Thus, the initial state vector becomes:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+x_0=
+\begin{bmatrix}
+  z_1\\
+\end{bmatrix}
+\end{split}\]</div>
+<p>A simplistic system model could then look something like this:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{bmatrix}
+  \dot{x}\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  0\\
+\end{bmatrix}
+\begin{bmatrix}
+  x\\
+\end{bmatrix}
++
+\begin{bmatrix}
+  \sqrt{q_p}\\
+\end{bmatrix}
+u
+\end{split}\]</div>
+<p>As we are very certain about the dynamic behavior of the platform (i.e. the position is constant), we introduce a rather small value for the process noise on the position <span class="math notranslate nohighlight">\(q_p\)</span> indicating that we have modelled the position to be constant and that it will not change. This dynamic model that contains no time derivatives in the state vector is often denoted as a <em>P-model</em>.</p>
+<p>Note that eventhough it might be tempting to set the value to zero, it is not recommended to do so as there is a high risk to run into numerical instabilites dealing with the covariance matrices.</p>
+<p>Further, the measurement model is given as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{bmatrix}
+  z
+\end{bmatrix}
+=
+\begin{bmatrix}
+  1\\
+\end{bmatrix}
+\begin{bmatrix}
+  x\\
+\end{bmatrix}
++
+\begin{bmatrix}
+  v
+\end{bmatrix}
+\end{split}\]</div>
+<p>Let’s try this simplistic Kalman Filter model with our previous measurements. It will look something like this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute transistion matrix and process noise matrix</span>
+
+<span class="c1"># Import</span>
+<span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Symbol</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">eye</span><span class="p">,</span> <span class="n">integrate</span>
+
+<span class="c1"># Define symbols</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;\Delta t&#39;</span><span class="p">)</span>
+<span class="n">qp</span> <span class="o">=</span> <span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;q_p&#39;</span><span class="p">)</span>
+
+<span class="c1"># Dynamic matrix</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">([[</span><span class="mi">0</span><span class="p">]])</span>
+
+<span class="c1"># Transition matrix</span>
+<span class="n">phi</span> <span class="o">=</span> <span class="n">eye</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">F</span><span class="o">*</span><span class="n">dt</span>
+<span class="n">display</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+
+<span class="c1"># White noise coefficients</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">([[</span><span class="n">sqrt</span><span class="p">(</span><span class="n">qp</span><span class="p">)]])</span>
+
+<span class="c1"># Process noise matrix</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="n">integrate</span><span class="p">(</span><span class="n">phi</span><span class="nd">@G@G</span><span class="o">.</span><span class="n">T</span><span class="nd">@phi</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>  <span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dt</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle \left[\begin{matrix}1\end{matrix}\right]\]</div>
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle \left[\begin{matrix}\Delta t q_{p}\end{matrix}\right]\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simple Kalman Filter (P-model)</span>
+<span class="c1"># Measurement:</span>
+<span class="c1"># Distance [meter]</span>
+
+<span class="c1"># Import</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">arange</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">eye</span><span class="p">,</span> <span class="n">negative</span>
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">inv</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Measurements</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mf">51.34</span><span class="p">],</span>
+           <span class="p">[</span><span class="mf">48.17</span><span class="p">],</span>
+           <span class="p">[</span><span class="mf">49.02</span><span class="p">],</span>
+           <span class="p">[</span><span class="mf">50.97</span><span class="p">],</span>
+           <span class="p">[</span><span class="mf">51.23</span><span class="p">],</span>
+           <span class="p">[</span><span class="mf">50.72</span><span class="p">],</span>
+           <span class="p">[</span><span class="mf">48.95</span><span class="p">],</span>
+           <span class="p">[</span><span class="mf">49.45</span><span class="p">],</span>
+           <span class="p">[</span><span class="mf">52.07</span><span class="p">],</span>
+           <span class="p">[</span><span class="mf">50.52</span><span class="p">]])</span>
+
+<span class="c1"># System values</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mi">1</span>                <span class="c1"># interval [second]</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>      <span class="c1"># number of samples</span>
+<span class="n">qp</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="o">**</span><span class="mi">2</span>          <span class="c1"># process noise [meter^2/second]</span>
+<span class="n">rp</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># measurement noise [meter^2]</span>
+
+<span class="c1"># Initial state vector</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>  <span class="c1"># position [meter]</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">x0</span>
+
+<span class="c1"># Initial state covariance matrix</span>
+<span class="n">P0</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">100</span><span class="o">**</span><span class="mi">2</span><span class="p">]])</span>   <span class="c1"># position [meter^2]</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">P0</span>
+
+<span class="c1"># Transition matrix</span>
+<span class="n">phi</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">]])</span>
+
+<span class="c1"># Process noise matrix</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="n">qp</span><span class="o">*</span><span class="n">dt</span><span class="p">]])</span>
+
+<span class="c1"># Design matrix</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">]])</span>
+
+<span class="c1"># Measurement covariance matrix</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="n">rp</span><span class="p">]])</span>
+
+<span class="c1"># Initialize plot lists</span>
+<span class="n">x_all</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">P_all</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">z_all</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Main loop</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">samples</span><span class="p">):</span>
+    
+    <span class="c1"># Time update</span>
+    <span class="n">xp</span> <span class="o">=</span> <span class="n">phi</span><span class="nd">@x</span>
+    <span class="n">Pp</span> <span class="o">=</span> <span class="n">phi</span><span class="nd">@P@phi</span> <span class="o">+</span> <span class="n">Q</span>
+    
+    <span class="c1"># Kalman gain</span>
+    <span class="n">K</span> <span class="o">=</span> <span class="n">Pp</span><span class="nd">@H</span><span class="o">.</span><span class="n">T</span><span class="nd">@inv</span><span class="p">(</span><span class="n">H</span><span class="nd">@Pp@H</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">R</span><span class="p">)</span>
+    
+    <span class="c1"># Measurement update</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">xp</span> <span class="o">+</span> <span class="n">K</span><span class="o">@</span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">-</span> <span class="n">H</span><span class="nd">@xp</span><span class="p">)</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="p">(</span><span class="n">eye</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">K</span><span class="nd">@H</span><span class="p">)</span><span class="nd">@Pp</span>
+    
+    <span class="c1"># Accumulate plot lists</span>
+    <span class="n">z_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+    <span class="n">x_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">P_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+
+<span class="c1"># Extract plot lists</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_all</span><span class="p">]</span>
+<span class="n">sd</span> <span class="o">=</span> <span class="p">[</span><span class="n">sqrt</span><span class="p">(</span><span class="n">P</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">P</span> <span class="ow">in</span> <span class="n">P_all</span><span class="p">]</span>
+<span class="n">meas</span> <span class="o">=</span> <span class="p">[</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">z_all</span><span class="p">]</span>
+
+<span class="n">mu</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">se</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">P</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Measurements       : &quot;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">meas</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">meas</span> <span class="ow">in</span> <span class="n">meas</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estimated position : &quot;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pos</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="n">pos</span><span class="p">))</span>
+
+<span class="c1"># Time</span>
+<span class="n">time</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span><span class="o">*</span><span class="n">dt</span>
+
+<span class="c1"># Plot results</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Accumulated Mean Value&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Estimated distance&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">meas</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Measured distance&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Mean distance&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;# of measurements&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Distance (meter)&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">mu</span> <span class="o">+</span> <span class="n">sd</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dotted&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Estimated error&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">mu</span> <span class="o">+</span> <span class="n">negative</span><span class="p">(</span><span class="n">sd</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dotted&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">mu</span> <span class="o">+</span> <span class="n">sd</span><span class="p">,</span> <span class="n">mu</span> <span class="o">+</span> <span class="n">negative</span><span class="p">(</span><span class="n">sd</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">mu</span> <span class="o">+</span> <span class="n">se</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dotted&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Standard error&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">mu</span> <span class="o">-</span> <span class="n">se</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dotted&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Measurements       : 51.34 48.17 49.02 50.97 51.23 50.72 48.95 49.45 52.07 50.52
+Estimated position : 51.34 49.76 49.51 49.88 50.15 50.24 50.06 49.98 50.21 50.24
+</pre></div>
+</div>
+<img alt="_images/05-Kalman Filter_6_1.png" src="_images/05-Kalman Filter_6_1.png" />
+</div>
+</div>
+<p>Note that the Kalman Filter in this simple example, were we are estimating a constant, actually reproduces our previous results from <a class="reference internal" href="00-Introduction.html#intro-mean-and-variance"><span class="std std-ref">Mean and Variance</span></a> where we computed the recursive mean value. This might build us some trust in that the Kalman Filter treats the information in the very same way, i.e. it is optimal in the sense of <em>minimum variance</em>.</p>
+</div>
+<div class="section" id="example-5-2">
+<h3>Example 5.2<a class="headerlink" href="#example-5-2" title="Permalink to this headline">¶</a></h3>
+<p>To make the Kalman Filter really come into play, we need to allow for some movement of the Trolley. Assume we give the Trolley a slight push so that it starts rolling on the rails. To allow for this in the Kalman Filter, we must modify the dynamic model to take not only the position into account, but also the velocity.</p>
+<div class="figure align-default" id="laserscan3">
+<img alt="_images/laserscan.png" src="_images/laserscan.png" />
+<p class="caption"><span class="caption-number">Fig. 12 </span><span class="caption-text">Laser scanner</span><a class="headerlink" href="#laserscan3" title="Permalink to this image">¶</a></p>
+</div>
+<p>The dynamic model will then look like this.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{bmatrix}
+  \dot{x}\\
+  \ddot{x}\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  0 &amp;1\\
+  0 &amp;0\\
+\end{bmatrix}
+\begin{bmatrix}
+  x\\
+  \dot{x}\\
+\end{bmatrix}
++
+\begin{bmatrix}
+  0\\
+  \sqrt{q_v}\\
+\end{bmatrix}
+u
+\end{split}\]</div>
+<p>Note that in this example, the Trolley rolls on the rails with some randomness associated with the velocity. This is modelled with the white noise coefficient <span class="math notranslate nohighlight">\(q_v\)</span> that introduces some process noise on the second differential equation that is connected to the velocity element in the state vector. This model is often denoted as a <em>PV-model</em>.</p>
+<p>Since the only measurements involved are the continous distance measurements from the laser scanner, the measurement model can be written like this.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{bmatrix}
+  z
+\end{bmatrix}
+=
+\begin{bmatrix}
+  1 &amp;0\\
+\end{bmatrix}
+\begin{bmatrix}
+  x\\
+  \dot{x}\\
+\end{bmatrix}
++
+\begin{bmatrix}
+  v
+\end{bmatrix}
+\end{split}\]</div>
+<p>To implement our modified Kalman Filter model we need to generate a set of synthetic measurements to simulate the output from the laser scanner as the Trolley rolls on the rails.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute transistion matrix and process noise matrix</span>
+
+<span class="c1"># Import</span>
+<span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Symbol</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">eye</span><span class="p">,</span> <span class="n">integrate</span>
+
+<span class="c1"># Define symbols</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;\Delta t&#39;</span><span class="p">)</span>
+<span class="n">qv</span> <span class="o">=</span> <span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;q_v&#39;</span><span class="p">)</span>
+
+<span class="c1"># Dynamic matrix</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+
+<span class="c1"># Transition matrix</span>
+<span class="n">phi</span> <span class="o">=</span> <span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">F</span><span class="o">*</span><span class="n">dt</span>
+<span class="n">display</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+
+<span class="c1"># White noise coefficients</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">([[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">sqrt</span><span class="p">(</span><span class="n">qv</span><span class="p">)]])</span>
+
+<span class="c1"># Process noise matrix</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="n">integrate</span><span class="p">(</span><span class="n">phi</span><span class="nd">@G@G</span><span class="o">.</span><span class="n">T</span><span class="nd">@phi</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>  <span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dt</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}1 &amp; \Delta t\\0 &amp; 1\end{matrix}\right]\end{split}\]</div>
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}\frac{\Delta t^{3} q_{v}}{3} &amp; \frac{\Delta t^{2} q_{v}}{2}\\\frac{\Delta t^{2} q_{v}}{2} &amp; \Delta t q_{v}\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simple Kalman Filter (PV-model)</span>
+<span class="c1"># Measurement: Distance [meter]</span>
+
+<span class="c1"># Import</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">eye</span><span class="p">,</span> <span class="n">arange</span>
+<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">normal</span>
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">inv</span><span class="p">,</span> <span class="n">cholesky</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># System values</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.1</span>       <span class="c1"># interval [second]</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># number of samples</span>
+<span class="n">qv</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">**</span><span class="mi">2</span>    <span class="c1"># process noise [(meter/second)^2/second]</span>
+<span class="n">rp</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">**</span><span class="mi">2</span>    <span class="c1"># measurement noise [meter^2]</span>
+
+<span class="c1"># Initial state vector</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],</span>    <span class="c1"># position [meter]</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">]])</span>   <span class="c1"># velocity [meter/second]</span>
+<span class="n">xt</span> <span class="o">=</span> <span class="n">x0</span><span class="p">;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x0</span>
+
+<span class="c1"># Initial covariance matrix</span>
+<span class="n">P0</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">10</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>   <span class="c1"># position [meter^2]</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">**</span><span class="mi">2</span><span class="p">]])</span>   <span class="c1"># velocity [(meter/second)^2]</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">P0</span>
+
+<span class="c1"># Transition matrix</span>
+<span class="n">phi</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="n">dt</span><span class="p">],</span>
+             <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+
+<span class="c1"># Process noise</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="o">*</span><span class="n">qv</span><span class="o">*</span><span class="n">dt</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">qv</span><span class="o">*</span><span class="n">dt</span><span class="o">**</span><span class="mi">2</span><span class="p">],</span>
+           <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">qv</span><span class="o">*</span><span class="n">dt</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">qv</span><span class="o">*</span><span class="n">dt</span><span class="p">]])</span>
+
+<span class="c1"># Cholesky decomposition</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">cholesky</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+
+<span class="c1"># Design matrix</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+
+<span class="c1"># Measurement covariance matrix</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="n">rp</span><span class="p">]])</span>
+
+<span class="c1"># Initialize plot lists</span>
+<span class="n">x_all</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">P_all</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">z_all</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Main loop</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">samples</span><span class="p">):</span>
+    
+    <span class="c1"># Process noise vector</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],</span>
+               <span class="p">[</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]])</span>
+    
+    <span class="c1"># Compute true trajectory</span>
+    <span class="n">xt</span> <span class="o">=</span> <span class="n">phi</span><span class="nd">@xt</span> <span class="o">+</span> <span class="n">C</span><span class="nd">@w</span>
+    
+    <span class="c1"># Generate noisy measurements</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">H</span><span class="nd">@xt</span> <span class="o">+</span> <span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">rp</span><span class="p">))</span>
+    
+    <span class="c1"># Time update</span>
+    <span class="n">xp</span> <span class="o">=</span> <span class="n">phi</span><span class="nd">@x</span>
+    <span class="n">Pp</span> <span class="o">=</span> <span class="n">phi</span><span class="nd">@P@phi</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">Q</span>
+    
+    <span class="c1"># Kalman gain</span>
+    <span class="n">K</span> <span class="o">=</span> <span class="n">Pp</span><span class="nd">@H</span><span class="o">.</span><span class="n">T</span><span class="nd">@inv</span><span class="p">(</span><span class="n">H</span><span class="nd">@Pp@H</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">R</span><span class="p">)</span>
+    
+    <span class="c1"># Measurement update</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">xp</span> <span class="o">+</span> <span class="n">K</span><span class="o">@</span><span class="p">(</span><span class="n">z</span> <span class="o">-</span> <span class="n">H</span><span class="nd">@xp</span><span class="p">)</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="p">(</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">K</span><span class="nd">@H</span><span class="p">)</span><span class="nd">@Pp</span>
+    
+    <span class="c1"># Accumulate plot vectors</span>
+    <span class="n">x_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">P_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+    <span class="n">z_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+<span class="c1"># Extract plot vectors</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_all</span><span class="p">]</span>
+<span class="n">vel</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_all</span><span class="p">]</span>
+<span class="n">pos_sd</span> <span class="o">=</span> <span class="p">[</span><span class="n">sqrt</span><span class="p">(</span><span class="n">P</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">P</span> <span class="ow">in</span> <span class="n">P_all</span><span class="p">]</span>
+<span class="n">vel_sd</span> <span class="o">=</span> <span class="p">[</span><span class="n">sqrt</span><span class="p">(</span><span class="n">P</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">P</span> <span class="ow">in</span> <span class="n">P_all</span><span class="p">]</span>
+<span class="n">meas</span> <span class="o">=</span> <span class="p">[</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">z_all</span><span class="p">]</span>
+
+<span class="c1"># Time</span>
+<span class="n">time</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span><span class="o">*</span><span class="n">dt</span>
+
+<span class="c1"># Plot results</span>
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;System State&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">meas</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Measured position&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Estimated position&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Position (meter)&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">vel</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Estimated velocity&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">x0</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Initial velocity&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time (second)&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Velocity (meter/second)&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Error Analysis&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">pos_sd</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Position error&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Position (meter)&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">vel_sd</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Velocity error&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;# of measurements&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Velocity (meter/second)&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error statistics:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Position standard deviation: </span><span class="si">{</span><span class="n">pos_sd</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> m&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Velocity standard deviation: </span><span class="si">{</span><span class="n">vel_sd</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> m/s&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/05-Kalman Filter_10_0.png" src="_images/05-Kalman Filter_10_0.png" />
+<img alt="_images/05-Kalman Filter_10_1.png" src="_images/05-Kalman Filter_10_1.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Error statistics:
+Position standard deviation: 0.163 m
+Velocity standard deviation: 0.132 m/s
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that the estimated error of the first position estimate is equal to the precision of the first distance measurement itself, while the estimated velocity error at this point is equal to the initial position error. This is due to the need of two distance measurements to provide information about the velocity, thus in this very first epoch the velocity estimate will be solely based on the dynamic model.</p>
+</div>
+</div>
+<div class="section" id="state-estimation">
+<h2>State Estimation<a class="headerlink" href="#state-estimation" title="Permalink to this headline">¶</a></h2>
+<p>As we have seen, the Kalman Filter provides estimates of the current state vector as a weighted balance between the dynamic model and the measurement model. One of the main properties of the filter is that it is capable of providing estimates of the complete state vector even if there is not measurements available for all the individual elements.</p>
+<p>This is a very important property of the Kalman Filter and we will illustrate this through a simple example. In the example above, we measured distances with a laser scanner and obtained fairly good estimates of both position and velocity eventhough we have no sensor that measures velocity. The velocity estimate is obtained thanks to the dynamic model that links the two quantities through the system of ODEs.</p>
+<div class="section" id="example-5-3">
+<h3>Example 5.3<a class="headerlink" href="#example-5-3" title="Permalink to this headline">¶</a></h3>
+<p>But what happens if we do not have a laser scanner, but the only sensor is a speedometer? Can we still get estimates of both position and velocity? Let’s assume the same dynamic model as in the previous example, but this time with only a speedometer available.</p>
+<div class="figure align-default" id="speed">
+<img alt="_images/speed.png" src="_images/speed.png" />
+<p class="caption"><span class="caption-number">Fig. 13 </span><span class="caption-text">Speedometer</span><a class="headerlink" href="#speed" title="Permalink to this image">¶</a></p>
+</div>
+<p>The dynamic model will is the same as before, but we write it again here for completness.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{bmatrix}
+  \dot{x}\\
+  \ddot{x}\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  0 &amp;1\\
+  0 &amp;0\\
+\end{bmatrix}
+\begin{bmatrix}
+  x\\
+  \dot{x}\\
+\end{bmatrix}
++
+\begin{bmatrix}
+  0\\
+  \sqrt{q_v}\\
+\end{bmatrix}
+u
+\end{split}\]</div>
+<p>Since the only measurements involved are the velocity measurements from the speedometer, the measurement model can be written like this.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{bmatrix}
+  z
+\end{bmatrix}
+=
+\begin{bmatrix}
+  0 &amp;1\\
+\end{bmatrix}
+\begin{bmatrix}
+  x\\
+  \dot{x}\\
+\end{bmatrix}
++
+\begin{bmatrix}
+  v
+\end{bmatrix}
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simple Kalman Filter (PV_model)</span>
+<span class="c1"># Measurement: Velocity [meter/second]</span>
+
+<span class="c1"># Import</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">eye</span><span class="p">,</span> <span class="n">arange</span>
+<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">normal</span>
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">inv</span><span class="p">,</span> <span class="n">cholesky</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># System values</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.1</span>       <span class="c1"># interval [second]</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># number of samples</span>
+<span class="n">qv</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">**</span><span class="mi">2</span>    <span class="c1"># process noise [(meter/second)^2/second]</span>
+<span class="n">rv</span> <span class="o">=</span> <span class="mf">0.3</span><span class="o">**</span><span class="mi">2</span>    <span class="c1"># measurement noise [(meter/second)^2]</span>
+
+<span class="c1"># Initial state vector</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],</span>    <span class="c1"># position [meter]</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">]])</span>   <span class="c1"># velocity [meter/second]</span>
+<span class="n">xt</span> <span class="o">=</span> <span class="n">x0</span><span class="p">;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x0</span>
+
+<span class="c1"># Initial covariance matrix</span>
+<span class="n">P0</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">10</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>   <span class="c1"># position [meter^2]</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">**</span><span class="mi">2</span><span class="p">]])</span>   <span class="c1"># velocity [(meter/second)^2]</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">P0</span>
+
+<span class="c1"># Transition matrix</span>
+<span class="n">phi</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="n">dt</span><span class="p">],</span>
+             <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+
+<span class="c1"># Process noise</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="o">*</span><span class="n">qv</span><span class="o">*</span><span class="n">dt</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">qv</span><span class="o">*</span><span class="n">dt</span><span class="o">**</span><span class="mi">2</span><span class="p">],</span>
+           <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">qv</span><span class="o">*</span><span class="n">dt</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">qv</span><span class="o">*</span><span class="n">dt</span><span class="p">]])</span>
+
+<span class="c1"># Cholesky decomposition</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">cholesky</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+
+<span class="c1"># Design matrix</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+
+<span class="c1"># Measurement covariance matrix</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="n">rv</span><span class="p">]])</span>
+
+<span class="c1"># Initialize plot lists</span>
+<span class="n">x_all</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">P_all</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">z_all</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Main loop</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">samples</span><span class="p">):</span>
+    
+    <span class="c1"># Process noise vector</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],</span>
+               <span class="p">[</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]])</span>
+    
+    <span class="c1"># Compute true trajectory</span>
+    <span class="n">xt</span> <span class="o">=</span> <span class="n">phi</span><span class="nd">@xt</span> <span class="o">+</span> <span class="n">C</span><span class="nd">@w</span>
+    
+    <span class="c1"># Generate noisy measurements</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">H</span><span class="nd">@xt</span> <span class="o">+</span> <span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">rv</span><span class="p">))</span>
+    
+    <span class="c1"># Time update</span>
+    <span class="n">xp</span> <span class="o">=</span> <span class="n">phi</span><span class="nd">@x</span>
+    <span class="n">Pp</span> <span class="o">=</span> <span class="n">phi</span><span class="nd">@P@phi</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">Q</span>
+    
+    <span class="c1"># Kalman gain</span>
+    <span class="n">K</span> <span class="o">=</span> <span class="n">Pp</span><span class="nd">@H</span><span class="o">.</span><span class="n">T</span><span class="nd">@inv</span><span class="p">(</span><span class="n">H</span><span class="nd">@Pp@H</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">R</span><span class="p">)</span>
+    
+    <span class="c1"># Measurement update</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">xp</span> <span class="o">+</span> <span class="n">K</span><span class="o">@</span><span class="p">(</span><span class="n">z</span> <span class="o">-</span> <span class="n">H</span><span class="nd">@xp</span><span class="p">)</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="p">(</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">K</span><span class="nd">@H</span><span class="p">)</span><span class="nd">@Pp</span>
+    
+    <span class="c1"># Accumulate plot vectors</span>
+    <span class="n">x_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">P_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+    <span class="n">z_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+<span class="c1"># Extract plot vectors</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_all</span><span class="p">]</span>
+<span class="n">vel</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_all</span><span class="p">]</span>
+<span class="n">pos_sd</span> <span class="o">=</span> <span class="p">[</span><span class="n">sqrt</span><span class="p">(</span><span class="n">P</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">P</span> <span class="ow">in</span> <span class="n">P_all</span><span class="p">]</span>
+<span class="n">vel_sd</span> <span class="o">=</span> <span class="p">[</span><span class="n">sqrt</span><span class="p">(</span><span class="n">P</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">P</span> <span class="ow">in</span> <span class="n">P_all</span><span class="p">]</span>
+<span class="n">meas</span> <span class="o">=</span> <span class="p">[</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">z_all</span><span class="p">]</span>
+
+<span class="c1"># Time</span>
+<span class="n">time</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span><span class="o">*</span><span class="n">dt</span>
+
+<span class="c1"># Plot results</span>
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;System State&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Estimated position&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Position (meter)&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">meas</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Measured velocity&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">vel</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Estimated velocity&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time (second)&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Velocity (meter/second)&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Error Analysis&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">pos_sd</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Position error&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Position (meter)&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">vel_sd</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Velocity error&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;# of measurements&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Velocity (meter/second)&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error statistics:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Position standard deviation: </span><span class="si">{</span><span class="n">pos_sd</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> m&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Velocity standard deviation: </span><span class="si">{</span><span class="n">vel_sd</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> m/s&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/05-Kalman Filter_14_0.png" src="_images/05-Kalman Filter_14_0.png" />
+<img alt="_images/05-Kalman Filter_14_1.png" src="_images/05-Kalman Filter_14_1.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Error statistics:
+Position standard deviation: 10.005 m
+Velocity standard deviation: 0.095 m/s
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that the estimated error of the velocity decreases as more velocity measurements become available. However, the estimated position error starts with the initial position error and then remains constant as a function of time.</p>
+<p>The reason for this is that we only have measurements of the velocity, thus there is no new information available for the initial position and the filter is then responding with a constant error that is equal to the initial position error.</p>
+<p>Thus measuring only the velocity, the position becomes <em>unobservable</em>.</p>
+</div>
+<div class="section" id="example-5-4">
+<h3>Example 5.4<a class="headerlink" href="#example-5-4" title="Permalink to this headline">¶</a></h3>
+<p>So, how do we then make use of both sensors, i.e. laser scanner and speedometer? Let’s assume the same dynamic model as in both the previous examples, but this time with both laser scanner and speedometer available.</p>
+<div class="figure align-default" id="laserscanspeed">
+<img alt="_images/laserscan_speed.png" src="_images/laserscan_speed.png" />
+<p class="caption"><span class="caption-number">Fig. 14 </span><span class="caption-text">Laser scanner and speedometer</span><a class="headerlink" href="#laserscanspeed" title="Permalink to this image">¶</a></p>
+</div>
+<p>Again the dynamic model is the same as before, but we write it again here for completness.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{bmatrix}
+  \dot{x}\\
+  \ddot{x}\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  0 &amp;1\\
+  0 &amp;0\\
+\end{bmatrix}
+\begin{bmatrix}
+  x\\
+  \dot{x}\\
+\end{bmatrix}
++
+\begin{bmatrix}
+  0\\
+  \sqrt{q_v}\\
+\end{bmatrix}
+u
+\end{split}\]</div>
+<p>Since the measurements involved are both the distance measurements from the laser scanner and the velocity measurements from the speedometer, the measurement model can be written like this.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{bmatrix}
+  z_1\\
+  z_2\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  1 &amp;0\\
+  0 &amp;1\\
+\end{bmatrix}
+\begin{bmatrix}
+  x\\
+  \dot{x}\\
+\end{bmatrix}
++
+\begin{bmatrix}
+  v_1\\
+  v_2\\
+\end{bmatrix}
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simple Kalman Filter (PV_model)</span>
+<span class="c1"># Measurement: Position [meter] and Velocity [meter/second]</span>
+
+<span class="c1"># Import</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">eye</span><span class="p">,</span> <span class="n">arange</span><span class="p">,</span> <span class="n">diag</span>
+<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">normal</span>
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">inv</span><span class="p">,</span> <span class="n">cholesky</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># System values</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.1</span>       <span class="c1"># interval [second]</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># number of samples</span>
+<span class="n">qv</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">**</span><span class="mi">2</span>    <span class="c1"># process noise [(meter/second)^2/second]</span>
+<span class="n">rp</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">**</span><span class="mi">2</span>    <span class="c1"># position measurement noise [meter^2]</span>
+<span class="n">rv</span> <span class="o">=</span> <span class="mf">0.3</span><span class="o">**</span><span class="mi">2</span>    <span class="c1"># velocity measurement noise [(meter/second)^2]</span>
+
+<span class="c1"># Initial state vector</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],</span>    <span class="c1"># position [meter]</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">]])</span>   <span class="c1"># velocity [meter/second]</span>
+<span class="n">xt</span> <span class="o">=</span> <span class="n">x0</span><span class="p">;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x0</span>
+
+<span class="c1"># Initial covariance matrix</span>
+<span class="n">P0</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">10</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>   <span class="c1"># position [meter^2]</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">**</span><span class="mi">2</span><span class="p">]])</span>   <span class="c1"># velocity [(meter/second)^2]</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">P0</span>
+
+<span class="c1"># Transition matrix</span>
+<span class="n">phi</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="n">dt</span><span class="p">],</span>
+             <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+
+<span class="c1"># Process noise</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="o">*</span><span class="n">qv</span><span class="o">*</span><span class="n">dt</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">qv</span><span class="o">*</span><span class="n">dt</span><span class="o">**</span><span class="mi">2</span><span class="p">],</span>
+           <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">qv</span><span class="o">*</span><span class="n">dt</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">qv</span><span class="o">*</span><span class="n">dt</span><span class="p">]])</span>
+
+<span class="c1"># Cholesky decomposition</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">cholesky</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+
+<span class="c1"># Design matrix</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Measurement covariance matrix</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">diag</span><span class="p">([</span><span class="n">rp</span><span class="p">,</span> <span class="n">rv</span><span class="p">])</span>
+
+<span class="c1"># Initialize plot lists</span>
+<span class="n">x_all</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">P_all</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">z_all</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Main loop</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">samples</span><span class="p">):</span>
+    
+    <span class="c1"># Process noise vector</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],</span>
+               <span class="p">[</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]])</span>
+    
+    <span class="c1"># Compute true trajectory</span>
+    <span class="n">xt</span> <span class="o">=</span> <span class="n">phi</span><span class="nd">@xt</span> <span class="o">+</span> <span class="n">C</span><span class="nd">@w</span>
+    
+    <span class="c1"># Generate noisy measurements</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">H</span><span class="nd">@xt</span> <span class="o">+</span> <span class="n">array</span><span class="p">([[</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">rp</span><span class="p">))],</span>
+                      <span class="p">[</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">rv</span><span class="p">))]])</span>
+    
+    <span class="c1"># Time update</span>
+    <span class="n">xp</span> <span class="o">=</span> <span class="n">phi</span><span class="nd">@x</span>
+    <span class="n">Pp</span> <span class="o">=</span> <span class="n">phi</span><span class="nd">@P@phi</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">Q</span>
+    
+    <span class="c1"># Kalman gain</span>
+    <span class="n">K</span> <span class="o">=</span> <span class="n">Pp</span><span class="nd">@H</span><span class="o">.</span><span class="n">T</span><span class="nd">@inv</span><span class="p">(</span><span class="n">H</span><span class="nd">@Pp@H</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">R</span><span class="p">)</span>
+    
+    <span class="c1"># Measurement update</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">xp</span> <span class="o">+</span> <span class="n">K</span><span class="o">@</span><span class="p">(</span><span class="n">z</span> <span class="o">-</span> <span class="n">H</span><span class="nd">@xp</span><span class="p">)</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="p">(</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">K</span><span class="nd">@H</span><span class="p">)</span><span class="nd">@Pp</span>
+    
+    <span class="c1"># Accumulate plot vectors</span>
+    <span class="n">x_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">P_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+    <span class="n">z_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+<span class="c1"># Extract plot vectors</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_all</span><span class="p">]</span>
+<span class="n">vel</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_all</span><span class="p">]</span>
+<span class="n">pos_sd</span> <span class="o">=</span> <span class="p">[</span><span class="n">sqrt</span><span class="p">(</span><span class="n">P</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">P</span> <span class="ow">in</span> <span class="n">P_all</span><span class="p">]</span>
+<span class="n">vel_sd</span> <span class="o">=</span> <span class="p">[</span><span class="n">sqrt</span><span class="p">(</span><span class="n">P</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">P</span> <span class="ow">in</span> <span class="n">P_all</span><span class="p">]</span>
+<span class="n">meas_pos</span> <span class="o">=</span> <span class="p">[</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">z_all</span><span class="p">]</span>
+<span class="n">meas_vel</span> <span class="o">=</span> <span class="p">[</span><span class="n">z</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">z_all</span><span class="p">]</span>
+
+<span class="c1"># Time</span>
+<span class="n">time</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span><span class="o">*</span><span class="n">dt</span>
+
+<span class="c1"># Plot results</span>
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;System State&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">meas_pos</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Measured position&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Estimated position&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Position (meter)&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">meas_vel</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Measured velocity&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">vel</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Estimated velocity&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time (second)&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Velocity (meter/second)&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Error Analysis&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">pos_sd</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Position error&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Position (meter)&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">vel_sd</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Velocity error&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;# of measurements&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Velocity (meter/second)&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error statistics:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Position standard deviation: </span><span class="si">{</span><span class="n">pos_sd</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> m&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Velocity standard deviation: </span><span class="si">{</span><span class="n">vel_sd</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> m/s&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/05-Kalman Filter_17_0.png" src="_images/05-Kalman Filter_17_0.png" />
+<img alt="_images/05-Kalman Filter_17_1.png" src="_images/05-Kalman Filter_17_1.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Error statistics:
+Position standard deviation: 0.116 m
+Velocity standard deviation: 0.091 m/s
+</pre></div>
+</div>
+</div>
+</div>
+<p>Thus, when combining both the laser scanner and the speedometer we actually obtain better estimates for both position and velocity compared to either sensor alone. This seems reasonable as we now use all the information available from both sensors.</p>
+</div>
+</div>
+<div class="section" id="joseph-form">
+<h2>Joseph Form<a class="headerlink" href="#joseph-form" title="Permalink to this headline">¶</a></h2>
+<p>In order to keep the numerical stability of the measurement update of the estimated covariance matrix <span class="math notranslate nohighlight">\(\hat P_{k}\)</span>, we normally use the so called Joseph form of the matrix equation. This form has natural symmetry and is valid for any gain, wether optimal or suboptimal. The Joseph form can be written like this.</p>
+<div class="math notranslate nohighlight">
+\[
+\hat P_{k}=(I-K_{k}H_{k})\tilde P_{k}(I-K_{k}H_{k})^T+K_{k}R_{k}K_{k}^T
+\]</div>
+<p>For this reason we will therefore use the Joseph form in the measurement update step from here on.</p>
+</div>
+<div class="section" id="numerical-evaluation-van-loan">
+<h2>Numerical Evaluation (Van Loan)<a class="headerlink" href="#numerical-evaluation-van-loan" title="Permalink to this headline">¶</a></h2>
+<p>The previous analytical methods for computing the transition matrix <span class="math notranslate nohighlight">\(\phi_{k}\)</span> and the process covariance matrix <span class="math notranslate nohighlight">\(Q_{k}\)</span> will in practice work well only for small systems with constant parameters. However, it can be quite tricky to compute these values as the systems becomes larger. Therefore a numerical method for computing these two matrices was published by C. F. van Loan <span id="id3">[<a class="reference internal" href="Bibliography.html#id11" title="Charles Fredric van Loan. Computing integrals involving the matrix exponential. IEEE Transactions on Automatic Control, AC-23:395-404, 1978.">vL78</a>]</span> and this method serves as the standard approach to obtain the numerical solution.</p>
+<p>The van Loan method comes in these basic steps:</p>
+<div class="figure align-default" id="vanloan">
+<img alt="_images/vanloan.png" src="_images/vanloan.png" />
+<p class="caption"><span class="caption-number">Fig. 15 </span><span class="caption-text">van Loan numerical evaluation</span><a class="headerlink" href="#vanloan" title="Permalink to this image">¶</a></p>
+</div>
+<p>An implementation of the van Loan method in Python may look as follows.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">append</span><span class="p">,</span> <span class="n">zeros</span>
+<span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="kn">import</span> <span class="n">expm</span>
+
+<span class="k">def</span> <span class="nf">numeval</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+
+    <span class="c1"># Matrix size</span>
+    <span class="p">[</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="c1"># Build matrix (Van Loan)</span>
+    <span class="n">A1</span> <span class="o">=</span> <span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="n">F</span><span class="p">,</span> <span class="n">G</span><span class="nd">@G</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">A2</span> <span class="o">=</span> <span class="n">append</span><span class="p">(</span><span class="n">zeros</span><span class="p">([</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">]),</span> <span class="n">F</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">append</span><span class="p">(</span><span class="n">A1</span><span class="p">,</span> <span class="n">A2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">*</span><span class="n">dt</span>
+
+    <span class="c1"># Compute matrix exponential</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">expm</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+
+    <span class="c1"># Extract phi and Q</span>
+    <span class="n">phi</span> <span class="o">=</span> <span class="n">B</span><span class="p">[</span><span class="n">m</span><span class="p">:</span><span class="n">m</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span><span class="n">n</span><span class="o">*</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">phi</span><span class="nd">@B</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span><span class="n">n</span><span class="o">*</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">phi</span><span class="p">,</span> <span class="n">Q</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="example-5-5">
+<h3>Example 5.5<a class="headerlink" href="#example-5-5" title="Permalink to this headline">¶</a></h3>
+<p>In order to test the numerical evaluation of the transistion matrix <span class="math notranslate nohighlight">\(\phi_{k}\)</span> and the process covariance matrix <span class="math notranslate nohighlight">\(Q_{k}\)</span> we use the same basic dynamic model as in the previous example, however with slightly different system values to avoid too small numbers in the result. The comparison is still valid.</p>
+<p>For completeness we compute the two matrices through both the analytical and the numerical approach.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">eye</span><span class="p">,</span> <span class="n">set_printoptions</span>
+
+<span class="n">set_printoptions</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">suppress</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># System values</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mi">1</span>             <span class="c1"># interval [second]</span>
+<span class="n">qv</span> <span class="o">=</span> <span class="mf">0.01</span>          <span class="c1"># process noise [(meter/second)^2/second]</span>
+
+<span class="c1"># Dynamic matrix</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+           <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+
+<span class="c1"># White noise coefficients</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],</span>
+           <span class="p">[</span><span class="n">sqrt</span><span class="p">(</span><span class="n">qv</span><span class="p">)]])</span>
+
+
+<span class="c1"># 1. Analytic solution</span>
+
+<span class="c1"># Transition matrix</span>
+<span class="n">phi</span> <span class="o">=</span> <span class="p">(</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">F</span><span class="o">*</span><span class="n">dt</span><span class="p">)</span>
+
+<span class="c1"># Process noise covariance matrix</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="o">*</span><span class="n">qv</span><span class="o">*</span><span class="n">dt</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">qv</span><span class="o">*</span><span class="n">dt</span><span class="o">**</span><span class="mi">2</span><span class="p">],</span>
+           <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">qv</span><span class="o">*</span><span class="n">dt</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">qv</span><span class="o">*</span><span class="n">dt</span><span class="p">]])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[1. 1.]
+ [0. 1.]]
+[[0.003 0.005]
+ [0.005 0.01 ]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 2. Numerical solution</span>
+
+<span class="c1"># Numerical evaluation</span>
+<span class="p">[</span><span class="n">phi</span><span class="p">,</span> <span class="n">Q</span><span class="p">]</span> <span class="o">=</span> <span class="n">numeval</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[1. 1.]
+ [0. 1.]]
+[[0.003 0.005]
+ [0.005 0.01 ]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>As seen above, the numerical solution from van Loan results in exactly the same transition matrix and process covariance matrix as the analytical solution that we obtained from e.g. <a class="reference internal" href="02-System%20Dynamics.html#sysdyn-example22"><span class="std std-ref">Example 2.2</span></a></p>
+</div>
+</div>
+<div class="section" id="extended-kalman-filter-ekf">
+<h2>Extended Kalman Filter (EKF)<a class="headerlink" href="#extended-kalman-filter-ekf" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="example-5-6">
+<h3>Example 5.6<a class="headerlink" href="#example-5-6" title="Permalink to this headline">¶</a></h3>
+<p>Now that we have the proper tool to provide numerical representations of the unknown tranistion matrix <span class="math notranslate nohighlight">\(\phi\)</span> and the corresponding process noise matrix <span class="math notranslate nohighlight">\(Q\)</span>, we might try a more challenging example in order to sum up what we have been through so far.</p>
+<p>These are the elements to be determined:</p>
+<ol class="simple">
+<li><p>State vector</p></li>
+<li><p>Dynamic model</p></li>
+<li><p>Transition matrix</p></li>
+<li><p>Process noise covariance matrix</p></li>
+<li><p>Measurement model</p></li>
+<li><p>Design matrix</p></li>
+<li><p>Inital values</p></li>
+</ol>
+<p>The problem at hand is a drone flying while trying to keep approximately constant speed and altitude in a 2D coordinate frame. The distance to the drone is being measured from a laser ranging sensor at a rate of 1Hz. The laser ranging sensor is located in the origin of the coordinate frame.</p>
+<div class="figure align-default" id="drone">
+<img alt="_images/drone_2d.png" src="_images/drone_2d.png" />
+<p class="caption"><span class="caption-number">Fig. 16 </span><span class="caption-text">Drone 2D</span><a class="headerlink" href="#drone" title="Permalink to this image">¶</a></p>
+</div>
+<p>The state vector is given as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+x=
+\begin{bmatrix}
+  x_1\\
+  x_2\\
+  x_3\\
+\end{bmatrix}
+\end{split}\]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>As the state vector becomes larger, it is no longer convenient to use the <span class="math notranslate nohighlight">\(\dot{x}\)</span> notation to represent the time derivative. In these cases it is more common to switch notation and number the state variables through indexes.</p>
+</div>
+<p>where <span class="math notranslate nohighlight">\(x_1\)</span> and <span class="math notranslate nohighlight">\(x_2\)</span> is the drone’s position and velocity along the x-axis respectively, while <span class="math notranslate nohighlight">\(x_3\)</span> is the altitude.</p>
+<p>Since the drone is trying to maintain constant speed and altitude, the dynamic model should contain some noise associated with the state variables <span class="math notranslate nohighlight">\(x_1\)</span> and <span class="math notranslate nohighlight">\(x_3\)</span>, i.e. velocity and altitude.</p>
+<p>The dynamic equation can then be written as:</p>
+<div class="math notranslate nohighlight">
+\[
+\dot{x}=Fx + Gu
+\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{bmatrix}
+  \dot{x_1}\\
+  \dot{x_2}\\
+  \dot{x_3}\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  0 &amp;1 &amp;0\\
+  0 &amp;0 &amp;0\\
+  0 &amp;0 &amp;0\\
+\end{bmatrix}
+\begin{bmatrix}
+  x_1\\
+  x_2\\
+  x_3\\
+\end{bmatrix}
++
+\begin{bmatrix}
+  0 &amp;0\\
+  \sqrt{q_v} &amp;0\\
+  0 &amp;\sqrt{q_h}\\
+\end{bmatrix}
+u
+\end{split}\]</div>
+<p>Note that we have accounted for different and independent noise characteristics for the velocity and altitude. Therefore the vector <span class="math notranslate nohighlight">\(G\)</span> is given as a 3x2 matrix where <span class="math notranslate nohighlight">\(q_v\)</span> and <span class="math notranslate nohighlight">\(q_h\)</span> denotes the spectral amplitudes for the velocity and altitude processes respectively.</p>
+<p>For more clarity, let us first write out the matrix equations:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+  \dot{x_1}=&amp;x_2\\
+  \dot{x_2}=&amp;\sqrt{q_v}u\\
+  \dot{x_3}=&amp;\sqrt{q_h}u\\
+\end{align}
+\end{split}\]</div>
+<p>Here we can see that the velocity <span class="math notranslate nohighlight">\(x_2\)</span> is the time derivative of the position <span class="math notranslate nohighlight">\(\dot{x_1}\)</span> (which is obvious), and that there are two different and independent noise processes driving the velocity <span class="math notranslate nohighlight">\(x_2\)</span> and the altitude <span class="math notranslate nohighlight">\(x_3\)</span> repectively.</p>
+<p>The only measurement available is the range to the drone, thus the measurement equation can be written as:</p>
+<div class="math notranslate nohighlight">
+\[
+r = \sqrt{x_1^2 + x_3^2}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(r\)</span> is the measured range, and <span class="math notranslate nohighlight">\(x_1\)</span> and <span class="math notranslate nohighlight">\(x_3\)</span> are the position and altitude respectively. However due to the square root, this equation is clearly non-linear therefore it has to be linearized in order to fit the linear Kalman filter equations <a class="reference internal" href="03-Measurements.html#meas-nonlinear"><span class="std std-ref">Non-Linear Measurements</span></a></p>
+<div class="math notranslate nohighlight">
+\[
+r \approx r_0 + \frac{\partial f(x)}{\partial x} dx
+\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Imports</span>
+<span class="kn">import</span> <span class="nn">sympy</span> <span class="k">as</span> <span class="nn">sym</span> 
+
+<span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;x1 x2 x3 r&#39;</span><span class="p">)</span>
+
+<span class="c1"># State vector</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([[</span><span class="n">x1</span><span class="p">],</span>
+                <span class="p">[</span><span class="n">x2</span><span class="p">],</span>
+                <span class="p">[</span><span class="n">x3</span><span class="p">]])</span>
+
+<span class="c1"># Measurement equation</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x3</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Design matrix (linearized)</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([[</span><span class="n">r</span><span class="p">]])</span>
+<span class="n">dH</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">dH</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle \left[\begin{matrix}\frac{x_{1}}{\sqrt{x_{1}^{2} + x_{3}^{2}}} &amp; 0 &amp; \frac{x_{3}}{\sqrt{x_{1}^{2} + x_{3}^{2}}}\end{matrix}\right]\]</div>
+</div>
+</div>
+<p>Thus computing the jacobiens of the measurement equations, we are now in the position to establish the linearized version of the measurement equations in accordance with the Kalman filter.</p>
+<div class="math notranslate nohighlight">
+\[
+z = Hx + v
+\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{bmatrix}
+  r - r_0\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  \frac{x_1}{\sqrt{x_1^2 + x_3^2}} &amp;0 &amp;\frac{x_3}{\sqrt{x_1^2 + x_3^2}}\\
+\end{bmatrix}
+\begin{bmatrix}
+  dx_1\\
+  dx_2\\
+  dx_3\\
+\end{bmatrix}
++
+\begin{bmatrix}
+  v\\
+\end{bmatrix}
+\end{split}\]</div>
+<p>So, now we have everything we need to implement a Kalman filter to estimate the states of the drone. Thus a Kalman filter solution for our drone example might look something like this…</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Kalman Filter</span>
+<span class="c1"># Measurement:</span>
+<span class="c1"># Distance [meter]</span>
+
+<span class="c1"># Imports</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">arange</span><span class="p">,</span> <span class="n">array</span><span class="p">,</span> <span class="n">eye</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">zeros</span><span class="p">,</span> <span class="n">random</span><span class="p">,</span> <span class="n">diag</span>
+<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">normal</span>
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">inv</span><span class="p">,</span> <span class="n">norm</span><span class="p">,</span> <span class="n">cholesky</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">vanloan.vanloan</span> <span class="kn">import</span> <span class="n">numeval</span>
+
+<span class="c1"># System values</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.05</span>       <span class="c1"># interval [second]</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="mi">800</span>   <span class="c1"># number of samples</span>
+<span class="n">num</span> <span class="o">=</span> <span class="mi">3</span>         <span class="c1"># number of iterations (design matrix)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="mi">1</span><span class="o">**</span><span class="mi">2</span>        <span class="c1"># measurement noise [meter^2]</span>
+<span class="n">qv</span> <span class="o">=</span> <span class="mf">0.3</span><span class="o">**</span><span class="mi">2</span>     <span class="c1"># process noise velocity [meter^2/second^3]</span>
+<span class="n">qh</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">**</span><span class="mi">2</span>     <span class="c1"># process noise height [meter^2/second]</span>
+
+<span class="c1"># Dynamics matrix</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+           <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+           <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+
+<span class="c1"># White noise coefficients</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+           <span class="p">[</span><span class="n">sqrt</span><span class="p">(</span><span class="n">qv</span><span class="p">),</span> <span class="mi">0</span><span class="p">],</span>
+           <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">qh</span><span class="p">)]])</span>
+
+<span class="c1"># Observation covariance matrix</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="n">r</span><span class="p">]])</span>    <span class="c1"># [meter^2]</span>
+
+<span class="c1"># Initial state</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mi">200</span><span class="p">],</span>  <span class="c1"># position [meter]</span>
+           <span class="p">[</span><span class="mi">10</span><span class="p">],</span>    <span class="c1"># velocity [meter/second]</span>
+           <span class="p">[</span><span class="mi">100</span><span class="p">]])</span>  <span class="c1"># height   [meter]</span>
+<span class="n">xt</span> <span class="o">=</span> <span class="n">x</span>
+
+<span class="c1"># Inital state covariance matrix</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">diag</span><span class="p">([</span><span class="mi">5</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="o">**</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="c1"># Numerical evaluation (van Loan)</span>
+<span class="p">[</span><span class="n">phi</span><span class="p">,</span> <span class="n">Q</span><span class="p">]</span> <span class="o">=</span> <span class="n">numeval</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+
+<span class="c1"># Cholesky decomposition of process noise covariance</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">cholesky</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+
+<span class="c1"># Linearized design matrix</span>
+<span class="k">def</span> <span class="nf">dH</span><span class="p">(</span><span class="n">x_nom</span><span class="p">):</span>
+    
+    <span class="n">x1</span> <span class="o">=</span> <span class="n">x_nom</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">x3</span> <span class="o">=</span> <span class="n">x_nom</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">dH</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="n">x1</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x3</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">x3</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x3</span><span class="o">**</span><span class="mi">2</span><span class="p">)]])</span>
+    
+    <span class="k">return</span> <span class="n">dH</span>
+
+<span class="c1"># Computed observations</span>
+<span class="k">def</span> <span class="nf">hx</span><span class="p">(</span><span class="n">x_nom</span><span class="p">):</span>
+    
+    <span class="n">x1</span> <span class="o">=</span> <span class="n">x_nom</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">x3</span> <span class="o">=</span> <span class="n">x_nom</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    
+    <span class="n">z</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x3</span><span class="o">**</span><span class="mi">2</span><span class="p">)]])</span>
+    
+    <span class="k">return</span> <span class="n">z</span>
+
+<span class="c1"># Plot vectors</span>
+<span class="n">x_all</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">P_all</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">xt_all</span> <span class="o">=</span><span class="p">[]</span>
+<span class="n">res</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">pos_err</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">hgt_err</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Main loop</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">samples</span><span class="p">):</span>
+    
+    <span class="c1"># Process noise vector</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],</span>
+               <span class="p">[</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">qv</span><span class="p">))],</span>
+               <span class="p">[</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">qh</span><span class="p">))]])</span>
+    
+    <span class="c1"># Compute true trajectory</span>
+    <span class="n">xt</span> <span class="o">=</span> <span class="n">phi</span><span class="nd">@xt</span> <span class="o">+</span> <span class="n">C</span><span class="nd">@w</span>
+    
+    <span class="c1"># Generate noisy measurements</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">hx</span><span class="p">(</span><span class="n">xt</span><span class="p">)</span> <span class="o">+</span> <span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">r</span><span class="p">))</span>
+    
+    <span class="c1"># Time update</span>
+    <span class="n">xp</span> <span class="o">=</span> <span class="n">phi</span><span class="nd">@x</span>
+    <span class="n">Pp</span> <span class="o">=</span> <span class="n">phi</span><span class="nd">@P@phi</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">Q</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+        
+        <span class="c1"># Design matrix</span>
+        <span class="n">H</span> <span class="o">=</span> <span class="n">dH</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    
+        <span class="c1"># System size</span>
+        <span class="p">[</span><span class="n">n</span><span class="p">,</span> <span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">shape</span>
+        
+        <span class="c1"># Computed observations</span>
+        <span class="n">zp</span> <span class="o">=</span> <span class="n">hx</span><span class="p">(</span><span class="n">xp</span><span class="p">)</span>
+    
+        <span class="c1"># Kalman gain</span>
+        <span class="n">K</span> <span class="o">=</span> <span class="n">Pp</span><span class="nd">@H</span><span class="o">.</span><span class="n">T</span><span class="nd">@inv</span><span class="p">(</span><span class="n">H</span><span class="nd">@Pp@H</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">R</span><span class="p">)</span>
+    
+        <span class="c1"># Measurement update</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">xp</span> <span class="o">+</span> <span class="n">K</span><span class="o">@</span><span class="p">(</span><span class="n">z</span> <span class="o">-</span> <span class="n">zp</span><span class="p">)</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="p">(</span><span class="n">eye</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">-</span> <span class="n">K</span><span class="nd">@H</span><span class="p">)</span><span class="nd">@Pp</span><span class="o">@</span><span class="p">(</span><span class="n">eye</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">-</span> <span class="n">K</span><span class="nd">@H</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">K</span><span class="nd">@R@K</span><span class="o">.</span><span class="n">T</span>
+    
+    <span class="c1"># Accumulate plot vectors</span>
+    <span class="n">x_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">P_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+    <span class="n">xt_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xt</span><span class="p">)</span>
+
+    <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">z</span> <span class="o">-</span> <span class="n">zp</span><span class="p">))</span>
+    <span class="n">pos_err</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">xt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="n">hgt_err</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">xt</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+    
+
+<span class="c1"># Extract plot vectors</span>
+<span class="n">pos_est</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_all</span><span class="p">]</span>
+<span class="n">vel_est</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_all</span><span class="p">]</span>
+<span class="n">hgt_est</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_all</span><span class="p">]</span>
+
+<span class="n">pos_true</span> <span class="o">=</span> <span class="p">[</span><span class="n">xt</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">xt</span> <span class="ow">in</span> <span class="n">xt_all</span><span class="p">]</span>
+<span class="n">vel_true</span> <span class="o">=</span> <span class="p">[</span><span class="n">xt</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">xt</span> <span class="ow">in</span> <span class="n">xt_all</span><span class="p">]</span>
+<span class="n">hgt_true</span> <span class="o">=</span> <span class="p">[</span><span class="n">xt</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">xt</span> <span class="ow">in</span> <span class="n">xt_all</span><span class="p">]</span>
+
+<span class="n">pos_std</span> <span class="o">=</span> <span class="p">[</span><span class="n">sqrt</span><span class="p">(</span><span class="n">P</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">P</span> <span class="ow">in</span> <span class="n">P_all</span><span class="p">]</span>
+<span class="n">hgt_std</span> <span class="o">=</span> <span class="p">[</span><span class="n">sqrt</span><span class="p">(</span><span class="n">P</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span> <span class="k">for</span> <span class="n">P</span> <span class="ow">in</span> <span class="n">P_all</span><span class="p">]</span>
+
+<span class="c1"># Time</span>
+<span class="n">time</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span><span class="o">*</span><span class="n">dt</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">pos_est</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Estimated trajectory&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">pos_true</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;True trajectory&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;System State&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time (second)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Position (meter)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">pos_est</span><span class="p">,</span> <span class="s1">&#39;g.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Estimated trajectory&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">pos_true</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;True trajectory&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;System State (0-50m)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time (second)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Position (meter)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">vel_est</span><span class="p">,</span> <span class="s1">&#39;g.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Estimated velocity&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">vel_true</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;True velocity&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;System State&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time (second)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Velocity (meter/second)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">hgt_est</span><span class="p">,</span> <span class="s1">&#39;g.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Estimated altitude&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">hgt_true</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;True altitude&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;System State&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time (second)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Altitude (meter)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">98</span><span class="p">,</span> <span class="mi">102</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Residuals&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">pos_err</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;True error&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">pos_std</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Standard Deviation&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Error analysis&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time (second)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Position (meter)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Residuals&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">hgt_err</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;True error&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">hgt_std</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Standard Deviation&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Error analysis&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time (second)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Altitude (meter)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/05-Kalman Filter_31_0.png" src="_images/05-Kalman Filter_31_0.png" />
+<img alt="_images/05-Kalman Filter_31_1.png" src="_images/05-Kalman Filter_31_1.png" />
+<img alt="_images/05-Kalman Filter_31_2.png" src="_images/05-Kalman Filter_31_2.png" />
+<img alt="_images/05-Kalman Filter_31_3.png" src="_images/05-Kalman Filter_31_3.png" />
+<img alt="_images/05-Kalman Filter_31_4.png" src="_images/05-Kalman Filter_31_4.png" />
+<img alt="_images/05-Kalman Filter_31_5.png" src="_images/05-Kalman Filter_31_5.png" />
+</div>
+</div>
+<p>Note the change in the estimated error around <span class="math notranslate nohighlight">\(t=20s\)</span>. The reason for this phenomenon is that the geometry of the measured range doesn’t provide any information for the position/velocity as the drone is almost directly above the ranging sensor at this point in time.</p>
+</div>
+</div>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p><em>Prediction:</em></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+  \tilde x_{k}=&amp;\phi_{k-1} \hat x_{k-1}\\
+  \tilde P_{k}=&amp;\phi_{k-1} P_{k-1} \phi^T_{k-1}+Q_{k-1}\\
+\end{align}
+\end{split}\]</div>
+<p><em>Correction:</em></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+  K_{k}=&amp;\tilde P_{k}H^{T}_{k}(H_{k} \tilde P_{k}H^{T}_{k}+R_{k})^{-1}\\
+  \hat x_{k}=&amp;\tilde x_{k}+K_{k}(z_{k}-H_{k} \tilde x_{k})\\
+  \hat P_{k}=&amp;(I-K_{k}H_{k})\tilde P_{k}(I-K_{k}H_{k})^T+K_{k}R_{k}K_{k}^T\\
+\end{align}
+\end{split}\]</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="04-Bayes%20Filter.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Bayes Filter</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="06-Particle%20Filter.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Particle Filter</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Jon Glenn Gjevestad<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

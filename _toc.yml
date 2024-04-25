@@ -1,0 +1,12 @@
+format: jb-article
+root: Intro
+sections:
+- file: 00-Introduction
+- file: 01-Basic Linear Algebra
+- file: 02-System Dynamics
+- file: 03-Measurements
+- file: 04-Bayes Filter
+- file: 05-Kalman Filter
+- file: 06-Particle Filter
+- file: 07-Sensor Fusion
+- file: Bibliography
