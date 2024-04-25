@@ -1,2 +1,2 @@
 #!/bin/bash
-ghp-import -n -p -f AppliedSensorFusion/_build/html
+ghp-import -n -p -f _build/html
