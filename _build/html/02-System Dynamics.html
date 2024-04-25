@@ -1,399 +1,403 @@
 
+
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" data-content_root="" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
     <title>System Dynamics &#8212; Applied Sensor Fusion</title>
-    
-  <link href="_static/css/theme.css" rel="stylesheet">
-  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
-    
-  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="_static/togglebutton.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '02-System Dynamics';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Measurements" href="03-Measurements.html" />
     <link rel="prev" title="Basic Linear Algebra" href="01-Basic%20Linear%20Algebra.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
 
-    <div class="container-xl">
-      <div class="row">
-          
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="index.html">
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
         
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="Intro.html">
+  
+  
+  
+  
+  
+    
+    
       
-      
-      <img src="_static/logo.png" class="logo" alt="logo">
-      
-      
-      <h1 class="site-logo" id="site-title">Applied Sensor Fusion</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="Intro.html">
-   Scope of This Book
-  </a>
- </li>
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Applied Sensor Fusion - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Applied Sensor Fusion - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="Intro.html">
+                    Scope of This Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00-Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-Basic%20Linear%20Algebra.html">Basic Linear Algebra</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">System Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-Measurements.html">Measurements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-Bayes%20Filter.html">Bayes Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-Kalman%20Filter.html">Kalman Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-Particle%20Filter.html">Particle Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-Sensor%20Fusion.html">Sensor Fusion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Bibliography.html">Bibliography</a></li>
 </ul>
-<ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="00-Introduction.html">
-   Introduction
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="01-Basic%20Linear%20Algebra.html">
-   Basic Linear Algebra
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   System Dynamics
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="03-Measurements.html">
-   Measurements
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="04-Bayes%20Filter.html">
-   Bayes Filter
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="05-Kalman%20Filter.html">
-   Kalman Filter
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="06-Particle%20Filter.html">
-   Particle Filter
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="07-Sensor%20Fusion.html">
-   Sensor Fusion
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Bibliography.html">
-   Bibliography
-  </a>
- </li>
-</ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/02-System Dynamics.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+</nav></div>
     </div>
-</div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
 
-            <!-- Source interaction buttons -->
 
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/02-System Dynamics.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
+      </div>
+      
+      <main id="main-content" class="bd-main">
         
         
-        
-        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
     </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/02-System Dynamics.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
 </div>
 
-        </div>
 
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>System Dynamics</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
             
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div>
+                <h2> Contents </h2>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
+            <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#differential-equations">
-   Differential Equations
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#transition-matrix">
-     Transition Matrix
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#example-2-1">
-     Example 2.1
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#laplace-transform">
-   Laplace Transform
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#error-analysis">
-   Error Analysis
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#example-2-2">
-     Example 2.2
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#adding-more-complexity">
-   Adding More Complexity
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#example-2-3">
-     Example 2.3
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#summary">
-   Summary
-  </a>
- </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#differential-equations">Differential Equations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transition-matrix">Transition Matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-1">Example 2.1</a></li>
 </ul>
-
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#laplace-transform">Laplace Transform</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#error-analysis">Error Analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-2">Example 2.2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-more-complexity">Adding More Complexity</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-3">Example 2.3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
             </nav>
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>System Dynamics</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#differential-equations">
-   Differential Equations
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#transition-matrix">
-     Transition Matrix
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#example-2-1">
-     Example 2.1
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#laplace-transform">
-   Laplace Transform
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#error-analysis">
-   Error Analysis
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#example-2-2">
-     Example 2.2
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#adding-more-complexity">
-   Adding More Complexity
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#example-2-3">
-     Example 2.3
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#summary">
-   Summary
-  </a>
- </li>
-</ul>
 
-                        </nav>
-                    </div>
-                </div>
-            </div>
-            
-              <div>
+              
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="system-dynamics">
-<span id="system-system"></span><h1>System Dynamics<a class="headerlink" href="#system-dynamics" title="Permalink to this headline">¶</a></h1>
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="system-dynamics">
+<span id="system-system"></span><h1>System Dynamics<a class="headerlink" href="#system-dynamics" title="Permalink to this heading">#</a></h1>
 <p>So, now that we have been introduced to the idea of filtering and how to recursively compute estimates as the measurements become available. What is the next step?</p>
 <p>Imagine yourself being onboard a large container ship at constant velocity, and your task is to report the position of the ship every second. Wouldn’t you agree that there is quite a lot of information in just knowing that you are onboard such a large, heavy ship?</p>
 <p><img alt="ship" src="_images/ship.jpg" /></p>
 <p>The large mass and inertia of this vessel means that the positions the next seconds, or even minutes, are highly predictable. Just by knowing the heading and velocity of this vessel at some point in time, you can easily predict the position with high accuracy for some time ahead even without making any measurements at all! So, to exploit this valuable information we need to introduce a model for the physical behaviour of our platform. This is what is called the <em>dynamic model</em>.</p>
 <p>The level of detail needed for the dynamic model depends highly on the type of measurements that are available from our sensors, together with their sampling rate and precision. Let’s say we have frequent measurements available from sensors on a platform in a highly deterministic environment, e.g. a trolley on rails. In this case we can choose a rather simple dynamic model. However, if we have a platform with in a highly unpredictable environment, e.g. a drone, then we might need to introduce a more complex dynamic model containing elements such as, e.g. wind speed, wind direction and turbulence.</p>
-<div class="figure align-default" id="simple">
+<figure class="align-default" id="simple">
 <a class="reference internal image-reference" href="_images/simple.jpg"><img alt="_images/simple.jpg" src="_images/simple.jpg" style="height: 200px;" /></a>
-<p class="caption"><span class="caption-number">Fig. 2 </span><span class="caption-text">Simple</span><a class="headerlink" href="#simple" title="Permalink to this image">¶</a></p>
-</div>
-<div class="figure align-default" id="complex">
+<figcaption>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">Simple</span><a class="headerlink" href="#simple" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="complex">
 <a class="reference internal image-reference" href="_images/complex.jpg"><img alt="_images/complex.jpg" src="_images/complex.jpg" style="height: 200px;" /></a>
-<p class="caption"><span class="caption-number">Fig. 3 </span><span class="caption-text">Complex</span><a class="headerlink" href="#complex" title="Permalink to this image">¶</a></p>
-</div>
+<figcaption>
+<p><span class="caption-number">Fig. 3 </span><span class="caption-text">Complex</span><a class="headerlink" href="#complex" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p>First let’s start with the simple example of a trolley on rails and start developing the dynamic model from there.</p>
 <p>One good reference to have at hand at this moment is An Introduction to the Kalman Filter <span id="id1">[<a class="reference internal" href="Bibliography.html#id5" title="G. Welch and G. Bishop. An introduction to the kalman filter. University of North Carolina at Chapel Hill, Chapel Hill, NC, 1995. URL: http://www.cs.unc.edu/~welch/media/pdf/kalman_intro.pdf.">WB95</a>]</span></p>
-<div class="section" id="differential-equations">
-<h2>Differential Equations<a class="headerlink" href="#differential-equations" title="Permalink to this headline">¶</a></h2>
+<section id="differential-equations">
+<h2>Differential Equations<a class="headerlink" href="#differential-equations" title="Permalink to this heading">#</a></h2>
 <p>The starting point is a first order, linear differential equation. It will look something like this.</p>
 <div class="math notranslate nohighlight">
 \[
 \dot{x}=Fx
 \]</div>
 <p>where the vector <span class="math notranslate nohighlight">\(x\)</span> is the <em>state vector</em> containing the parameters to be estimated such as, e.g. position and velocity. The vector <span class="math notranslate nohighlight">\(\dot{x}\)</span> is the time derivative of the state vector. The matrix <span class="math notranslate nohighlight">\(F\)</span> is called the <em>dynamics matrix</em> and it basically connects the state vector <span class="math notranslate nohighlight">\(x\)</span> with it’s own time derivative. This accounts for the <em>deterministic</em> part of the dynamic model, i.e. the physical laws that apply to the platform.</p>
-<div class="figure align-default" id="trolley">
+<figure class="align-default" id="trolley">
 <img alt="_images/trolley.png" src="_images/trolley.png" />
-<p class="caption"><span class="caption-number">Fig. 4 </span><span class="caption-text">Trolley on rails</span><a class="headerlink" href="#trolley" title="Permalink to this image">¶</a></p>
-</div>
+<figcaption>
+<p><span class="caption-number">Fig. 4 </span><span class="caption-text">Trolley on rails</span><a class="headerlink" href="#trolley" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p>So, if our trolley rolled perfectly on the rails without any friction or vibrations what so ever, we could use this equation to compute the state vector for eternity as this equation would perfectly describe the platform behaviour. However, in the real world there will always be friction, vibrations and air resistance making this equation just approximately true. We could of course choose to model both the friction, vibrations and air resistance to the best of our extent, but still there will inevitably be some degree of approximations involved in our models of the real world.</p>
 <p>Instead of modelling all these phenomena, we are compensating for these <em>unmodelled effects</em> by adding a second term to our differential equation. This accounts for the <em>stochastic</em> part of the model, i.e. all the remaining effects that we are unable to model in a deterministic manner, and we express this sum as a continuous differential equation.</p>
 <div class="math notranslate nohighlight">
@@ -401,8 +405,8 @@ const thebe_selector_output = ".output, .cell_output"
 \dot{x}=Fx + Gu
 \]</div>
 <p>where the matrix <span class="math notranslate nohighlight">\(G\)</span> is a vector/matrix of white noise coefficients. These coefficients scale the unity white noise <span class="math notranslate nohighlight">\(u\)</span> into a proper size that act as what is called the <em>driving noise</em> of our system model.</p>
-<div class="section" id="transition-matrix">
-<h3>Transition Matrix<a class="headerlink" href="#transition-matrix" title="Permalink to this headline">¶</a></h3>
+<section id="transition-matrix">
+<h3>Transition Matrix<a class="headerlink" href="#transition-matrix" title="Permalink to this heading">#</a></h3>
 <p>The next thing to do now is to solve this differential equation and derive a set of expressions to propagate the state vector <span class="math notranslate nohighlight">\(x\)</span> into the future in a discrete manner. In other words, we need an equation to make predictions of the system state as the trolley rolls along the rails at discrete points in time. So, what we are looking for is an equations on this form:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -457,9 +461,9 @@ x_k = \phi x_{k-1}
 \]</div>
 <p>Note that the transition matrix is also dependent on the time step <span class="math notranslate nohighlight">\(k\)</span> and should technically be written as <span class="math notranslate nohighlight">\(\phi_{k-1}\)</span>. However, in these very first simple examples it will remain a constant so we therefore omit the subscript for clarity.</p>
 <p>Now that we have everything we need, let’s test the dynamic part of the dynamic model with our trolley on rails through a simple numerical example.</p>
-</div>
-<div class="section" id="example-2-1">
-<h3>Example 2.1<a class="headerlink" href="#example-2-1" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="example-2-1">
+<h3>Example 2.1<a class="headerlink" href="#example-2-1" title="Permalink to this heading">#</a></h3>
 <p>Assume we want to estimate the position and velocity of the trolley, and that we give the trolley a slight push from the starting position <span class="math notranslate nohighlight">\(x=0\)</span> for it to start rolling along the rails with a velocity of <span class="math notranslate nohighlight">\(\dot{x}=1 m/s\)</span>. The inital values are given as:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -550,8 +554,8 @@ x_1 = \phi x_0
 <span class="c1"># Time update</span>
 <span class="n">x1</span> <span class="o">=</span> <span class="n">phi</span><span class="nd">@x0</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Position: </span><span class="si">{</span><span class="n">x1</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2"> m&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Velocity: </span><span class="si">{</span><span class="n">x1</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2"> m/s&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Position: </span><span class="si">{</span><span class="n">x1</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2"> m&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Velocity: </span><span class="si">{</span><span class="n">x1</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2"> m/s&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -563,10 +567,10 @@ Velocity:   1.0 m/s
 </div>
 </div>
 <p>According to the deterministic part of the dynamic model, then after 10 seconds with a constant velocity of 1 m/s, the trolley has moved 10 meter down the rails. This seems like a perfectly reasonable result under these ideal conditions, i.e. no friction, vibration or air resistance.</p>
-</div>
-</div>
-<div class="section" id="laplace-transform">
-<h2>Laplace Transform<a class="headerlink" href="#laplace-transform" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="laplace-transform">
+<h2>Laplace Transform<a class="headerlink" href="#laplace-transform" title="Permalink to this heading">#</a></h2>
 <p>Since the dynamic model basically is just a set of ODEs, the generic solution for the transition matrix can always be solved in the complex s-domain through the <em>Laplace transform</em>. The generic solution for the transition matrix is stated below.</p>
 <div class="math notranslate nohighlight">
 \[
@@ -620,7 +624,7 @@ Velocity:   1.0 m/s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/02-System Dynamics_10_0.png" src="_images/02-System Dynamics_10_0.png" />
+<img alt="_images/845f49cad07b9f1ab04d0a60467602c648e791b9a074d01255c5e369df0c6be7.png" src="_images/845f49cad07b9f1ab04d0a60467602c648e791b9a074d01255c5e369df0c6be7.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -631,16 +635,16 @@ Velocity:   1.0 m/s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/02-System Dynamics_11_0.png" src="_images/02-System Dynamics_11_0.png" />
+<img alt="_images/61f38961d989550f0f4c3ad4ba9f3b10ed7e62ff6a111e4c9686db759b68d706.png" src="_images/61f38961d989550f0f4c3ad4ba9f3b10ed7e62ff6a111e4c9686db759b68d706.png" />
 </div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This example demonstrates the power of Python when it comes to efficient code for automated processing of elements in a list.</p>
 </div>
-</div>
-<div class="section" id="error-analysis">
-<h2>Error Analysis<a class="headerlink" href="#error-analysis" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="error-analysis">
+<h2>Error Analysis<a class="headerlink" href="#error-analysis" title="Permalink to this heading">#</a></h2>
 <p>In addition to the estimate of the state vector, we also need to derive the corresponding covariance matrix to account for the stochastic part of the dynamics model. Propagating the deterministic part of the covariance matrix is straight forward from the law of error propagation. For completeness we write both the equations for the deterministic part here as follows.</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -676,8 +680,8 @@ x_k = \phi x_{k-1} + w_{k-1}
   P_{k} =&amp; \phi P_{k-1} \phi^T + Q_{k-1}\\
 \end{align}
 \end{split}\]</div>
-<div class="section" id="example-2-2">
-<span id="sysdyn-example22"></span><h3>Example 2.2<a class="headerlink" href="#example-2-2" title="Permalink to this headline">¶</a></h3>
+<section id="example-2-2">
+<span id="sysdyn-example22"></span><h3>Example 2.2<a class="headerlink" href="#example-2-2" title="Permalink to this heading">#</a></h3>
 <p>Now let’s test the complete dynamic model with our trolley on rails with another simple numerical example.</p>
 <p>Assume that we want to estimate the position and velocity of the trolley, and that we give the trolley a slight push for it to start rolling along the rails. This time we also have to specify the uncertainty in the initial state vector throught he initial covariance matrix. Thus the inital values are given as:</p>
 <div class="math notranslate nohighlight">
@@ -782,8 +786,8 @@ u
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/02-System Dynamics_15_0.png" src="_images/02-System Dynamics_15_0.png" />
-<img alt="_images/02-System Dynamics_15_1.png" src="_images/02-System Dynamics_15_1.png" />
+<img alt="_images/fffdf5556faf31aebc8fc146770bf8a01472447465fbade5b568cfdabb801235.png" src="_images/fffdf5556faf31aebc8fc146770bf8a01472447465fbade5b568cfdabb801235.png" />
+<img alt="_images/762117669a261e8b6621b18cbb2c146d3c1170a6c7206f4dd7b9c87adb846870.png" src="_images/762117669a261e8b6621b18cbb2c146d3c1170a6c7206f4dd7b9c87adb846870.png" />
 </div>
 </div>
 <p>Then performing the time update step, we compute the state vector and the corresponding covariance matrix as follows:</p>
@@ -826,8 +830,8 @@ u
 <span class="n">x1</span> <span class="o">=</span> <span class="n">phi</span><span class="nd">@x0</span>
 <span class="n">P1</span> <span class="o">=</span> <span class="n">phi</span><span class="nd">@P0@phi</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">Q</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Position: </span><span class="si">{</span><span class="n">x1</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2"> m,   std: </span><span class="si">{</span><span class="n">sqrt</span><span class="p">(</span><span class="n">P1</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="si">:</span><span class="s2">5.2f</span><span class="si">}</span><span class="s2"> m&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Velocity: </span><span class="si">{</span><span class="n">x1</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2"> m/s, std: </span><span class="si">{</span><span class="n">sqrt</span><span class="p">(</span><span class="n">P1</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span><span class="si">:</span><span class="s2">5.2f</span><span class="si">}</span><span class="s2"> m/s&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Position: </span><span class="si">{</span><span class="n">x1</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2"> m,   std: </span><span class="si">{</span><span class="n">sqrt</span><span class="p">(</span><span class="n">P1</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">])</span><span class="si">:</span><span class="s2">5.2f</span><span class="si">}</span><span class="s2"> m&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Velocity: </span><span class="si">{</span><span class="n">x1</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2"> m/s, std: </span><span class="si">{</span><span class="n">sqrt</span><span class="p">(</span><span class="n">P1</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">])</span><span class="si">:</span><span class="s2">5.2f</span><span class="si">}</span><span class="s2"> m/s&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -838,16 +842,18 @@ Velocity:   1.0 m/s, std:  0.59 m/s
 </div>
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="adding-more-complexity">
-<h2>Adding More Complexity<a class="headerlink" href="#adding-more-complexity" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="adding-more-complexity">
+<h2>Adding More Complexity<a class="headerlink" href="#adding-more-complexity" title="Permalink to this heading">#</a></h2>
 <p>But what happens if our model is slightly more complex than our trolley on rails? Let’s try with adding some more components to increase the complexity of our model.</p>
 <p>Assume our trolley on rails is attached to a wall with a spring and a damper.</p>
-<div class="figure align-default" id="trolley-complex">
+<figure class="align-default" id="trolley-complex">
 <img alt="_images/trolley_complex.png" src="_images/trolley_complex.png" />
-<p class="caption"><span class="caption-number">Fig. 5 </span><span class="caption-text">Complex trolley on rails</span><a class="headerlink" href="#trolley-complex" title="Permalink to this image">¶</a></p>
-</div>
+<figcaption>
+<p><span class="caption-number">Fig. 5 </span><span class="caption-text">Complex trolley on rails</span><a class="headerlink" href="#trolley-complex" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p>This is clearly a more complex dynamic system that requires a more detalied description. This description goes into the the dynamics matrix <span class="math notranslate nohighlight">\(F\)</span>. Let’s start with determining the forces that act upon the trolley. There are only two forces involved: one comes from the spring where the force is proportional to the position, and one comes from the damper where the force is proportional to the velocity.</p>
 <p>From Newtons second law we have that:</p>
 <div class="math notranslate nohighlight">
@@ -895,7 +901,7 @@ Velocity:   1.0 m/s, std:  0.59 m/s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/02-System Dynamics_19_0.png" src="_images/02-System Dynamics_19_0.png" />
+<img alt="_images/80c2cea15220f68ae0abfe491b4b91078587c01ef3cdaf05d69a134b38e3ec12.png" src="_images/80c2cea15220f68ae0abfe491b4b91078587c01ef3cdaf05d69a134b38e3ec12.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -906,12 +912,12 @@ Velocity:   1.0 m/s, std:  0.59 m/s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/02-System Dynamics_20_0.png" src="_images/02-System Dynamics_20_0.png" />
+<img alt="_images/febeb984cc46ad939e9c9fd0dddbe87232e2e99e460efe8a33d771b564cde666.png" src="_images/febeb984cc46ad939e9c9fd0dddbe87232e2e99e460efe8a33d771b564cde666.png" />
 </div>
 </div>
 <p>As seen above the generic solution will be a damped sine/cosine wave corresponding to the trolley bouncing back and fourth until the damper has slowed down the movement completely. So, now lets see what what the corresponding Kalman filter solution will look like as we simulate the situation for a period of 100 seconds.</p>
-<div class="section" id="example-2-3">
-<h3>Example 2.3<a class="headerlink" href="#example-2-3" title="Permalink to this headline">¶</a></h3>
+<section id="example-2-3">
+<h3>Example 2.3<a class="headerlink" href="#example-2-3" title="Permalink to this heading">#</a></h3>
 <p>Note that eventhough the dynamic matrix is still a constant, it is not convenient to derive the transition matrix following our previous approach as this would require to take a larger part of the series expansion into account. Since we have not yet introduced more efficient methods for numerical evaluation of the transition matrix, we will for simplicity just make a coarse approximation using only the linear part of the series expansion.</p>
 <div class="math notranslate nohighlight">
 \[
@@ -984,14 +990,14 @@ Velocity:   1.0 m/s, std:  0.59 m/s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/02-System Dynamics_23_0.png" src="_images/02-System Dynamics_23_0.png" />
+<img alt="_images/461c7bd1212c47cccbd438dba0e1875a89ab6b118b35ef076fedcc6a6e575835.png" src="_images/461c7bd1212c47cccbd438dba0e1875a89ab6b118b35ef076fedcc6a6e575835.png" />
 </div>
 </div>
 <p>As expected the behaviour of the trolley corresponds with what is known as a <em>damped harmonic oscillation</em>. The trolley is given a small initial velocity and it keeps bouncing back and forth until the velocity has converged to zero. Eventhough we can see the general shape of the oscillation here, beware that the transition matrix is just an approximation and for a a more precise solution we will need more efficient methods to compute a numeric solution. We will get back to more efficient numerical solutions later.</p>
-</div>
-</div>
-<div class="section" id="summary">
-<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h2>
 <p>In this chapter we have introduced the basic ideas of how to model the system dynamics as a set of ordinary differential equations. The solution to these equations provides the deterministic part of the platform dynamics as a function of time. This can intuitively be looked upon as the <em>laws of nature</em> in matrix form. Thus an increased complexity of the dynamic model leads to a more complex dynamic matrix <span class="math notranslate nohighlight">\(F\)</span> that again are responsible for all the connections between the elements in the state vector</p>
 <p>However, even if very sophisticated, these models cannot capture all effect that we experience in the real world so in practice we will always need to add some process noise to our equations to account for these unmodelled effects. The amount of noise will be highly dependent on the application at hand, thus tuning it properly will in practice require some experience.</p>
 <p>So, now we have derived the main equations for the system dynamics which is called <em>time update</em> in the Kalman filter vocabulary. The two equations read as follows.</p>
@@ -1004,8 +1010,8 @@ Velocity:   1.0 m/s, std:  0.59 m/s
 \end{split}\]</div>
 <p>However if we look at the propagation of the covariance matrix <span class="math notranslate nohighlight">\(P\)</span> ahead in time, it seems just to grow without limits as the process noise matrix <span class="math notranslate nohighlight">\(Q\)</span> is added in every time update step. Or to state it differently - as times go by the predictions from our dynamic model becomes less and less precise. Unless we have made a perfect model of the real world, every update steps will introduce more and more uncertainty into our estimate as time go by. But how do we deal with this?</p>
 <p>I thinkt it’s about time to have a look at how to introduce some measurements…</p>
-</div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1019,7 +1025,7 @@ Velocity:   1.0 m/s, std:  0.59 m/s
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./."
         },
         predefinedOutput: true
@@ -1027,44 +1033,117 @@ Velocity:   1.0 m/s, std:  0.59 m/s
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
+                </article>
               
-            
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="01-Basic%20Linear%20Algebra.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Basic Linear Algebra</p>
-        </div>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01-Basic%20Linear%20Algebra.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Basic Linear Algebra</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="03-Measurements.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="03-Measurements.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title">Measurements</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
+                </footer>
+              
+            </div>
             
-        </div>
-    </div>
-    <footer class="footer">
-  <p>
-    
-      By Jon Glenn Gjevestad<br/>
-    
-        &copy; Copyright 2021.<br/>
-  </p>
-</footer>
-</main>
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
-      </div>
-    </div>
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#differential-equations">Differential Equations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transition-matrix">Transition Matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-1">Example 2.1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#laplace-transform">Laplace Transform</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#error-analysis">Error Analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-2">Example 2.2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-more-complexity">Adding More Complexity</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-3">Example 2.3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
   
-  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+  <div class="footer-item">
+    
+<p class="component-author">
+By Jon Glenn Gjevestad
+</p>
 
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2021.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>
